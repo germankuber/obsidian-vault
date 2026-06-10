@@ -31,9 +31,30 @@ aliases:
 ```dataview
 TABLE length(rows) AS "Notas"
 FROM "System Design" OR "AI"
-WHERE !contains(file.tags, "moc")
+WHERE !contains(file.tags, "type/moc")
 GROUP BY file.folder AS "Carpeta"
 SORT length(rows) DESC
+```
+
+### 🏷️ Notas por tipo
+
+```dataview
+TABLE length(rows) AS "Notas"
+FROM "System Design" OR "AI"
+FLATTEN file.tags AS tag
+WHERE startswith(tag, "type/") AND tag != "type/moc"
+GROUP BY tag AS "Tipo"
+SORT length(rows) DESC
+```
+
+### 🚧 Notas a medias (`status/stub`)
+
+Notas que existen pero están incompletas o aún sin fuente externa — lo que falta terminar o validar.
+
+```dataview
+TABLE file.folder AS "Carpeta"
+FROM #status/stub
+SORT file.name ASC
 ```
 
 ### 🕒 Últimas notas editadas
@@ -41,7 +62,7 @@ SORT length(rows) DESC
 ```dataview
 TABLE updated AS "Editada", file.folder AS "Carpeta"
 FROM "System Design" OR "AI"
-WHERE !contains(file.tags, "moc") AND updated
+WHERE !contains(file.tags, "type/moc") AND updated
 SORT updated DESC
 LIMIT 10
 ```
@@ -51,7 +72,7 @@ LIMIT 10
 ```dataview
 TABLE created AS "Creada", file.folder AS "Carpeta"
 FROM "System Design" OR "AI"
-WHERE !contains(file.tags, "moc")
+WHERE !contains(file.tags, "type/moc")
 SORT created DESC
 LIMIT 10
 ```
@@ -74,6 +95,6 @@ SORT length(rows) DESC
 ```dataview
 TABLE length(rows) AS "Total"
 FROM "System Design" OR "AI"
-WHERE !contains(file.tags, "moc")
+WHERE !contains(file.tags, "type/moc")
 GROUP BY "Notas de conocimiento" AS ""
 ```
