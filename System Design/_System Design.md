@@ -126,16 +126,7 @@ Los más pedidos en entrevistas, según la fuente: [[Primary-Replica]],
 
 ## 🔌 API
 
-- [[API Gateway]] — punto de entrada único que rutea, autentica, limita y
-  transforma requests antes de pasarlos al backend.
-- [[Backend for Frontend]] — una capa de API por tipo de cliente (móvil liviano,
-  web más rico).
-- [[Rate Limiting]] — limitar cuántos requests hace un cliente por ventana de
-  tiempo (token bucket, fixed/sliding window).
-- [[Cursor Pagination]] — paginar con un cursor opaco que apunta al último ítem;
-  el cliente lo pasa para la página siguiente.
-- [[API Versioning]] — mantener varias versiones a la vez para que los clientes
-  viejos sigan funcionando.
+- **[[_API Design|API Design]]** 📁 — subtema con carpeta propia (`api-design/`): cómo diseñar las interfaces de los servicios. Incluye [[API Gateway]], [[Backend for Frontend]], [[Rate Limiting]], [[API Versioning]] y el sub-subtema [[_Pagination|Pagination]] (Offset/Cursor/Keyset). Abrí su MOC.
 
 ## 🏗️ Infraestructura
 
