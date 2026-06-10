@@ -14,6 +14,13 @@ aliases:
 > [!note] Cómo usar esta nota
 > Índice del subtema *API design* dentro de [[_System Design|System Design]]: cómo diseñar las interfaces que exponen los servicios. Abrí esta nota, no la carpeta.
 
+## 🧱 Fundamentos REST
+
+- [[REST API]] — qué es REST (estilo arquitectónico, recursos, JSON) y el ciclo request/response. El punto de partida.
+- [[REST Constraints]] — los 5 principios: client-server, statelessness, cacheability, uniform interface, layered system.
+- [[HTTP Methods]] — GET/POST/PUT/DELETE y su mapeo a operaciones de DB.
+- [[HTTP Status Codes]] — 2xx éxito, 4xx error de cliente, 5xx error de server (200, 201, 400, 401, 404, 429, 500).
+
 ## 🚪 Entrada y ruteo
 
 - [[API Gateway]] — punto de entrada único que rutea, autentica, limita y transforma requests antes del backend.
@@ -37,7 +44,8 @@ aliases:
 
 ## 🌱 Por escribir (semillas del grafo)
 
-- [[REST]] · [[GraphQL]] · [[gRPC]] · [[Webhooks]] (esta última ya existe en `patterns/`) · [[OpenAPI]] — estilos y contratos de API, candidatos a promover.
+- [[GraphQL]] · [[gRPC]] · [[OpenAPI]] — otros estilos/contratos de API, candidatos a promover. ([[REST API]] ya tiene nota; [[Webhooks]] existe en `patterns/`.)
+- [[JSON]] · [[HTTP]] · [[Stateful vs Stateless]] — conceptos base enlazados desde [[REST API]]/[[REST Constraints]].
 
 ## 🔍 Todas las notas de esta carpeta (auto)
 
