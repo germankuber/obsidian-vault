@@ -13,13 +13,16 @@
     "System Design/patterns/Idempotency/_Idempotency.md": "f2570a2b8713e29106ccc5dc5c32471dd6c9b58e8227c3193ba510694e91c0a8",
     "System Design/patterns/API Design/_API Design.md": "2391427e03683668d46644e764e0542bb30c7069c08fe74abcd1e40ed58457e7",
     "System Design/patterns/API Design/Pagination/_Pagination.md": "bbdc71f73572c3cb10c148619c08891661e00aafec678fb0e657cb9b5aec40c6",
-    "AI/AI Fundamentals/_AI Fundamentals.md": "6c92f64b8e1e6683afa6f7cf34500b1395726a8cfd05c3e4c7bbd4bfb62a5de0",
+    "AI/AI Fundamentals/_AI Fundamentals.md": "644b792e387cb86ce67856ff30e2e6339b4e6bfe6db180f772b4a152cf41eb02",
     "AI/MLOps/_MLOps.md": "c5b59095b892cf675a058cf26b56893a668dd5e65f1dd23bfe8c050071fe8b71",
     "AI/RAG/_RAG.md": "e8b372e0971be1019753f4441bfb8eb7e178e611211f99cfaa4d449a52a8c51b",
     "AI/GNN/_GNN.md": "eb4762744dc749775a51437f9201b45e881ea96365c44a706bb18bf5566cc532",
     "AI/AI Agents/_AI Agents.md": "06cd17899fb1cd8f6e1bcacd1d07662e20d773b45b9be2e447aa600de8004c76",
     "AI/RAG/Chunking/_Chunking.md": "99f1d586fbe041054f489c144fc9e9ddcb7ee073713a8bbfffd54daafe6f3b08",
-    "AI/RAG/Reranking/_Reranking.md": "12067388163c24232d32a794f1b772770d656612653389486b4cdb11a3868a1e"
+    "AI/RAG/Reranking/_Reranking.md": "12067388163c24232d32a794f1b772770d656612653389486b4cdb11a3868a1e",
+    "AI/Evals/Evals.md": "27fd1b66466d9329c054e60e097b08c99135f6a1b55669d003d11dd03ff59428",
+    "_Home.md": "11cb255ed046a4f9a0b54d55f73c7514b54b6d66432e459eb912733f74cf24a5",
+    "_Imported Sources.md": "aa00adabee934202c069b28703e7fd483052ba4f789d1f7a6a5b2dca83e83231"
   },
   "enableCreated": true,
   "enableUpdated": true,

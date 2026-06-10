@@ -25,7 +25,7 @@ updated: 2026-06-10
 
 - [[Hallucinations]] — salida plausible pero incorrecta/no respaldada; el problema es la confianza sin incertidumbre.
 - [[Grounding]] — atar la respuesta a evidencia verificable; la principal defensa contra las alucinaciones.
-- [[Evals]] — tests que miden si el sistema se comporta como se espera; reducen ignorancia, no garantizan perfección.
+- **[[_Evals|Evals]]** 📁 — la evaluación de sistemas IA/LLM creció a sub-dominio propio (`AI/Evals/`): error analysis bottom-up, LLM-as-Judge, ground truth. Abrí su MOC.
 
 ## 🌱 Por escribir (semillas del grafo)
 
