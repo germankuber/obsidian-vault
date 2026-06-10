@@ -37,3 +37,12 @@ aliases:
 ## Conexión
 
 - Subtema de [[_RAG|RAG]] · alimenta la [[Hybrid Search]] del pipeline de consulta.
+
+## 🔍 Todas las notas de esta carpeta (auto)
+
+```dataview
+LIST
+FROM "System Design/ai/rag/chunking"
+WHERE file.name != this.file.name
+SORT file.name ASC
+```

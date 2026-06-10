@@ -2,5 +2,6 @@
   "quickadd",
   "actions-uri",
   "periodic-notes",
-  "obsidian-local-rest-api"
+  "obsidian-local-rest-api",
+  "dataview"
 ]

@@ -59,3 +59,12 @@ Conceptos ya enlazados desde las notas de arriba pero que todavía no tienen not
 - [[Prompt Injection]] · [[Vector Database]] (este último ya enlazado desde [[AI Framework]]).
 - [[Grounding]] · [[Hallucinations]] · [[Evals]] — enlazados desde [[Grounded Eval Harness]]; conceptos de fact-checking/eval que cruzan con `ai/rag/`.
 - [[RLHF]] — el loop de feedback en inference time es "estructuralmente análogo a RLHF".
+
+## 🔍 Todas las notas de esta carpeta (auto)
+
+```dataview
+LIST
+FROM "System Design/ai/agents"
+WHERE file.name != this.file.name
+SORT file.name ASC
+```

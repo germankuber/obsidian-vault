@@ -51,3 +51,12 @@ propia — candidatos a promover cuando un próximo artículo aporte material:
 
 - [[Derived vs Hybrid Reranking|Derived Reranking]] · [[Derived vs Hybrid Reranking|Hybrid Reranking]] · [[Multimodal Reranking]] · [[Agent Reranking]]
 - [[GraphRAG]] · [[Query Rewriting]] · [[Redis Cache]] · [[Ghost Chunk Problem]] · [[Server-Sent Events]]
+
+## 🔍 Todas las notas del dominio RAG (auto)
+
+```dataview
+LIST
+FROM "System Design/ai/rag"
+WHERE file.name != this.file.name
+SORT file.path ASC
+```

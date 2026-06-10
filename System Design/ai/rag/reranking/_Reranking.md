@@ -49,3 +49,12 @@ aliases:
 ## Conexión
 
 - Subtema de [[_RAG|RAG]] · se aplica sobre los resultados de [[Hybrid Search]].
+
+## 🔍 Todas las notas de esta carpeta (auto)
+
+```dataview
+LIST
+FROM "System Design/ai/rag/reranking"
+WHERE file.name != this.file.name
+SORT file.name ASC
+```

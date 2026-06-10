@@ -42,3 +42,12 @@ Conceptos mencionados al pasar, candidatos a promover cuando un próximo artícu
 - [[Experiment Tracking]] (MLflow, W&B) · [[Model Registry]] · [[Drift Monitoring]]
 - [[A/B Testing]] · [[Off-Policy Evaluation]] (IPS, doubly-robust) · [[Overfitting]]
 - [[DCNv2]] · [[Two-Tower Model]] — arquitecturas que el agente puede implementar.
+
+## 🔍 Todas las notas de esta carpeta (auto)
+
+```dataview
+LIST
+FROM "System Design/ai/mlops"
+WHERE file.name != this.file.name
+SORT file.name ASC
+```
