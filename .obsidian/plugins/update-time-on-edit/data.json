@@ -1,0 +1,9 @@
+{
+  "headerUpdated": "updated",
+  "headerCreated": "created",
+  "enableCreated": true,
+  "enableUpdated": true,
+  "ignoreGlobalFolder": [],
+  "minMinutesBetweenSave": 1,
+  "dateFormat": "yyyy-MM-dd"
+}

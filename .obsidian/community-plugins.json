@@ -3,5 +3,6 @@
   "actions-uri",
   "periodic-notes",
   "obsidian-local-rest-api",
-  "dataview"
+  "dataview",
+  "update-time-on-edit"
 ]
