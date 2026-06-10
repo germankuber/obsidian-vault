@@ -10,6 +10,7 @@ tags:
 aliases:
   - Serverless MOC
   - Serverless Index
+updated: 2026-06-10
 ---
 
 # Serverless — Mapa del tema
@@ -53,7 +54,7 @@ aliases:
 
 ```dataview
 LIST
-FROM "System Design/patterns/serverless"
+FROM "System Design/patterns/Serverless"
 WHERE file.name != this.file.name
 SORT file.name ASC
 ```

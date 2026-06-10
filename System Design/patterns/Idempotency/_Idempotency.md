@@ -8,6 +8,7 @@ tags:
 aliases:
   - Idempotency MOC
   - Idempotency Index
+updated: 2026-06-10
 ---
 
 # Idempotency — Mapa del tema
@@ -42,7 +43,7 @@ aliases:
 
 ```dataview
 LIST
-FROM "System Design/patterns/idempotency"
+FROM "System Design/patterns/Idempotency"
 WHERE file.name != this.file.name
 SORT file.name ASC
 ```

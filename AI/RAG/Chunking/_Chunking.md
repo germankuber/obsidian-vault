@@ -8,6 +8,7 @@ tags:
 aliases:
   - Chunking
   - Chunking MOC
+updated: 2026-06-10
 ---
 
 # Chunking
@@ -43,7 +44,7 @@ aliases:
 
 ```dataview
 LIST
-FROM "AI/rag/chunking"
+FROM "AI/RAG/Chunking"
 WHERE file.name != this.file.name
 SORT file.name ASC
 ```

@@ -10,6 +10,7 @@ aliases:
   - AI Agents MOC
   - Agentes de IA
   - Agent Harness MOC
+updated: 2026-06-10
 ---
 
 # AI Agents — Mapa del tema
@@ -69,7 +70,7 @@ Conceptos relacionados que ya tienen nota en otros subdominios: [[Grounding]], [
 
 ```dataview
 LIST
-FROM "AI/agents"
+FROM "AI/AI Agents"
 WHERE file.name != this.file.name
 SORT file.name ASC
 ```

@@ -8,6 +8,7 @@ tags:
 aliases:
   - Pagination MOC
   - Pagination Index
+updated: 2026-06-10
 ---
 
 # Pagination — Mapa del tema
@@ -33,7 +34,7 @@ aliases:
 
 ```dataview
 LIST
-FROM "System Design/patterns/api-design/pagination"
+FROM "System Design/patterns/API Design/Pagination"
 WHERE file.name != this.file.name
 SORT file.name ASC
 ```

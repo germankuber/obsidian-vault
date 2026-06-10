@@ -8,6 +8,7 @@ tags:
 aliases:
   - Reranking MOC
   - Reranking Index
+updated: 2026-06-10
 ---
 
 # Reranking — subtema
@@ -55,7 +56,7 @@ aliases:
 
 ```dataview
 LIST
-FROM "AI/rag/reranking"
+FROM "AI/RAG/Reranking"
 WHERE file.name != this.file.name
 SORT file.name ASC
 ```

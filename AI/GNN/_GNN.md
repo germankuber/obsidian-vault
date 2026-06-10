@@ -11,6 +11,7 @@ aliases:
   - GNN MOC
   - GNN Index
   - Graph Neural Networks MOC
+updated: 2026-06-10
 ---
 
 # GNN — Mapa del tema
@@ -50,7 +51,7 @@ aliases:
 
 ```dataview
 LIST
-FROM "AI/gnn"
+FROM "AI/GNN"
 WHERE file.name != this.file.name
 SORT file.name ASC
 ```

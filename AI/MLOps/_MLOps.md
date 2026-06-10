@@ -9,6 +9,7 @@ aliases:
   - MLOps
   - MLOps MOC
   - AutoMLOps MOC
+updated: 2026-06-10
 ---
 
 # MLOps — Mapa del tema
@@ -48,7 +49,7 @@ Conceptos mencionados al pasar, candidatos a promover cuando un próximo artícu
 
 ```dataview
 LIST
-FROM "AI/mlops"
+FROM "AI/MLOps"
 WHERE file.name != this.file.name
 SORT file.name ASC
 ```

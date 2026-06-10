@@ -8,6 +8,7 @@ tags:
 aliases:
   - API Design MOC
   - API Design Index
+updated: 2026-06-10
 ---
 
 # API Design — Mapa del tema
@@ -52,7 +53,7 @@ aliases:
 
 ```dataview
 LIST
-FROM "System Design/patterns/api-design"
+FROM "System Design/patterns/API Design"
 WHERE file.name != this.file.name AND !contains(file.path, "pagination")
 SORT file.name ASC
 ```

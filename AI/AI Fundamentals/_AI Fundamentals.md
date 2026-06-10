@@ -9,6 +9,7 @@ aliases:
   - AI Fundamentals
   - AI Fundamentals MOC
   - Fundamentos de IA
+updated: 2026-06-10
 ---
 
 # AI Fundamentals — Mapa del tema
@@ -38,7 +39,7 @@ Conceptos base que aún no tienen nota propia — candidatos a promover cuando u
 
 ```dataview
 LIST
-FROM "AI/fundamentals"
+FROM "AI/AI Fundamentals"
 WHERE file.name != this.file.name
 SORT file.name ASC
 ```

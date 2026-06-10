@@ -9,6 +9,7 @@ aliases:
   - RAG
   - RAG MOC
   - Retrieval-Augmented Generation
+updated: 2026-06-10
 ---
 
 # RAG — Mapa del tema
@@ -57,7 +58,7 @@ propia — candidatos a promover cuando un próximo artículo aporte material:
 
 ```dataview
 LIST
-FROM "AI/rag"
+FROM "AI/RAG"
 WHERE file.name != this.file.name
 SORT file.path ASC
 ```
