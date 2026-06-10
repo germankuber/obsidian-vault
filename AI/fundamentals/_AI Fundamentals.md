@@ -1,0 +1,37 @@
+---
+title: AI Fundamentals — Mapa del tema
+created: 2026-06-10
+tags:
+  - ai/fundamentals
+  - moc
+aliases:
+  - AI Fundamentals
+  - AI Fundamentals MOC
+  - Fundamentos de IA
+---
+
+# AI Fundamentals — Mapa del tema
+
+> [!note] Cómo usar esta nota
+> Índice (MOC) de `AI/fundamentals`: conceptos **transversales** de IA/LLM que no pertenecen a un subdominio específico (no son solo de RAG, agents o MLOps) sino que los cruzan a todos. Abrí esta nota, no la carpeta.
+
+## 🧠 Entrenamiento y alineación
+
+- [[RLHF]] — alinear un LLM con preferencias humanas vía RL (SFT → reward model → PPO). Incluye RLAIF, DPO, Constitutional AI.
+
+## 🌱 Por escribir (semillas del grafo)
+
+Conceptos base que aún no tienen nota propia — candidatos a promover cuando un artículo aporte material (varios vienen del pendiente "25 AI Concepts"):
+
+- [[Tokens]] · [[Attention]] · [[Transformers]] · [[Embeddings]] · [[Context Window]]
+- [[Fine-tuning]] · [[LoRA]] · [[Quantization]] · [[Distillation]] · [[Inference]]
+- [[Prompting]] · [[Context Engineering]]
+
+## 🔍 Todas las notas de esta carpeta (auto)
+
+```dataview
+LIST
+FROM "AI/fundamentals"
+WHERE file.name != this.file.name
+SORT file.name ASC
+```
