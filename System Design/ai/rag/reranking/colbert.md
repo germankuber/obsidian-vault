@@ -17,18 +17,11 @@ aliases:
 # ColBERT
 
 > [!note] Definition
-> Un modelo de *late interaction* que busca el punto medio entre [[Bi-Encoder]] y
-> [[Cross-Encoder]]: codifica query y documento en embeddings **a nivel token**
-> (de forma independiente, así que son precomputables) y los compara con la
-> operación **MaxSim**. Gana razonamiento fino sin pagar la atención cruzada
-> completa.
+> Un modelo de *late interaction* que busca el punto medio entre [[Bi-Encoder]] y [[Cross-Encoder]]: codifica query y documento en embeddings **a nivel token** (de forma independiente, así que son precomputables) y los compara con la operación **MaxSim**. Gana razonamiento fino sin pagar la atención cruzada completa.
 
 ## La intuición
 
-Cada token de la query busca su **mejor coincidencia** en el documento. La suma
-de esas mejores coincidencias es el score. Como los embeddings por token se
-calculan por separado, se conserva la escalabilidad del bi-encoder, pero las
-interacciones token-a-token aportan la finura que le falta.
+Cada token de la query busca su **mejor coincidencia** en el documento. La suma de esas mejores coincidencias es el score. Como los embeddings por token se calculan por separado, se conserva la escalabilidad del bi-encoder, pero las interacciones token-a-token aportan la finura que le falta.
 
 ## Formulación (MaxSim)
 
@@ -43,15 +36,11 @@ score(Q, D) = Σ(i=1 to m) max_j cos(q_i, d_j)
 ```
 
 > [!tip] Por qué es eficiente
-> El "late interaction" evita la atención cruzada entre *cada* par de tokens
-> query-documento (lo que hace caro al [[Cross-Encoder]]). Solo computa, por token
-> de la query, el máximo coseno contra los tokens del documento — un ahorro enorme
-> de cómputo manteniendo razonamiento granular.
+> El "late interaction" evita la atención cruzada entre *cada* par de tokens query-documento (lo que hace caro al [[Cross-Encoder]]). Solo computa, por token de la query, el máximo coseno contra los tokens del documento — un ahorro enorme de cómputo manteniendo razonamiento granular.
 
 ## Familia relacionada
 
-El mismo principio de late interaction se extiende a otras modalidades — ColPali
-y ColQwen para visión-lenguaje — relevante para [[Multimodal Reranking]].
+El mismo principio de late interaction se extiende a otras modalidades — ColPali y ColQwen para visión-lenguaje — relevante para [[Multimodal Reranking]].
 
 ## References
 

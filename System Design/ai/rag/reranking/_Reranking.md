@@ -12,28 +12,22 @@ aliases:
 # Reranking — subtema
 
 > [!note] Cómo usar esta nota
-> Índice del subtema *reranking* dentro de [[RAG]]. El hub conceptual es
-> [[Reranking]]; esta nota es el mapa de la carpeta. Empezá arriba y bajá: de los
-> fundamentos a las técnicas, las modalidades y los agentes.
+> Índice del subtema *reranking* dentro de [[RAG]]. El hub conceptual es [[Reranking]]; esta nota es el mapa de la carpeta. Empezá arriba y bajá: de los fundamentos a las técnicas, las modalidades y los agentes.
 
 ## 🚀 Empezá por acá
 
-- [[Reranking]] — **el hub.** Por qué similitud ≠ relevancia, y el panorama
-  general.
+- [[Reranking]] — **el hub.** Por qué similitud ≠ relevancia, y el panorama general.
 
 ## 🧠 Fundamentos
 
-- [[Classical Reranking]] — las raíces estadísticas: posterior correction,
-  logistic reranking, Platt scaling, RankNet/LambdaRank.
-- [[Information Theory of Reranking]] — recuperación = compresión con pérdida; el
-  reranking minimiza entropía / maximiza información mutua. La **capa-λ**.
+- [[Classical Reranking]] — las raíces estadísticas: posterior correction, logistic reranking, Platt scaling, RankNet/LambdaRank.
+- [[Information Theory of Reranking]] — recuperación = compresión con pérdida; el reranking minimiza entropía / maximiza información mutua. La **capa-λ**.
 - [[Reranking Metrics]] — cómo se mide: NDCG, MRR, Precision@k, Recall@k.
 - [[Node vs Document Reranking]] — rerankear chunks (nodes) vs documentos enteros.
 
 ## 🎯 Las dos familias
 
-- [[Derived vs Hybrid Reranking]] — derived (precisión, reordena el Top-K) vs
-  hybrid (recall, fusiona múltiples retrievers). El eje central del tema.
+- [[Derived vs Hybrid Reranking]] — derived (precisión, reordena el Top-K) vs hybrid (recall, fusiona múltiples retrievers). El eje central del tema.
 
 ## 🔬 El espectro de métodos semánticos (rápido/grosero → preciso/caro)
 
@@ -49,10 +43,8 @@ aliases:
 
 ## 🌐 Más allá del texto
 
-- [[Multimodal Reranking]] — imágenes (SIFT/CLIP/ColPali), video
-  (TimeSformer/VideoCLIP), tabular (TabNet/TaBERT), multi-modal.
-- [[Agent Reranking]] — cuando los candidatos son salidas de agentes: pointwise,
-  pairwise, listwise/consensus.
+- [[Multimodal Reranking]] — imágenes (SIFT/CLIP/ColPali), video (TimeSformer/VideoCLIP), tabular (TabNet/TaBERT), multi-modal.
+- [[Agent Reranking]] — cuando los candidatos son salidas de agentes: pointwise, pairwise, listwise/consensus.
 
 ## Conexión
 

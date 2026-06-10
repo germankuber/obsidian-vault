@@ -15,9 +15,7 @@ aliases:
 # Orchestrator
 
 > [!note] Definición
-> Sistema que, usado en contextos de pipelines de agentes, gestiona
-> **secuenciación de tareas, reintentos y estado de workflow**. Ejemplos:
-> **Temporal, Prefect, Airflow**.
+> Sistema que, usado en contextos de pipelines de agentes, gestiona **secuenciación de tareas, reintentos y estado de workflow**. Ejemplos: **Temporal, Prefect, Airflow**.
 
 ## Qué hace
 
@@ -37,12 +35,9 @@ aliases:
 ## Lugar en el ecosistema
 
 > [!example] Metáfora del contratista
-> Si el modelo es un contratista, el **orchestrator** es el **job scheduler**. El
-> **[[AI Framework]]** es el software de gestión de proyecto. El
-> **[[Agent Harness]]** es la obra real con los controles de seguridad.
+> Si el modelo es un contratista, el **orchestrator** es el **job scheduler**. El **[[AI Framework]]** es el software de gestión de proyecto. El **[[Agent Harness]]** es la obra real con los controles de seguridad.
 
-- Un harness sofisticado **puede usar** un orchestrator para manejar el encolado
-  de tareas (task queuing) — pero el harness es el concepto que lo contiene.
+- Un harness sofisticado **puede usar** un orchestrator para manejar el encolado de tareas (task queuing) — pero el harness es el concepto que lo contiene.
 
 ## References
 

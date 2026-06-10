@@ -13,15 +13,11 @@ aliases:
 # LangGraph
 
 > [!note] Definición
-> Librería para orquestar agentes como una **máquina de estados** (state machine)
-> con **conditional edges**. De la familia [[AI Framework|LangChain]]. Modela el
-> flujo de control de un harness de agentes de forma explícita: nodos + estado
-> compartido + aristas condicionales.
+> Librería para orquestar agentes como una **máquina de estados** (state machine) con **conditional edges**. De la familia [[AI Framework|LangChain]]. Modela el flujo de control de un harness de agentes de forma explícita: nodos + estado compartido + aristas condicionales.
 
 ## Modelo de estado compartido
 
-- Todo lo que el harness sabe vive en un **state dict** tipado — **sin estado
-  global, sin side channels** entre agentes. Ejemplo (`TypedDict`):
+- Todo lo que el harness sabe vive en un **state dict** tipado — **sin estado global, sin side channels** entre agentes. Ejemplo (`TypedDict`):
 
 ```python
 class AgentState(TypedDict):
@@ -34,13 +30,11 @@ class AgentState(TypedDict):
     output_format: str          # "Markdown" or "LaTeX" — flows through all nodes
 ```
 
-- Un campo seteado una vez (ej. `output_format`) **fluye sin cambios** por todos
-  los nodos: una fuente de verdad, sin detección/branching por nodo.
+- Un campo seteado una vez (ej. `output_format`) **fluye sin cambios** por todos los nodos: una fuente de verdad, sin detección/branching por nodo.
 
 ## Conditional edges — el control de flujo
 
-- Las decisiones de routing viven en **un solo lugar** (la conditional edge), no
-  dispersas por las implementaciones de los nodos:
+- Las decisiones de routing viven en **un solo lugar** (la conditional edge), no dispersas por las implementaciones de los nodos:
 
 ```python
 def route_next(state: AgentState):
@@ -50,9 +44,7 @@ def route_next(state: AgentState):
 ```
 
 > [!tip] Dónde encaja en el ecosistema
-> LangGraph es el **[[Orchestrator|orquestador]]** de un [[Agent Harness]]:
-> secuencia los nodos y decide el loop. Es la pieza que el patrón
-> [[Generator-Evaluator Pattern]] usa para hacer pelear a los dos agentes.
+> LangGraph es el **[[Orchestrator|orquestador]]** de un [[Agent Harness]]: secuencia los nodos y decide el loop. Es la pieza que el patrón [[Generator-Evaluator Pattern]] usa para hacer pelear a los dos agentes.
 
 ## References
 

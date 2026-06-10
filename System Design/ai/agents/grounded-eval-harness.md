@@ -15,37 +15,22 @@ aliases:
 # Grounded Eval Harness
 
 > [!note] Qué es
-> Un harness de evaluación que hace que una IA **se fact-checkee a sí misma**: dos
-> agentes (Generator + Grounding Evaluator) en un **loop de feedback cerrado**
-> orquestado por una state machine de [[LangGraph]], que termina solo cuando el
-> evaluador no encuentra alucinaciones (o se llega al techo de iteraciones). Es la
-> implementación de referencia del [[Generator-Evaluator Pattern]].
+> Un harness de evaluación que hace que una IA **se fact-checkee a sí misma**: dos agentes (Generator + Grounding Evaluator) en un **loop de feedback cerrado** orquestado por una state machine de [[LangGraph]], que termina solo cuando el evaluador no encuentra alucinaciones (o se llega al techo de iteraciones). Es la implementación de referencia del [[Generator-Evaluator Pattern]].
 
 ## El failure mode que ataca
 
 > [!warning] Confabulación silenciosa en RAG
-> El usuario pregunta. Los documentos recuperados son el **80%** de la respuesta.
-> El modelo rellena el **20%** restante **confabulando** — inventando hechos que
-> suenan correctos, dichos con fluidez total y cero incertidumbre. *"You don't see
-> it unless you're looking for it. And most teams aren't."*
+> El usuario pregunta. Los documentos recuperados son el **80%** de la respuesta. El modelo rellena el **20%** restante **confabulando** — inventando hechos que suenan correctos, dichos con fluidez total y cero incertidumbre. *"You don't see it unless you're looking for it. And most teams aren't."*
 
-- **Causa raíz**: el modelo trata los documentos como **contexto, no como
-  constraints**. Cuando el contexto es insuficiente, **extrapola**. El límite
-  entre grounded y confabulado es **invisible** en la respuesta final.
-- Ejemplo (resume tailoring): el JD pide "8 años de Kubernetes", el resume tiene
-  "2 años de Docker", y el modelo escribe *"8+ years of production Kubernetes
-  experience across multi-cloud environments."* No está roto: hace exactamente lo
-  que se le pidió (maximizar fit). **Le faltó el constraint: no inventar hechos.**
-- *"The fix isn't a better prompt. It's a second system whose only job is to audit
-  the first."*
+- **Causa raíz**: el modelo trata los documentos como **contexto, no como constraints**. Cuando el contexto es insuficiente, **extrapola**. El límite entre grounded y confabulado es **invisible** en la respuesta final.
+- Ejemplo (resume tailoring): el JD pide "8 años de Kubernetes", el resume tiene "2 años de Docker", y el modelo escribe *"8+ years of production Kubernetes experience across multi-cloud environments."* No está roto: hace exactamente lo que se le pidió (maximizar fit). **Le faltó el constraint: no inventar hechos.**
+- *"The fix isn't a better prompt. It's a second system whose only job is to audit the first."*
 
 ## Arquitectura — dos agentes, objetivos opuestos
 
-- **Generator** → optimiza **relevancia**. Llama 3.1 vía Groq, prompt template
-  estándar de LangChain.
+- **Generator** → optimiza **relevancia**. Llama 3.1 vía Groq, prompt template estándar de LangChain.
 - **Grounding Evaluator** → optimiza **trazabilidad**.
-- El harness **los hace pelear**; termina cuando el evaluador está satisfecho o se
-  alcanza el ceiling de reintentos. Ver [[Generator-Evaluator Pattern]].
+- El harness **los hace pelear**; termina cuando el evaluador está satisfecho o se alcanza el ceiling de reintentos. Ver [[Generator-Evaluator Pattern]].
 
 ## Estado compartido (sin side channels)
 
@@ -65,9 +50,7 @@ class AgentState(TypedDict):
 
 ## El XML boundary — salida parseable
 
-El generator envuelve el contenido en tags XML; convierte un blob ambiguo en
-estructura parseable con un solo regex (sin heurísticas ni string splitting
-frágil):
+El generator envuelve el contenido en tags XML; convierte un blob ambiguo en estructura parseable con un solo regex (sin heurísticas ni string splitting frágil):
 
 ```python
 human_prompt += (
@@ -84,15 +67,12 @@ parsed_resume = resume_match.group(1).strip() if resume_match else draft.strip()
 agent_notes   = re.sub(r"<resume>.*?</resume>", "", draft, flags=re.DOTALL).strip()
 ```
 
-- El boundary se **fuerza en el prompt** y se **parsea durante la ejecución del
-  grafo** → el evaluador recibe datos estructurados, no un blob ambiguo.
-- `output_format` se setea una vez desde la extensión del archivo subido
-  (`.tex` → LaTeX, `.md` → Markdown) y fluye sin cambios por todo el estado.
+- El boundary se **fuerza en el prompt** y se **parsea durante la ejecución del grafo** → el evaluador recibe datos estructurados, no un blob ambiguo.
+- `output_format` se setea una vez desde la extensión del archivo subido (`.tex` → LaTeX, `.md` → Markdown) y fluye sin cambios por todo el estado.
 
 ## Claim-level verification — el corazón
 
-El evaluador recibe el draft + el resume fuente y verifica **claim por claim**
-usando **structured output**:
+El evaluador recibe el draft + el resume fuente y verifica **claim por claim** usando **structured output**:
 
 ```python
 class EvaluatorOutput(BaseModel):
@@ -102,16 +82,11 @@ class EvaluatorOutput(BaseModel):
 
 System prompt **deliberadamente adversarial**:
 
-> *"You are a strict grounding harness. Extract every measurable claim — years of
-> experience, technical skills, percentage metrics, achievements - from the draft
-> resume and verify if each is explicitly backed by the base resume. No inference.
-> No benefit of the doubt. If a claim is not clearly supported by the source, it
-> is a hallucination."*
+> *"You are a strict grounding harness. Extract every measurable claim — years of experience, technical skills, percentage metrics, achievements - from the draft resume and verify if each is explicitly backed by the base resume. No inference. No benefit of the doubt. If a claim is not clearly supported by the source, it is a hallucination."*
 
 ## El loop de feedback
 
-Cuando el evaluador caza algo, `evaluation_feedback` contiene los claims
-ofensivos exactos, que van directo a la siguiente llamada del generator:
+Cuando el evaluador caza algo, `evaluation_feedback` contiene los claims ofensivos exactos, que van directo a la siguiente llamada del generator:
 
 ```python
 if state.get("evaluation_feedback"):
@@ -121,10 +96,8 @@ if state.get("evaluation_feedback"):
     )
 ```
 
-- El generator recibe una **señal de corrección dirigida**: esto fabricaste, esto
-  no está respaldado. Cada iteración **tensa el constraint**.
-- *"This is structurally analogous to RLHF - correction signals at inference time,
-  no fine-tuning required."*
+- El generator recibe una **señal de corrección dirigida**: esto fabricaste, esto no está respaldado. Cada iteración **tensa el constraint**.
+- *"This is structurally analogous to RLHF - correction signals at inference time, no fine-tuning required."*
 
 ## Terminación del loop
 
@@ -138,20 +111,14 @@ def route_next(state: AgentState):
 ```
 
 > [!tip] El techo de 3 iteraciones no es arbitrario
-> Pegarle consistentemente al máximo significa que el generator es
-> **estructuralmente incapaz** de satisfacer al evaluador con el material fuente:
-> **la fuente no tiene los claims** que el JD pide. Eso es un problema de **calidad
-> de datos, no del LLM**. El ceiling lo **expone** en vez de enmascararlo con
-> reintentos infinitos quemando créditos de API.
+> Pegarle consistentemente al máximo significa que el generator es **estructuralmente incapaz** de satisfacer al evaluador con el material fuente: **la fuente no tiene los claims** que el JD pide. Eso es un problema de **calidad de datos, no del LLM**. El ceiling lo **expone** en vez de enmascararlo con reintentos infinitos quemando créditos de API.
 
 ## El patrón general
 
 > [!quote]
-> **When you cannot make an LLM reliably stay within its source material, add a
-> second LLM whose only job is to catch the first one leaving it.**
+> **When you cannot make an LLM reliably stay within its source material, add a second LLM whose only job is to catch the first one leaving it.**
 
-El resume es un proxy. Detalle del patrón y aplicaciones (RAG citation, code-gen,
-legal/medical, financial) en [[Generator-Evaluator Pattern]].
+El resume es un proxy. Detalle del patrón y aplicaciones (RAG citation, code-gen, legal/medical, financial) en [[Generator-Evaluator Pattern]].
 
 ## Stack
 
