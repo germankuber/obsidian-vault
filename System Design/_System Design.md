@@ -131,6 +131,7 @@ Los más pedidos en entrevistas, según la fuente: [[Primary-Replica]],
 
 ## 🏗️ Infraestructura
 
+- **[[_Serverless|Serverless]]** 📁 — subtema con carpeta propia (`serverless/`): ejecutar código sin gestionar servidores físicos. Incluye [[Serverless]] (fundamentos), [[Scaling to Zero]], [[Cold Start]]/[[Warm Start]], [[AWS Lambda]], [[Stateless]] e [[Infrastructure as Code]]. Abrí su MOC.
 - [[Content Delivery Network]] — distribuir contenido estático a *edge servers*
   globales; sirve desde el más cercano, bajando latencia.
 - [[Reverse Proxy]] — servidor entre clientes y backends que hace SSL
