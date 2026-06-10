@@ -34,7 +34,7 @@ aliases:
 
 Los más pedidos en entrevistas, según la fuente: [[Primary-Replica]],
 [[Sharding]], [[Consistent Hashing]], [[Cache-Aside]],
-[[Cache Stampede Prevention]], [[Message Queue]], [[Pub/Sub]],
+[[Cache Stampede Prevention]], [[Message Queue]], [[Pub-Sub|Pub/Sub]],
 [[Circuit Breaker]], [[Retry with Backoff]], [[Idempotency]],
 [[Horizontal Scaling]], [[Load Balancing]], [[Auto-Scaling]], [[API Gateway]],
 [[Rate Limiting]].
@@ -74,7 +74,7 @@ Los más pedidos en entrevistas, según la fuente: [[Primary-Replica]],
   simple (REST, gRPC).
 - [[Message Queue]] — el productor encola un mensaje; el consumidor lo procesa a
   su ritmo sin que el productor espere.
-- [[Pub/Sub]] — el publisher emite a un *topic*; varios subscribers reciben cada
+- [[Pub-Sub|Pub/Sub]] — el publisher emite a un *topic*; varios subscribers reciben cada
   mensaje (a diferencia de una cola, donde cada mensaje va a uno solo).
 - [[Event-Driven Architecture]] — los servicios se comunican emitiendo y
   reaccionando a eventos, no con llamadas directas.
@@ -171,7 +171,7 @@ Los más pedidos en entrevistas, según la fuente: [[Primary-Replica]],
 
 ## 🔗 Conexión con otros dominios
 
-Estos patrones se cruzan con el mapa de [[RAG]]:
+Estos patrones se cruzan con el mapa de [[_RAG|RAG]]:
 
 - [[Change Data Capture]] — su nota vive en `ai/rag/` (donde apareció primero),
   cubre tanto la ingesta de RAG como el patrón general de datos.

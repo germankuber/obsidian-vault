@@ -26,7 +26,7 @@ aliases:
 
 - [[Change Data Capture]] — captar cambios de las fuentes (webhooks + Kafka) sin
   re-escanear todo.
-- **[[Chunking]]** 📁 — subtema con carpeta propia (`chunking/`): cómo trocear
+- **[[_Chunking|Chunking]]** 📁 — subtema con carpeta propia (`chunking/`): cómo trocear
   los documentos. 8 estrategias + overlap. Abrí su MOC.
 
 ## 🔎 Recuperación — encontrar el contexto
@@ -39,7 +39,7 @@ aliases:
 
 ## 🎯 Reranking — reordenar por relevancia
 
-- **[[Reranking MOC|Reranking]]** 📁 — subtema con carpeta propia (`reranking/`):
+- **[[_Reranking|Reranking]]** 📁 — subtema con carpeta propia (`reranking/`):
   reordenar por relevancia. El hub conceptual es [[Reranking]]; la carpeta tiene
   el espectro Bi-Encoder → ColBERT → Cross-Encoder → LLM, más BM25 y RRF. Abrí
   su MOC.
@@ -49,5 +49,5 @@ aliases:
 Conceptos ya enlazados desde las notas de arriba pero que todavía no tienen nota
 propia — candidatos a promover cuando un próximo artículo aporte material:
 
-- [[Derived Reranking]] · [[Hybrid Reranking]] · [[Multimodal Reranking]] · [[Agent Reranking]]
+- [[Derived vs Hybrid Reranking|Derived Reranking]] · [[Derived vs Hybrid Reranking|Hybrid Reranking]] · [[Multimodal Reranking]] · [[Agent Reranking]]
 - [[GraphRAG]] · [[Query Rewriting]] · [[Redis Cache]] · [[Ghost Chunk Problem]] · [[Server-Sent Events]]

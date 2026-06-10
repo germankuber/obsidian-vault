@@ -12,7 +12,7 @@ aliases:
 # Chunking
 
 > [!note] Cómo usar esta nota
-> Índice del subtema *chunking* dentro de [[RAG]]. Empezá por el hub y bajá.
+> Índice del subtema *chunking* dentro de [[_RAG|RAG]]. Empezá por el hub y bajá.
 
 ## 🚀 Empezá por acá
 
@@ -36,4 +36,4 @@ aliases:
 
 ## Conexión
 
-- Subtema de [[RAG]] · alimenta la [[Hybrid Search]] del pipeline de consulta.
+- Subtema de [[_RAG|RAG]] · alimenta la [[Hybrid Search]] del pipeline de consulta.

@@ -12,7 +12,7 @@ aliases:
 # Reranking — subtema
 
 > [!note] Cómo usar esta nota
-> Índice del subtema *reranking* dentro de [[RAG]]. El hub conceptual es [[Reranking]]; esta nota es el mapa de la carpeta. Empezá arriba y bajá: de los fundamentos a las técnicas, las modalidades y los agentes.
+> Índice del subtema *reranking* dentro de [[_RAG|RAG]]. El hub conceptual es [[Reranking]]; esta nota es el mapa de la carpeta. Empezá arriba y bajá: de los fundamentos a las técnicas, las modalidades y los agentes.
 
 ## 🚀 Empezá por acá
 
@@ -48,4 +48,4 @@ aliases:
 
 ## Conexión
 
-- Subtema de [[RAG]] · se aplica sobre los resultados de [[Hybrid Search]].
+- Subtema de [[_RAG|RAG]] · se aplica sobre los resultados de [[Hybrid Search]].
