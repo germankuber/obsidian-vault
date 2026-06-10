@@ -31,7 +31,7 @@ aliases:
 TABLE length(rows) AS "Notas"
 FROM "System Design" OR "AI"
 WHERE !contains(file.tags, "moc")
-GROUP BY split(file.folder, "/")[0] + (length(split(file.folder, "/")) > 1 ? " / " + split(file.folder, "/")[1] : "") AS Dominio
+GROUP BY file.folder AS "Carpeta"
 SORT length(rows) DESC
 ```
 
