@@ -47,7 +47,7 @@ Conceptos mencionados al pasar, candidatos a promover cuando un próximo artícu
 
 ```dataview
 LIST
-FROM "System Design/ai/mlops"
+FROM "AI/mlops"
 WHERE file.name != this.file.name
 SORT file.name ASC
 ```

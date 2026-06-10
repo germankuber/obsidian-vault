@@ -42,7 +42,7 @@ aliases:
 
 ```dataview
 LIST
-FROM "System Design/ai/rag/chunking"
+FROM "AI/rag/chunking"
 WHERE file.name != this.file.name
 SORT file.name ASC
 ```

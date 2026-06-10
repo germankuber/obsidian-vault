@@ -56,7 +56,7 @@ propia — candidatos a promover cuando un próximo artículo aporte material:
 
 ```dataview
 LIST
-FROM "System Design/ai/rag"
+FROM "AI/rag"
 WHERE file.name != this.file.name
 SORT file.path ASC
 ```

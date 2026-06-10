@@ -64,7 +64,7 @@ Conceptos ya enlazados desde las notas de arriba pero que todavía no tienen not
 
 ```dataview
 LIST
-FROM "System Design/ai/agents"
+FROM "AI/agents"
 WHERE file.name != this.file.name
 SORT file.name ASC
 ```

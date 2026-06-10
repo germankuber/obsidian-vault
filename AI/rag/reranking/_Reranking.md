@@ -54,7 +54,7 @@ aliases:
 
 ```dataview
 LIST
-FROM "System Design/ai/rag/reranking"
+FROM "AI/rag/reranking"
 WHERE file.name != this.file.name
 SORT file.name ASC
 ```
