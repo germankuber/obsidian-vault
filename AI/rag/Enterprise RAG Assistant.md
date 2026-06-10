@@ -6,6 +6,8 @@ created: 2026-06-08
 tags:
   - ai/rag
   - system-design/architecture
+  - type/case-study
+  - status/permanent
 aliases:
   - Enterprise RAG Assistant
   - enterprise-rag-assistant

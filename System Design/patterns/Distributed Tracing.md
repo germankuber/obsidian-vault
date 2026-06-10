@@ -6,6 +6,8 @@ created: 2026-06-08
 tags:
   - system-design/observability
   - system-design/patterns
+  - type/pattern
+  - status/permanent
 aliases:
   - Distributed Tracing
   - distributed-tracing

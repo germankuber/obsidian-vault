@@ -6,6 +6,8 @@ created: 2026-06-08
 tags:
   - system-design/scaling
   - system-design/patterns
+  - type/pattern
+  - status/permanent
 aliases:
   - Load Balancing
   - load-balancing

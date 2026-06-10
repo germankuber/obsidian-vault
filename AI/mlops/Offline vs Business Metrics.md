@@ -5,6 +5,8 @@ author: Jam with AI
 created: 2026-06-10
 tags:
   - ai/mlops/evaluation
+  - type/concept
+  - status/permanent
 aliases:
   - Offline vs Business Metrics
   - offline-vs-business-metrics

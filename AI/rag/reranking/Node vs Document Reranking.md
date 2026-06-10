@@ -5,6 +5,8 @@ author: Siddhant Rai
 created: 2026-06-10
 tags:
   - ai/rag/reranking
+  - type/concept
+  - status/permanent
 aliases:
   - Node vs Document Reranking
   - node-vs-document-reranking

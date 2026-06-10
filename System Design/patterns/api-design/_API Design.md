@@ -3,7 +3,8 @@ title: API Design — Mapa del tema
 created: 2026-06-10
 tags:
   - system-design/api
-  - moc
+  - type/moc
+  - status/permanent
 aliases:
   - API Design MOC
   - API Design Index

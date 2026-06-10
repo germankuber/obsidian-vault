@@ -6,6 +6,8 @@ created: 2026-06-10
 tags:
   - ai/agents/architecture
   - ai/agents/safety
+  - type/case-study
+  - status/permanent
 aliases:
   - Grounded Eval Harness
   - grounded-eval-harness

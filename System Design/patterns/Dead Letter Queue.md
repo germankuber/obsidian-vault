@@ -6,6 +6,8 @@ created: 2026-06-08
 tags:
   - system-design/reliability
   - system-design/patterns
+  - type/pattern
+  - status/permanent
 aliases:
   - Dead Letter Queue
   - dead-letter-queue

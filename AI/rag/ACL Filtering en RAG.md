@@ -7,6 +7,8 @@ tags:
   - ai/rag
   - ai/rag/retrieval
   - system-design/security
+  - type/concept
+  - status/permanent
 aliases:
   - ACL Filtering en RAG
   - acl-filtering

@@ -9,6 +9,8 @@ created: 2026-06-08
 tags:
   - ai/rag
   - ai/rag/retrieval
+  - type/concept
+  - status/permanent
 aliases:
   - Reranking
   - reranking

@@ -6,6 +6,8 @@ created: 2026-06-10
 tags:
   - system-design/consistency
   - system-design/resilience
+  - type/pattern
+  - status/permanent
 aliases:
   - Distributed Lock
   - Lock Distribuido

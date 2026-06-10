@@ -6,6 +6,8 @@ created: 2026-06-08
 tags:
   - system-design/communication
   - system-design/patterns
+  - type/concept
+  - status/permanent
 aliases:
   - Event-Driven Architecture
   - event-driven-architecture

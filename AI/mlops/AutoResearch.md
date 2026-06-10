@@ -5,6 +5,8 @@ author: Jam with AI
 created: 2026-06-10
 tags:
   - ai/mlops/automlops
+  - type/case-study
+  - status/permanent
 aliases:
   - AutoResearch
   - autoresearch

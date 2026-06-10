@@ -6,6 +6,8 @@ created: 2026-06-08
 tags:
   - system-design/storage
   - system-design/patterns
+  - type/concept
+  - status/permanent
 aliases:
   - Consistent Hashing
   - consistent-hashing

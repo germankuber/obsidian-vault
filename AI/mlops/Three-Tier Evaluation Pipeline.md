@@ -5,6 +5,8 @@ author: Jam with AI
 created: 2026-06-10
 tags:
   - ai/mlops/evaluation
+  - type/pattern
+  - status/permanent
 aliases:
   - Three-Tier Evaluation Pipeline
   - three-tier-evaluation

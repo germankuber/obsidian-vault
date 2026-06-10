@@ -6,6 +6,8 @@ created: 2026-06-08
 tags:
   - ai/rag
   - ai/rag/retrieval
+  - type/pattern
+  - status/permanent
 aliases:
   - Reciprocal Rank Fusion
   - reciprocal-rank-fusion

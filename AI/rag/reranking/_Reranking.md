@@ -3,7 +3,8 @@ title: Reranking (subtema)
 created: 2026-06-08
 tags:
   - ai/rag/retrieval
-  - moc
+  - type/moc
+  - status/permanent
 aliases:
   - Reranking MOC
   - Reranking Index

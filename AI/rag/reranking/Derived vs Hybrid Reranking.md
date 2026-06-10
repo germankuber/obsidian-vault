@@ -5,6 +5,8 @@ author: Siddhant Rai
 created: 2026-06-10
 tags:
   - ai/rag/reranking
+  - type/concept
+  - status/permanent
 aliases:
   - Derived vs Hybrid Reranking
   - derived-vs-hybrid-reranking

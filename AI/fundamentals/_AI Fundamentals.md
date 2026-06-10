@@ -3,7 +3,8 @@ title: AI Fundamentals — Mapa del tema
 created: 2026-06-10
 tags:
   - ai/fundamentals
-  - moc
+  - type/moc
+  - status/permanent
 aliases:
   - AI Fundamentals
   - AI Fundamentals MOC

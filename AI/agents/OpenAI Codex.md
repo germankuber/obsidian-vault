@@ -5,6 +5,8 @@ author: Hamza Farooq, Aishwarya Ashok
 created: 2026-06-10
 tags:
   - ai/agents/architecture
+  - type/technology
+  - status/permanent
 aliases:
   - OpenAI Codex
   - openai-codex

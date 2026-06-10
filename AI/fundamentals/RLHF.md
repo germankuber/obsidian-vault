@@ -5,6 +5,8 @@ author: —
 created: 2026-06-10
 tags:
   - ai/fundamentals
+  - type/concept
+  - status/stub
 aliases:
   - RLHF
   - Reinforcement Learning from Human Feedback

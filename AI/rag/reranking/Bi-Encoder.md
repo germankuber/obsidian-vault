@@ -6,6 +6,8 @@ created: 2026-06-08
 tags:
   - ai/rag
   - ai/rag/retrieval
+  - type/technology
+  - status/permanent
 aliases:
   - Bi-Encoder
   - bi-encoder

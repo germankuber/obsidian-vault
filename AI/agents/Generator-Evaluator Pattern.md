@@ -6,6 +6,8 @@ created: 2026-06-10
 tags:
   - ai/agents/architecture
   - ai/agents/safety
+  - type/pattern
+  - status/permanent
 aliases:
   - Generator-Evaluator Pattern
   - generator-evaluator-pattern

@@ -3,7 +3,8 @@ title: AI Agents — Mapa del tema
 created: 2026-06-10
 tags:
   - ai/agents
-  - moc
+  - type/moc
+  - status/permanent
 aliases:
   - AI Agents
   - AI Agents MOC

@@ -3,7 +3,8 @@ title: Idempotency — Mapa del tema
 created: 2026-06-10
 tags:
   - system-design/resilience
-  - moc
+  - type/moc
+  - status/permanent
 aliases:
   - Idempotency MOC
   - Idempotency Index

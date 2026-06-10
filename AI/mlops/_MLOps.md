@@ -3,7 +3,8 @@ title: MLOps — Mapa del tema
 created: 2026-06-10
 tags:
   - ai/mlops
-  - moc
+  - type/moc
+  - status/permanent
 aliases:
   - MLOps
   - MLOps MOC

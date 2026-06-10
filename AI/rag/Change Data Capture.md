@@ -6,6 +6,8 @@ created: 2026-06-08
 tags:
   - ai/rag/ingestion
   - system-design/data-pipeline
+  - type/concept
+  - status/permanent
 aliases:
   - Change Data Capture
   - change-data-capture

@@ -5,6 +5,8 @@ author: Jam with AI
 created: 2026-06-10
 tags:
   - ai/mlops
+  - type/concept
+  - status/permanent
 aliases:
   - MLOps Maturity Stages
   - mlops-maturity-stages

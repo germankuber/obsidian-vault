@@ -6,6 +6,8 @@ created: 2026-06-08
 tags:
   - ai/rag
   - ai/rag/ingestion
+  - type/pattern
+  - status/permanent
 aliases:
   - Hierarchical Chunking
   - hierarchical-chunking

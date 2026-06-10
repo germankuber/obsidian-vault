@@ -6,6 +6,8 @@ created: 2026-06-10
 tags:
   - ai/agents/architecture
   - ai/agents/safety
+  - type/concept
+  - status/permanent
 aliases:
   - Multi-User Agent Design
   - multi-user-agent-design

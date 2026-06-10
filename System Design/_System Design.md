@@ -5,7 +5,8 @@ author: Design Gurus
 created: 2026-06-08
 tags:
   - system-design
-  - moc
+  - type/moc
+  - status/permanent
 aliases:
   - System Design
   - System Design Patterns

@@ -6,6 +6,8 @@ created: 2026-06-08
 tags:
   - system-design/storage
   - system-design/patterns
+  - type/pattern
+  - status/permanent
 aliases:
   - Write-Ahead Log
   - write-ahead-log

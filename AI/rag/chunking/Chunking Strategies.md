@@ -6,6 +6,8 @@ created: 2026-06-08
 tags:
   - ai/rag/ingestion
   - system-design/patterns
+  - type/concept
+  - status/permanent
 aliases:
   - Chunking Strategies
   - chunking-strategies

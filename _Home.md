@@ -2,7 +2,8 @@
 title: Home
 created: 2026-06-10
 tags:
-  - moc
+  - type/moc
+  - status/permanent
 aliases:
   - Home
   - Inicio

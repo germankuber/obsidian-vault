@@ -6,6 +6,8 @@ created: 2026-06-08
 tags:
   - system-design/communication
   - system-design/patterns
+  - type/pattern
+  - status/permanent
 aliases:
   - Request-Response
   - request-response

@@ -6,6 +6,8 @@ created: 2026-06-10
 tags:
   - system-design/resilience
   - system-design/api
+  - type/pattern
+  - status/permanent
 aliases:
   - Idempotency Key
   - Clave de Idempotencia

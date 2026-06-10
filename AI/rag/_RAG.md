@@ -3,7 +3,8 @@ title: RAG — Mapa del tema
 created: 2026-06-08
 tags:
   - ai/rag
-  - moc
+  - type/moc
+  - status/permanent
 aliases:
   - RAG
   - RAG MOC

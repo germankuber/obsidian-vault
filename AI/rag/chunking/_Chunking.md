@@ -3,7 +3,8 @@ title: Chunking
 created: 2026-06-08
 tags:
   - ai/rag/ingestion
-  - moc
+  - type/moc
+  - status/permanent
 aliases:
   - Chunking
   - Chunking MOC

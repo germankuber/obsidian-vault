@@ -5,6 +5,8 @@ author: Siddhant Rai
 created: 2026-06-10
 tags:
   - ai/rag/reranking
+  - type/pattern
+  - status/permanent
 aliases:
   - Agent Reranking
   - agent-reranking

@@ -6,6 +6,8 @@ created: 2026-06-08
 tags:
   - ai/rag/ingestion
   - system-design/patterns
+  - type/pattern
+  - status/permanent
 aliases:
   - Code-Aware Chunking
   - code-aware-chunking

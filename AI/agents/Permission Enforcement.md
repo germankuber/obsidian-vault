@@ -5,6 +5,8 @@ author: Hamza Farooq, Aishwarya Ashok
 created: 2026-06-10
 tags:
   - ai/agents/safety
+  - type/pattern
+  - status/permanent
 aliases:
   - Permission Enforcement
   - permission-enforcement

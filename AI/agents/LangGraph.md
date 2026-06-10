@@ -5,6 +5,8 @@ author: Avani (alwaysavani)
 created: 2026-06-10
 tags:
   - ai/agents/ecosystem
+  - type/technology
+  - status/permanent
 aliases:
   - LangGraph
   - langgraph

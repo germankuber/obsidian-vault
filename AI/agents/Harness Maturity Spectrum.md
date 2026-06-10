@@ -5,6 +5,8 @@ author: Hamza Farooq, Aishwarya Ashok
 created: 2026-06-10
 tags:
   - ai/agents/architecture
+  - type/concept
+  - status/permanent
 aliases:
   - Harness Maturity Spectrum
   - harness-maturity-spectrum

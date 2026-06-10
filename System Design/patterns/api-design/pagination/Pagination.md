@@ -5,6 +5,8 @@ author: Arslan Ahmad (Design Gurus)
 created: 2026-06-10
 tags:
   - system-design/api
+  - type/pattern
+  - status/permanent
 aliases:
   - Pagination
   - API Pagination
