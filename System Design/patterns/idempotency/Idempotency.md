@@ -22,11 +22,14 @@ aliases:
 
 ## Cómo funciona
 
-La técnica habitual es una **idempotency key**: el cliente manda un identificador
-único por operación; el servidor registra qué keys ya procesó y, si una se
-repite, devuelve el resultado original en vez de volver a ejecutar. Operaciones
-naturalmente idempotentes (un `PUT` que setea un valor absoluto, un `DELETE`) no
-necesitan key; las que acumulan efecto (`POST` que cobra, incrementa, encola) sí.
+La técnica habitual es una [[Idempotency Key|idempotency key]]: el cliente manda un identificador único por operación; el servidor registra qué keys ya procesó y, si una se repite, devuelve el resultado original en vez de volver a ejecutar. Operaciones naturalmente idempotentes (un `GET`, un `PUT` que setea un valor absoluto, un `DELETE`) no necesitan key; las que acumulan efecto (`POST` que cobra, incrementa, encola) sí.
+
+El diseño completo del lado servidor —tracking record, estados processing/completed/failed, cacheo de la respuesta, race conditions, TTL— está en [[Idempotency Architecture]]. Acá queda el concepto; ahí, el cómo.
+
+## Operaciones seguras vs inseguras
+
+- **Naturalmente idempotentes**: lecturas. Un `GET` veinte veces deja la DB igual → reintentar es 100% seguro.
+- **No idempotentes por defecto**: las que modifican estado. Un `POST` crea/acumula → reintentar duplica (en un ledger financiero, entradas duplicadas). Hay que **construir** idempotencia manualmente en estos.
 
 ## Cuándo usarlo
 
@@ -61,10 +64,14 @@ necesitan key; las que acumulan efecto (`POST` que cobra, incrementa, encola) s�
 ## References
 
 - Fuente: [50 System Design Patterns Every Engineer Should Know](https://designgurus.substack.com/p/50-system-design-patterns-every-engineer) — Design Gurus, 2026-05-11
+- Deep-dive de arquitectura: [System Design Deep Dive: Architecting Idempotent APIs](https://designgurus.substack.com/p/system-design-deep-dive-architecting) — Arslan Ahmad (Design Gurus), 2026-03-05
 - Trade-offs y guía de uso: conocimiento general, no del artículo fuente.
 
 ## Related
 
 - [[_System Design|System Design]]
+- [[Idempotency Key]]
+- [[Idempotency Architecture]]
+- [[Distributed Lock]]
 - [[Retry with Backoff]]
 - [[Message Queue]]

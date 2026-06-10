@@ -95,8 +95,7 @@ Los más pedidos en entrevistas, según la fuente: [[Primary-Replica]],
   agote los recursos de las otras.
 - [[Timeout]] — fijar una duración máxima para llamadas externas; abortar y
   devolver error/fallback si se excede.
-- [[Idempotency]] — diseñar operaciones para que ejecutarlas N veces dé el
-  mismo resultado que ejecutarlas una.
+- **[[_Idempotency|Idempotency]]** 📁 — subtema con carpeta propia (`idempotency/`): diseñar operaciones para que ejecutarlas N veces dé el mismo resultado que ejecutarlas una. El concepto es [[Idempotency]]; la carpeta tiene la [[Idempotency Key|key]] y la [[Idempotency Architecture|arquitectura del servidor]]. Abrí su MOC.
 - [[Dead Letter Queue]] — si un mensaje no se puede procesar tras varios
   reintentos, moverlo a una cola aparte en vez de bloquear la principal.
 - [[Graceful Degradation]] — si fallan componentes no críticos, seguir sirviendo
@@ -159,6 +158,7 @@ Los más pedidos en entrevistas, según la fuente: [[Primary-Replica]],
   garantizando que las lecturas vean la última escritura.
 - [[Vector Clocks]] — rastrear causalidad con un vector de timestamps lógicos por
   nodo, para ordenar eventos o detectar concurrencia.
+- [[Distributed Lock]] — garantizar que solo un thread manipule un recurso a la vez (unique constraint); resuelve race conditions. Clave en la [[Idempotency Architecture|arquitectura idempotente]].
 
 ## 👁️ Observabilidad
 
