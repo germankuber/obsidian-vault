@@ -46,6 +46,11 @@ aliases:
 - [[Generator-Evaluator Pattern]] — dos LLMs con objetivos opuestos en loop: uno genera, otro audita. *"Add a second LLM whose only job is to catch the first one leaving its source."*
 - [[Grounded Eval Harness]] — caso de estudio concreto del patrón: una IA que se fact-checkea a sí misma para cazar alucinaciones en RAG (LangGraph + Groq/Llama 3.1).
 
+## 🔧 La llamada — qué intercepta el harness
+
+- [[Tool Calling]] — el modelo propone una llamada a una herramienta; el sistema la valida y ejecuta. "El modelo pide; el sistema decide."
+- [[Function Calling]] — la versión estructurada: argumentos que matchean un schema. "Schema primero, ejecución después."
+
 ## 👥 Escala y governance
 
 - [[Multi-User Agent Design]] — per-user isolation, namespaced memory, tamper-evident audit logs; *"harness governance is an org-design problem"*.
@@ -54,11 +59,10 @@ aliases:
 
 Conceptos ya enlazados desde las notas de arriba pero que todavía no tienen nota propia — candidatos a promover cuando un próximo artículo aporte material:
 
-- [[Tool Calling]] · [[Function Calling]] — el formato de la llamada que el harness intercepta.
 - [[SWE-bench]] — benchmark de coding (60%+ Verified, mayo 2026).
 - [[Prompt Injection]] · [[Vector Database]] (este último ya enlazado desde [[AI Framework]]).
-- [[Grounding]] · [[Hallucinations]] · [[Evals]] — enlazados desde [[Grounded Eval Harness]]; conceptos de fact-checking/eval que cruzan con `ai/rag/`.
-- [[RLHF]] — el loop de feedback en inference time es "estructuralmente análogo a RLHF".
+
+Conceptos relacionados que ya tienen nota en otros subdominios: [[Grounding]], [[Hallucinations]], [[Evals]] (en `AI/fundamentals`) · [[RLHF]] (en `AI/fundamentals`, "análogo" al loop de feedback del harness).
 
 ## 🔍 Todas las notas de esta carpeta (auto)
 

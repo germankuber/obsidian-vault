@@ -19,6 +19,12 @@ aliases:
 
 - [[RLHF]] — alinear un LLM con preferencias humanas vía RL (SFT → reward model → PPO). Incluye RLAIF, DPO, Constitutional AI.
 
+## ✅ Calidad, evaluación y confiabilidad
+
+- [[Hallucinations]] — salida plausible pero incorrecta/no respaldada; el problema es la confianza sin incertidumbre.
+- [[Grounding]] — atar la respuesta a evidencia verificable; la principal defensa contra las alucinaciones.
+- [[Evals]] — tests que miden si el sistema se comporta como se espera; reducen ignorancia, no garantizan perfección.
+
 ## 🌱 Por escribir (semillas del grafo)
 
 Conceptos base que aún no tienen nota propia — candidatos a promover cuando un artículo aporte material (varios vienen del pendiente "25 AI Concepts"):
