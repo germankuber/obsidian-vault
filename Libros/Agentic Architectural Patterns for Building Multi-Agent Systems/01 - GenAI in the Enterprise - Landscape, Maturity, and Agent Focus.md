@@ -82,7 +82,7 @@ Categorización amplia:
 
 ## La anatomía de la IA agéntica
 
-![[01-fig-1.1.png]]
+![[01-fig-1.1.png|730]]
 *Figura 1.1 – Agentic anatomy by Dr. Ali Arsanjani*
 
 El diagrama ilustra una arquitectura agéntica con múltiples agentes colaborando dentro de un entorno.

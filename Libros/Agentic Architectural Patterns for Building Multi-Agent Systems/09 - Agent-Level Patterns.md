@@ -176,7 +176,7 @@ Implementación por fases, alineada con el Maturity Model, para construir una ba
 
 - [[_Agentic Architectural Patterns for Building Multi-Agent Systems|Mapa del libro]] — el MOC del libro.
 - [[01 - GenAI in the Enterprise - Landscape, Maturity, and Agent Focus]] — cap. 1: la anatomía del agente (sense→reason→plan→act) que este capítulo operacionaliza en patrones.
-- [[06 - ...]] — cap. 6 (Persistent Instruction Anchoring e Instruction Fidelity Auditing provienen de ahí); pendiente de resumir.
+- [[06 - Explainability and Compliance Agentic Patterns]] — cap. 6 (Persistent Instruction Anchoring e Instruction Fidelity Auditing provienen de ahí).
 - [[Generator-Evaluator Pattern]] — el patrón generador-evaluador del vault; calca el loop de Self-Correction (genera → critica → corrige).
 - [[Function Calling]] · [[Tool Calling]] · [[Orchestrator]] — mecanismo de acción del Single Agent Baseline (ReAct, tool use).
 - [[_RAG|RAG]] · [[Chunking Strategies]] · [[Hybrid Search]] · [[Reranking]] · [[Enterprise RAG Assistant]] — el patrón Sensing with RAG y su pipeline.
