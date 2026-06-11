@@ -12,36 +12,29 @@ aliases:
   - Message Queue
   - message-queue
   - Task Queue
+updated: 2026-06-11
 ---
 
 # Message Queue
 
 > [!note] Definition
-> El productor deja un mensaje en una cola; el consumidor lo procesa **a su
-> ritmo**, sin que el productor espere. Cada mensaje lo procesa **un** consumidor.
+> El productor deja un mensaje en una cola; el consumidor lo procesa **a su ritmo**, sin que el productor espere. Cada mensaje lo procesa **un** consumidor.
 
 ## Cómo funciona
 
-La cola desacopla productor y consumidor en el tiempo: el productor encola y
-sigue; uno o más workers consumen cuando pueden. Absorbe picos (buffer), permite
-escalar consumidores horizontalmente y reintentar trabajo fallido. Entrega típica
-*at-least-once* → los consumidores deben ser [[Idempotency|idempotentes]].
+La cola desacopla productor y consumidor en el tiempo: el productor encola y sigue; uno o más workers consumen cuando pueden. Absorbe picos (buffer), permite escalar consumidores horizontalmente y reintentar trabajo fallido. Entrega típica *at-least-once* → los consumidores deben ser [[Idempotency|idempotentes]].
 
 ## Cuándo usarlo
 
 > [!tip]
-> Para **trabajo asíncrono** que no necesita respuesta inmediata: enviar emails,
-> procesar imágenes, generar reportes. También para **amortiguar** un productor
-> rápido frente a un consumidor lento.
+> Para **trabajo asíncrono** que no necesita respuesta inmediata: enviar emails, procesar imágenes, generar reportes. También para **amortiguar** un productor rápido frente a un consumidor lento.
 
 ## Cuándo NO usarlo / trade-offs
 
 > [!warning]
-> - **Consistencia eventual**: el trabajo se hace "después"; si el usuario espera
->   el resultado ya, no encaja.
+> - **Consistencia eventual**: el trabajo se hace "después"; si el usuario espera el resultado ya, no encaja.
 > - **Entrega at-least-once** ⇒ duplicados posibles ⇒ exige [[Idempotency]].
-> - **Más infraestructura**: el broker (Kafka, RabbitMQ, SQS) es otra pieza que
->   operar y monitorear; mensajes que no se procesan necesitan [[Dead Letter Queue]].
+> - **Más infraestructura**: el broker (Kafka, RabbitMQ, SQS) es otra pieza que operar y monitorear; mensajes que no se procesan necesitan [[Dead Letter Queue]].
 > - El **orden** no siempre está garantizado entre particiones.
 
 ## Patrones relacionados / alternativas

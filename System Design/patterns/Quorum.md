@@ -12,20 +12,17 @@ aliases:
   - Quorum
   - quorum
   - Quorum Consensus
+updated: 2026-06-11
 ---
 
 # Quorum
 
 > [!note] Definition
-> En un sistema replicado con **N** réplicas, exigir que **W** confirmen una
-> escritura y **R** coincidan en una lectura, con **W + R > N**. Esa desigualdad
-> garantiza que toda lectura ve al menos una réplica con la última escritura.
+> En un sistema replicado con **N** réplicas, exigir que **W** confirmen una escritura y **R** coincidan en una lectura, con **W + R > N**. Esa desigualdad garantiza que toda lectura ve al menos una réplica con la última escritura.
 
 ## Cómo funciona
 
-Como los conjuntos de W (escritura) y R (lectura) se solapan cuando W + R > N, al
-menos una réplica leída tiene el dato más nuevo. Ajustando W y R se elige el
-balance:
+Como los conjuntos de W (escritura) y R (lectura) se solapan cuando W + R > N, al menos una réplica leída tiene el dato más nuevo. Ajustando W y R se elige el balance:
 - **W alto, R bajo**: escrituras más lentas/consistentes, lecturas rápidas.
 - **W bajo, R alto**: lo inverso.
 - `W = R = (N/2)+1`: balance típico (mayoría).
@@ -35,17 +32,13 @@ Es la base de la consistencia ajustable en sistemas tipo Dynamo/Cassandra.
 ## Cuándo usarlo
 
 > [!tip]
-> En **almacenes distribuidos replicados** donde querés *tunear* el trade-off
-> consistencia↔latencia↔disponibilidad sin un líder único. Permite seguir
-> operando aunque algunas réplicas estén caídas (mientras alcances el quórum).
+> En **almacenes distribuidos replicados** donde querés *tunear* el trade-off consistencia↔latencia↔disponibilidad sin un líder único. Permite seguir operando aunque algunas réplicas estén caídas (mientras alcances el quórum).
 
 ## Cuándo NO usarlo / trade-offs
 
 > [!warning]
-> - **No da consistencia fuerte total** por sí solo: sin mecanismos extra (read
->   repair, hinted handoff) puede haber lecturas inconsistentes transitorias.
-> - **Latencia**: esperar W o R respuestas es más lento que tocar una sola
->   réplica.
+> - **No da consistencia fuerte total** por sí solo: sin mecanismos extra (read repair, hinted handoff) puede haber lecturas inconsistentes transitorias.
+> - **Latencia**: esperar W o R respuestas es más lento que tocar una sola réplica.
 > - **Más complejo de razonar** que un modelo líder-seguidor ([[Primary-Replica]]).
 > - Para datos donde un líder único alcanza, Primary-Replica es más simple.
 

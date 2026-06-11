@@ -13,14 +13,13 @@ aliases:
   - idempotency
   - Idempotencia
   - Idempotent Operations
+updated: 2026-06-11
 ---
 
 # Idempotency
 
 > [!note] Definition
-> Diseñar una operación para que ejecutarla **N veces produzca el mismo resultado
-> que ejecutarla una vez**. Reintentar una operación idempotente es seguro: no
-> duplica efectos.
+> Diseñar una operación para que ejecutarla **N veces produzca el mismo resultado que ejecutarla una vez**. Reintentar una operación idempotente es seguro: no duplica efectos.
 
 ## Cómo funciona
 
@@ -36,32 +35,21 @@ El diseño completo del lado servidor —tracking record, estados processing/com
 ## Cuándo usarlo
 
 > [!tip]
-> Imprescindible cuando hay **reintentos** o entregas *at-least-once*:
-> [[Retry with Backoff]], colas de mensajes ([[Message Queue]], [[Pub-Sub|Pub/Sub]]),
-> [[Webhooks]]. En sistemas distribuidos el reenvío es inevitable, así que
-> cualquier operación con efectos secundarios (pagos, órdenes, envíos) debe ser
-> idempotente.
+> Imprescindible cuando hay **reintentos** o entregas *at-least-once*: [[Retry with Backoff]], colas de mensajes ([[Message Queue]], [[Pub-Sub|Pub/Sub]]), [[Webhooks]]. En sistemas distribuidos el reenvío es inevitable, así que cualquier operación con efectos secundarios (pagos, órdenes, envíos) debe ser idempotente.
 
 ## Cuándo NO usarlo / trade-offs
 
 > [!warning]
-> - **No es gratis**: requiere almacenar las keys procesadas (con su TTL) y
->   chequearlas en cada request — estado y latencia extra.
-> - **Definir la "misma" operación es sutil**: ¿dos compras idénticas son un
->   reintento o dos compras legítimas? La key debe reflejar la intención del
->   cliente, no solo el payload.
-> - Para operaciones de **solo lectura** o ya naturalmente idempotentes, agregar
->   maquinaria de keys es sobre-ingeniería.
-> - La ventana de deduplicación es finita: si el reintento llega después de que
->   la key expiró, se vuelve a ejecutar.
+> - **No es gratis**: requiere almacenar las keys procesadas (con su TTL) y chequearlas en cada request — estado y latencia extra.
+> - **Definir la "misma" operación es sutil**: ¿dos compras idénticas son un reintento o dos compras legítimas? La key debe reflejar la intención del cliente, no solo el payload.
+> - Para operaciones de **solo lectura** o ya naturalmente idempotentes, agregar maquinaria de keys es sobre-ingeniería.
+> - La ventana de deduplicación es finita: si el reintento llega después de que la key expiró, se vuelve a ejecutar.
 
 ## Patrones relacionados / alternativas
 
 - [[Retry with Backoff]] — la razón principal por la que necesitás idempotencia.
-- [[Message Queue]] / [[Pub-Sub|Pub/Sub]] — entregan *at-least-once*: el consumidor debe
-  ser idempotente.
-- [[Timeout]] — deja la operación en estado incierto, que la idempotencia
-  resuelve al reintentar.
+- [[Message Queue]] / [[Pub-Sub|Pub/Sub]] — entregan *at-least-once*: el consumidor debe ser idempotente.
+- [[Timeout]] — deja la operación en estado incierto, que la idempotencia resuelve al reintentar.
 
 ## References
 

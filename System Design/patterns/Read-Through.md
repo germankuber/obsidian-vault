@@ -11,36 +11,29 @@ tags:
 aliases:
   - Read-Through
   - read-through
+updated: 2026-06-11
 ---
 
 # Read-Through
 
 > [!note] Definition
-> La **cache misma** carga el dato desde la base cuando hay un miss. La aplicación
-> habla solo con la cache, nunca directamente con la base.
+> La **cache misma** carga el dato desde la base cuando hay un miss. La aplicación habla solo con la cache, nunca directamente con la base.
 
 ## Cómo funciona
 
-A diferencia de [[Cache-Aside]] (donde la app coordina cache y base), acá la
-cache encapsula la lógica de carga: ante un miss, la cache va a la base, se
-puebla y devuelve. La app ve una sola interfaz. Suele ofrecerlo la librería/capa
-de cache (no la implementás a mano).
+A diferencia de [[Cache-Aside]] (donde la app coordina cache y base), acá la cache encapsula la lógica de carga: ante un miss, la cache va a la base, se puebla y devuelve. La app ve una sola interfaz. Suele ofrecerlo la librería/capa de cache (no la implementás a mano).
 
 ## Cuándo usarlo
 
 > [!tip]
-> Cuando querés **centralizar la lógica de carga** en la cache y simplificar el
-> código de la app — útil cuando muchos servicios comparten la misma estrategia.
-> Va de la mano con [[Write-Through]].
+> Cuando querés **centralizar la lógica de carga** en la cache y simplificar el código de la app — útil cuando muchos servicios comparten la misma estrategia. Va de la mano con [[Write-Through]].
 
 ## Cuándo NO usarlo / trade-offs
 
 > [!warning]
-> - **Acoplás la cache a la base**: la cache necesita saber cómo cargar de la
->   fuente, lo que la hace menos genérica y más difícil de testear/mockear.
+> - **Acoplás la cache a la base**: la cache necesita saber cómo cargar de la fuente, lo que la hace menos genérica y más difícil de testear/mockear.
 > - **Mismo miss frío inicial** que cache-aside.
-> - Si querés control fino sobre *cómo* y *qué* se carga (queries custom,
->   transformaciones), [[Cache-Aside]] te da más control en la app.
+> - Si querés control fino sobre *cómo* y *qué* se carga (queries custom, transformaciones), [[Cache-Aside]] te da más control en la app.
 
 ## Patrones relacionados / alternativas
 

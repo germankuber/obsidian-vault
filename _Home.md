@@ -8,7 +8,7 @@ aliases:
   - Home
   - Inicio
   - Index
-updated: 2026-06-10
+updated: 2026-06-11
 ---
 
 # 🏠 Home — Índice del vault
@@ -18,8 +18,8 @@ updated: 2026-06-10
 
 ## 🗂️ Dominios
 
-- [[_System Design|System Design]] — 50 patrones de diseño de sistemas (almacenamiento, caching, comunicación, confiabilidad, escalado, consistencia, observabilidad…).
-- [[_AI Agents|AI Agents]] · [[_RAG|RAG]] · [[_MLOps|MLOps]] · [[_GNN|GNN]] · [[_Evals|Evals]] · [[_AI Fundamentals|AI Fundamentals]] — los subdominios de **IA**: harnesses/agentes, retrieval-augmented generation, MLOps/AutoMLOps, graph neural networks e interpretabilidad, evaluación de sistemas LLM, y los fundamentos transversales.
+- [[_System Design|System Design]] — patrones de diseño de sistemas (almacenamiento, caching, comunicación, confiabilidad, escalado, consistencia, observabilidad…).
+- [[_AI|AI]] — el dominio de **IA**, con sus sub-dominios: [[_AI Agents|AI Agents]] · [[_RAG|RAG]] · [[_MLOps|MLOps]] · [[_GNN|GNN]] · [[_Evals|Evals]] · [[_AI Fundamentals|AI Fundamentals]] (harnesses/agentes, retrieval-augmented generation, MLOps/AutoMLOps, graph neural networks e interpretabilidad, evaluación de sistemas LLM, y los fundamentos transversales).
 
 ## 📚 Meta
 

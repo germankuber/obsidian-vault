@@ -12,23 +12,20 @@ aliases:
   - Recursive Character Splitting
   - recursive-character-splitting
   - RecursiveCharacterTextSplitter
+updated: 2026-06-11
 ---
 
 # Recursive Character Splitting
 
 > [!note] Definición
-> Probar una **jerarquía de separadores** en orden de preferencia y aplicarla
-> recursivamente a cada fragmento. Se adapta a la estructura que tenga el texto,
-> sin configuración manual por documento. El **estándar de facto** en 2026.
+> Probar una **jerarquía de separadores** en orden de preferencia y aplicarla recursivamente a cada fragmento. Se adapta a la estructura que tenga el texto, sin configuración manual por documento. El **estándar de facto** en 2026.
 
 ## Cómo funciona
 
-- Jerarquía default de separadores: `"\n\n"` (párrafos) → `"\n"` (líneas) →
-  `". "` (oraciones) → `" "` (palabras) → `""` (caracteres, último recurso).
+- Jerarquía default de separadores: `"\n\n"` (párrafos) → `"\n"` (líneas) → `". "` (oraciones) → `" "` (palabras) → `""` (caracteres, último recurso).
 - Algoritmo:
   1. Si `texto ≤ chunk_size` → devolverlo.
-  2. Para cada separador de la jerarquía: si está en el texto, partir y aplicar
-     recursivamente con los **separadores restantes**.
+  2. Para cada separador de la jerarquía: si está en el texto, partir y aplicar recursivamente con los **separadores restantes**.
   3. Si no hay separador → forzar corte por caracteres.
 
 ```python
@@ -67,24 +64,20 @@ chunks = splitter.split_text(text)
 - Velocidad: ~**2000 chunks/seg** (M2).
 - Buena eficiencia de almacenamiento (sin procesamiento redundante).
 
-**Librería**: `LangChain.text_splitter.RecursiveCharacterTextSplitter` (el
-estándar de facto 2026 para uso general).
+**Librería**: `LangChain.text_splitter.RecursiveCharacterTextSplitter` (el estándar de facto 2026 para uso general).
 
 ## Cuándo usarlo
 
 > [!tip]
 > - Documentos de **formato mixto** (docs con código + tablas + prosa).
 > - Tipos de documento diversos en el mismo corpus.
-> - **El default cuando no hay un requisito de dominio específico.** Buen MVP:
->   512 tokens + 20% overlap.
+> - **El default cuando no hay un requisito de dominio específico.** Buen MVP: 512 tokens + 20% overlap.
 
 ## Cuándo NO usarlo / trade-offs
 
 > [!warning]
-> - Requisitos estructurales muy específicos (ej. legal que necesita chunks a
->   nivel de página).
-> - Cuando hay una estrategia de dominio mejor: para código, [[Code-Aware Chunking]]
->   (AST/separadores de lenguaje); para markdown, [[Markdown-Aware Chunking]].
+> - Requisitos estructurales muy específicos (ej. legal que necesita chunks a nivel de página).
+> - Cuando hay una estrategia de dominio mejor: para código, [[Code-Aware Chunking]] (AST/separadores de lenguaje); para markdown, [[Markdown-Aware Chunking]].
 > - Es buen **generalista, no especialista**: no gana en ningún tipo puntual.
 
 ## References

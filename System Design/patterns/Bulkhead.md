@@ -13,50 +13,36 @@ aliases:
   - bulkhead
   - Mamparo
   - Resource Isolation
+updated: 2026-06-11
 ---
 
 # Bulkhead
 
 > [!note] Definition
-> Aislar cargas de trabajo en **pools de recursos separados** (threads,
-> conexiones, instancias) para que una carga que agota su pool no afecte a las
-> demás. El nombre viene de los mamparos estancos de un barco: una sección
-> inundada no hunde todo el casco.
+> Aislar cargas de trabajo en **pools de recursos separados** (threads, conexiones, instancias) para que una carga que agota su pool no afecte a las demás. El nombre viene de los mamparos estancos de un barco: una sección inundada no hunde todo el casco.
 
 ## Cómo funciona
 
-En vez de un único pool compartido para todas las dependencias, cada una recibe
-su propia partición. Si la dependencia A se vuelve lenta y satura su pool, las
-llamadas a B y C siguen teniendo recursos. La falla queda **contenida** en su
-compartimento.
+En vez de un único pool compartido para todas las dependencias, cada una recibe su propia partición. Si la dependencia A se vuelve lenta y satura su pool, las llamadas a B y C siguen teniendo recursos. La falla queda **contenida** en su compartimento.
 
 ## Cuándo usarlo
 
 > [!tip]
-> Cuando varias dependencias comparten un recurso finito (un thread pool, un
-> connection pool) y una sola dependencia lenta podría consumirlo entero y tirar
-> abajo todo el servicio. Especialmente útil en servicios que llaman a muchas
-> dependencias heterogéneas.
+> Cuando varias dependencias comparten un recurso finito (un thread pool, un connection pool) y una sola dependencia lenta podría consumirlo entero y tirar abajo todo el servicio. Especialmente útil en servicios que llaman a muchas dependencias heterogéneas.
 
 ## Cuándo NO usarlo / trade-offs
 
 > [!warning]
-> - **Particionar desperdicia capacidad**: pools separados no se prestan recursos
->   entre sí. Reservás N threads para una dependencia que la mayor parte del
->   tiempo no los usa — peor utilización que un pool único.
-> - **Más configuración y tuning**: hay que dimensionar cada partición; mal
->   dimensionada, una dependencia se queda corta mientras otra desperdicia.
+> - **Particionar desperdicia capacidad**: pools separados no se prestan recursos entre sí. Reservás N threads para una dependencia que la mayor parte del tiempo no los usa — peor utilización que un pool único.
+> - **Más configuración y tuning**: hay que dimensionar cada partición; mal dimensionada, una dependencia se queda corta mientras otra desperdicia.
 > - Para un servicio con **una sola** dependencia, no hay nada que aislar.
-> - No detecta la falla, solo la contiene — se combina con [[Circuit Breaker]]
->   (que sí corta) y [[Timeout]].
+> - No detecta la falla, solo la contiene — se combina con [[Circuit Breaker]] (que sí corta) y [[Timeout]].
 
 ## Patrones relacionados / alternativas
 
-- [[Circuit Breaker]] — corta la dependencia saturada; el bulkhead evita que su
-  saturación contagie a las otras. Suelen ir juntos.
+- [[Circuit Breaker]] — corta la dependencia saturada; el bulkhead evita que su saturación contagie a las otras. Suelen ir juntos.
 - [[Timeout]] — sin timeouts, una partición se llena de llamadas colgadas.
-- [[Load Balancing]] — distribuye carga *entre* instancias; el bulkhead aísla
-  *dentro* de una.
+- [[Load Balancing]] — distribuye carga *entre* instancias; el bulkhead aísla *dentro* de una.
 
 ## References
 

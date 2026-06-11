@@ -12,42 +12,34 @@ aliases:
   - Vertical Scaling
   - vertical-scaling
   - Scale Up
+updated: 2026-06-11
 ---
 
 # Vertical Scaling
 
 > [!note] Definition
-> Pasar a una máquina **más potente**: más CPU, más RAM, discos más rápidos.
-> Escalás "hacia arriba" (*scale up*) la misma instancia, en vez de agregar más.
+> Pasar a una máquina **más potente**: más CPU, más RAM, discos más rápidos. Escalás "hacia arriba" (*scale up*) la misma instancia, en vez de agregar más.
 
 ## Cómo funciona
 
-Se reemplaza el servidor por uno con más recursos. No requiere cambios de
-arquitectura: la app sigue siendo una sola instancia. Es lo primero que se
-prueba porque no toca el código.
+Se reemplaza el servidor por uno con más recursos. No requiere cambios de arquitectura: la app sigue siendo una sola instancia. Es lo primero que se prueba porque no toca el código.
 
 ## Cuándo usarlo
 
 > [!tip]
-> Como **primer paso** de escalado, o para cargas que no paralelizan bien: una
-> base relacional monolítica, software con estado en memoria difícil de
-> distribuir. Simple y sin complejidad distribuida.
+> Como **primer paso** de escalado, o para cargas que no paralelizan bien: una base relacional monolítica, software con estado en memoria difícil de distribuir. Simple y sin complejidad distribuida.
 
 ## Cuándo NO usarlo / trade-offs
 
 > [!warning]
-> - **Tiene un techo físico**: hay un límite a cuánta CPU/RAM podés ponerle a una
->   máquina, y el costo crece **no linealmente** (las máquinas top son carísimas).
-> - **Punto único de falla**: una sola máquina; si cae, cae todo. No da alta
->   disponibilidad por sí sola.
-> - **Downtime al escalar**: muchas veces hay que reiniciar para cambiar de
->   instancia.
+> - **Tiene un techo físico**: hay un límite a cuánta CPU/RAM podés ponerle a una máquina, y el costo crece **no linealmente** (las máquinas top son carísimas).
+> - **Punto único de falla**: una sola máquina; si cae, cae todo. No da alta disponibilidad por sí sola.
+> - **Downtime al escalar**: muchas veces hay que reiniciar para cambiar de instancia.
 > - Pasado cierto punto, [[Horizontal Scaling]] es la única salida.
 
 ## Patrones relacionados / alternativas
 
-- [[Horizontal Scaling]] — la alternativa que escala sin techo y da HA, a costa
-  de complejidad.
+- [[Horizontal Scaling]] — la alternativa que escala sin techo y da HA, a costa de complejidad.
 - [[Auto-Scaling]] — generalmente opera sobre escalado horizontal.
 
 ## References

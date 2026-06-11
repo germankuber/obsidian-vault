@@ -13,42 +13,29 @@ aliases:
   - chunking-strategies
   - RAG Chunking
   - Chunking
+updated: 2026-06-11
 ---
 
 # Chunking Strategies
 
 > [!note] Definición
-> Un **chunk** es un segmento contiguo de texto: la **unidad atómica de
-> recuperación** en RAG. Se embebe en un vector, se indexa, se recupera por
-> similitud y se le pasa al LLM como contexto. Un buen chunk debe ser a la vez
-> **autocontenido, específico, conciso y coherente** — requisitos que entran en
-> conflicto entre sí.
+> Un **chunk** es un segmento contiguo de texto: la **unidad atómica de recuperación** en RAG. Se embebe en un vector, se indexa, se recupera por similitud y se le pasa al LLM como contexto. Un buen chunk debe ser a la vez **autocontenido, específico, conciso y coherente** — requisitos que entran en conflicto entre sí.
 
 ## Por qué importa tanto
 
-- El chunking explica el **60-80% de la varianza** de calidad de retrieval (datos
-  de producción 2026).
+- El chunking explica el **60-80% de la varianza** de calidad de retrieval (datos de producción 2026).
 - Más influyente que la elección de modelo de embeddings, de reranker o de LLM.
-- Ejemplo brutal: sentence-transformers básico + chunks semánticos = **78% MRR@10**,
-  vs. Voyage AI state-of-the-art + chunks naive de 500 chars = **62%**. 16 puntos
-  de diferencia, **costo cero**. Antes de gastar en mejores embeddings o
-  [[Reranking]], arreglá el chunking.
+- Ejemplo brutal: sentence-transformers básico + chunks semánticos = **78% MRR@10**, vs. Voyage AI state-of-the-art + chunks naive de 500 chars = **62%**. 16 puntos de diferencia, **costo cero**. Antes de gastar en mejores embeddings o [[Reranking]], arreglá el chunking.
 
 > [!warning] Recuperación = compresión con pérdida
-> Cómo chunkeás define el **techo** de lo que el sistema puede recuperar. Si la
-> respuesta queda partida por un corte naive, ninguna sofisticación de embeddings
-> la recupera. Los límites de chunk fijan el máximo alcanzable.
+> Cómo chunkeás define el **techo** de lo que el sistema puede recuperar. Si la respuesta queda partida por un corte naive, ninguna sofisticación de embeddings la recupera. Los límites de chunk fijan el máximo alcanzable.
 
 ## El problema profundo: similitud ≠ suficiencia contextual
 
-- Objetivo matemático: maximizar la relevancia total de los `k` chunks
-  recuperados dentro del presupuesto de la ventana de contexto.
-- **Relevancia = similitud semántica + suficiencia contextual.** Alta similitud
-  NO implica contexto suficiente.
-- Ejemplo: el chunk *"reemplazo de batería cubierto por garantía"* matchea bien
-  la query *"período de garantía"* pero **no la responde**.
-- [[Chunk Overlap]] mitiga esto; las estrategias semánticas avanzadas (Part 2)
-  lo atacan de frente.
+- Objetivo matemático: maximizar la relevancia total de los `k` chunks recuperados dentro del presupuesto de la ventana de contexto.
+- **Relevancia = similitud semántica + suficiencia contextual.** Alta similitud NO implica contexto suficiente.
+- Ejemplo: el chunk *"reemplazo de batería cubierto por garantía"* matchea bien la query *"período de garantía"* pero **no la responde**.
+- [[Chunk Overlap]] mitiga esto; las estrategias semánticas avanzadas (Part 2) lo atacan de frente.
 
 ## El baseline de producción
 
@@ -84,8 +71,7 @@ Transversal a todas: [[Chunk Overlap]]. Avanzada: [[Hierarchical Chunking]].
 
 - **MVP / arranque** → [[Recursive Character Splitting]], 512 tokens, 20% overlap.
 - **Producción** → sentence o paragraph-based, 256-512 tokens, 15-20% overlap.
-- **Alto riesgo** (legal, médico, financiero) → estrategias semánticas avanzadas
-  (Part 2 del artículo).
+- **Alto riesgo** (legal, médico, financiero) → estrategias semánticas avanzadas (Part 2 del artículo).
 
 ## El trade-off de fondo: precisión vs recall vs eficiencia
 
@@ -96,8 +82,7 @@ Transversal a todas: [[Chunk Overlap]]. Avanzada: [[Hierarchical Chunking]].
 ## Medición (no adivines)
 
 - Evaluá sobre **tus** datos con **tus** queries reales.
-- Métricas: accuracy de retrieval (MRR@10 o NDCG@10), score de coherencia, tasa
-  de retrieval fallido. Iterá según el dominio.
+- Métricas: accuracy de retrieval (MRR@10 o NDCG@10), score de coherencia, tasa de retrieval fallido. Iterá según el dominio.
 
 ## References
 

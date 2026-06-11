@@ -12,43 +12,34 @@ aliases:
   - Content Delivery Network
   - content-delivery-network
   - CDN
+updated: 2026-06-11
 ---
 
 # Content Delivery Network
 
 > [!note] Definition
-> Distribuir contenido estático a **edge servers** repartidos por el mundo; cada
-> usuario se sirve desde el edge más cercano, reduciendo mucho la latencia.
+> Distribuir contenido estático a **edge servers** repartidos por el mundo; cada usuario se sirve desde el edge más cercano, reduciendo mucho la latencia.
 
 ## Cómo funciona
 
-El CDN cachea copias del contenido (imágenes, JS, CSS, video, a veces respuestas
-de API) en POPs geográficamente distribuidos. El usuario en Buenos Aires recibe
-el asset desde un edge local en vez de cruzar el planeta hasta el origen. El
-origen solo se toca en el primer miss o al vencer el TTL.
+El CDN cachea copias del contenido (imágenes, JS, CSS, video, a veces respuestas de API) en POPs geográficamente distribuidos. El usuario en Buenos Aires recibe el asset desde un edge local en vez de cruzar el planeta hasta el origen. El origen solo se toca en el primer miss o al vencer el TTL.
 
 ## Cuándo usarlo
 
 > [!tip]
-> Para **contenido estático** servido a una audiencia geográficamente dispersa:
-> sitios web, SPAs, descargas, streaming, imágenes. Baja latencia, descarga el
-> origen y absorbe picos de tráfico.
+> Para **contenido estático** servido a una audiencia geográficamente dispersa: sitios web, SPAs, descargas, streaming, imágenes. Baja latencia, descarga el origen y absorbe picos de tráfico.
 
 ## Cuándo NO usarlo / trade-offs
 
 > [!warning]
-> - **Invalidación de caché**: actualizar contenido cacheado en cientos de edges
->   no es instantáneo; un deploy puede servir assets viejos. Se maneja con
->   *cache-busting* (hash en el nombre del archivo).
-> - **Contenido dinámico/personalizado** cachea mal — un CDN no ayuda con
->   respuestas únicas por usuario (salvo edge compute).
+> - **Invalidación de caché**: actualizar contenido cacheado en cientos de edges no es instantáneo; un deploy puede servir assets viejos. Se maneja con *cache-busting* (hash en el nombre del archivo).
+> - **Contenido dinámico/personalizado** cachea mal — un CDN no ayuda con respuestas únicas por usuario (salvo edge compute).
 > - **Costo** y otra dependencia de terceros.
 > - Para una audiencia local y poco tráfico, puede no justificarse.
 
 ## Patrones relacionados / alternativas
 
-- [[Reverse Proxy]] — un CDN es, en esencia, un reverse-proxy-caché distribuido
-  globalmente.
+- [[Reverse Proxy]] — un CDN es, en esencia, un reverse-proxy-caché distribuido globalmente.
 - [[Cache-Aside]] — misma idea de caché, a nivel de red.
 
 ## References

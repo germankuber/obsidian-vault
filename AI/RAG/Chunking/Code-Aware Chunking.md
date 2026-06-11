@@ -12,14 +12,13 @@ aliases:
   - Code-Aware Chunking
   - code-aware-chunking
   - Code-Aware Splitting
+updated: 2026-06-11
 ---
 
 # Code-Aware Chunking
 
 > [!note] Definición
-> Partir código respetando sus **límites sintácticos**: fronteras de función/
-> clase, bloques completos, indentación, e imports/docstrings relevantes.
-> Separadores específicos por lenguaje.
+> Partir código respetando sus **límites sintácticos**: fronteras de función/ clase, bloques completos, indentación, e imports/docstrings relevantes. Separadores específicos por lenguaje.
 
 ## Cómo funciona
 
@@ -29,8 +28,7 @@ aliases:
 - Usa jerarquías de separadores **por lenguaje**.
 
 **Por qué funciona**
-- Una función/clase es la unidad semántica del código, igual que el párrafo lo es
-  de la prosa. Traer media función es inútil para el retrieval.
+- Una función/clase es la unidad semántica del código, igual que el párrafo lo es de la prosa. Traer media función es inútil para el retrieval.
 
 **Librería**: `RecursiveCharacterTextSplitter.from_language` de LangChain.
 - Separadores de ejemplo (Python): `"\nclass "`, `"\ndef "`, `"\n\n"`, `"\n"`.
@@ -50,18 +48,14 @@ python_splitter = RecursiveCharacterTextSplitter.from_language(
 
 > [!tip]
 > - Indexado de **repositorios de código** y sistemas de code search.
-> - Documentación para desarrolladores y bases de conocimiento con código
->   embebido.
+> - Documentación para desarrolladores y bases de conocimiento con código embebido.
 
 ## Cuándo NO usarlo / trade-offs
 
 > [!warning]
-> - Es **por lenguaje**: necesitás los separadores correctos; un lenguaje no
->   soportado cae al split genérico.
-> - Funciones gigantes igual exceden el límite y hay que sub-partirlas, perdiendo
->   parte del beneficio.
-> - Para grafos de dependencias entre archivos esto solo no alcanza → ahí entra
->   un enfoque tipo [[GraphRAG]].
+> - Es **por lenguaje**: necesitás los separadores correctos; un lenguaje no soportado cae al split genérico.
+> - Funciones gigantes igual exceden el límite y hay que sub-partirlas, perdiendo parte del beneficio.
+> - Para grafos de dependencias entre archivos esto solo no alcanza → ahí entra un enfoque tipo [[GraphRAG]].
 
 ## References
 

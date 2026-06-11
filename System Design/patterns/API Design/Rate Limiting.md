@@ -12,20 +12,18 @@ aliases:
   - Rate Limiting
   - rate-limiting
   - Throttling
+updated: 2026-06-11
 ---
 
 # Rate Limiting
 
 > [!note] Definition
-> Restringir cuántos requests puede hacer un cliente en una ventana de tiempo,
-> usando algoritmos como *token bucket*, *fixed window* o *sliding window*.
+> Restringir cuántos requests puede hacer un cliente en una ventana de tiempo, usando algoritmos como *token bucket*, *fixed window* o *sliding window*.
 
 ## Cómo funciona
 
-- **Token bucket**: un balde se rellena a tasa fija; cada request consume un
-  token; sin tokens, se rechaza. Permite ráfagas hasta el tamaño del balde.
-- **Fixed window**: N requests por ventana fija (ej. por minuto). Simple, pero
-  permite picos en el borde entre ventanas.
+- **Token bucket**: un balde se rellena a tasa fija; cada request consume un token; sin tokens, se rechaza. Permite ráfagas hasta el tamaño del balde.
+- **Fixed window**: N requests por ventana fija (ej. por minuto). Simple, pero permite picos en el borde entre ventanas.
 - **Sliding window**: ventana móvil, reparte más parejo, evita el pico de borde.
 
 Al exceder, se responde `429 Too Many Requests`.
@@ -33,21 +31,15 @@ Al exceder, se responde `429 Too Many Requests`.
 ## Cuándo usarlo
 
 > [!tip]
-> Para **proteger** el sistema de abuso, scraping, bugs de clientes en loop y
-> picos que tumban servicios. También para *fairness* (que un cliente no monopolice)
-> y para tiers de pricing. Suele vivir en el [[API Gateway]].
+> Para **proteger** el sistema de abuso, scraping, bugs de clientes en loop y picos que tumban servicios. También para *fairness* (que un cliente no monopolice) y para tiers de pricing. Suele vivir en el [[API Gateway]].
 
 ## Cuándo NO usarlo / trade-offs
 
 > [!warning]
-> - **Definir los límites es delicado**: muy estricto y rechazás tráfico
->   legítimo; muy laxo y no protegés.
-> - **Estado distribuido**: con varias instancias, el contador debe ser
->   compartido (Redis) o cada nodo limita por separado y el límite real es N×.
-> - **Identificar al cliente** es complejo: por IP (NAT agrupa usuarios), por API
->   key, por user — cada uno con problemas.
-> - Debe devolver headers claros (`Retry-After`) para que el cliente coopere con
->   [[Retry with Backoff]].
+> - **Definir los límites es delicado**: muy estricto y rechazás tráfico legítimo; muy laxo y no protegés.
+> - **Estado distribuido**: con varias instancias, el contador debe ser compartido (Redis) o cada nodo limita por separado y el límite real es N×.
+> - **Identificar al cliente** es complejo: por IP (NAT agrupa usuarios), por API key, por user — cada uno con problemas.
+> - Debe devolver headers claros (`Retry-After`) para que el cliente coopere con [[Retry with Backoff]].
 
 ## Patrones relacionados / alternativas
 

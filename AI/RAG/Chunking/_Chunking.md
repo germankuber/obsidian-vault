@@ -8,7 +8,7 @@ tags:
 aliases:
   - Chunking
   - Chunking MOC
-updated: 2026-06-10
+updated: 2026-06-11
 ---
 
 # Chunking
@@ -18,9 +18,7 @@ updated: 2026-06-10
 
 ## 🚀 Empezá por acá
 
-- [[Chunking Strategies]] — **el hub.** Por qué el chunking explica el 60-80% de
-  la calidad de retrieval, el baseline de producción (400-512 tokens, 15-20%
-  overlap) y el framework de selección por tipo de contenido.
+- [[Chunking Strategies]] — **el hub.** Por qué el chunking explica el 60-80% de la calidad de retrieval, el baseline de producción (400-512 tokens, 15-20% overlap) y el framework de selección por tipo de contenido.
 
 ## Estrategias (de más simple a más consciente de la estructura)
 

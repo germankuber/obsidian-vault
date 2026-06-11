@@ -12,40 +12,30 @@ aliases:
   - Server-Sent Events
   - server-sent-events
   - SSE
+updated: 2026-06-11
 ---
 
 # Server-Sent Events
 
 > [!note] Definition
-> Push **unidireccional** del servidor al cliente sobre una conexión HTTP de larga
-> duración: el servidor envía eventos a medida que ocurren, sin que el cliente los
-> pida.
+> Push **unidireccional** del servidor al cliente sobre una conexión HTTP de larga duración: el servidor envía eventos a medida que ocurren, sin que el cliente los pida.
 
 ## Cómo funciona
 
-El cliente abre una conexión HTTP que queda abierta; el servidor va escribiendo
-eventos en ese stream (`text/event-stream`). El navegador los recibe vía
-`EventSource`. Reconexión automática y simple. Es el transporte típico para
-**streamear la respuesta token-a-token de un LLM** (ver [[Enterprise RAG Assistant]]).
+El cliente abre una conexión HTTP que queda abierta; el servidor va escribiendo eventos en ese stream (`text/event-stream`). El navegador los recibe vía `EventSource`. Reconexión automática y simple. Es el transporte típico para **streamear la respuesta token-a-token de un LLM** (ver [[Enterprise RAG Assistant]]).
 
 ## Cuándo usarlo
 
 > [!tip]
-> Para flujos **servidor→cliente** donde el cliente solo recibe: streaming de
-> respuestas de IA, feeds en vivo, notificaciones, barras de progreso. Más simple
-> que WebSockets cuando no necesitás que el cliente también empuje.
+> Para flujos **servidor→cliente** donde el cliente solo recibe: streaming de respuestas de IA, feeds en vivo, notificaciones, barras de progreso. Más simple que WebSockets cuando no necesitás que el cliente también empuje.
 
 ## Cuándo NO usarlo / trade-offs
 
 > [!warning]
-> - **Unidireccional**: el cliente no puede mandar por el mismo canal. Si necesitás
->   ida y vuelta en tiempo real (chat, juegos, colaboración), usá
->   [[Bidirectional Streaming]] (WebSockets).
-> - **Una conexión abierta por cliente**: a gran escala consume sockets/recursos
->   del servidor.
+> - **Unidireccional**: el cliente no puede mandar por el mismo canal. Si necesitás ida y vuelta en tiempo real (chat, juegos, colaboración), usá [[Bidirectional Streaming]] (WebSockets).
+> - **Una conexión abierta por cliente**: a gran escala consume sockets/recursos del servidor.
 > - **Solo texto** (UTF-8); para binario, WebSockets.
-> - Proxies/balanceadores mal configurados pueden bufferear o cortar conexiones
->   largas.
+> - Proxies/balanceadores mal configurados pueden bufferear o cortar conexiones largas.
 
 ## Patrones relacionados / alternativas
 

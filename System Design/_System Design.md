@@ -1,174 +1,99 @@
 ---
-title: System Design — Mapa de patrones
-source: https://designgurus.substack.com/p/50-system-design-patterns-every-engineer
-author: Design Gurus
-created: 2026-06-08
+title: System Design — Mapa del tema
+created: 2026-06-11
 tags:
-  - system-design
+  - system-design/patterns
   - type/moc
   - status/permanent
 aliases:
   - System Design
-  - System Design Patterns
-  - Patrones de System Design
+  - System Design MOC
+  - Patrones de Diseño de Sistemas
 ---
 
-# System Design — Mapa de patrones
+# System Design — Mapa del tema
 
 > [!note] Cómo usar esta nota
-> Es el índice (MOC) raíz del vault de System Design. Cataloga **50 patrones**
-> agrupados en 10 categorías. Cada patrón tiene su **nota completa** con
-> definición, cómo funciona, cuándo usarlo y —lo más valioso— **cuándo NO usarlo
-> y sus trade-offs**. Clickeá cualquier `[[patrón]]` para abrir su nota. Empezá
-> por el modelo mental y la lista de alta frecuencia.
->
-> Las notas viven en `patterns/`. Las frases acá son solo el resumen de una línea.
+> Es el índice (MOC) del dominio **System Design**: patrones de diseño de sistemas agrupados por tema. Empezá por la sección que te interese y bajá. Los **subtemas con carpeta propia** (📁) tienen su propio MOC — abrilo para el detalle. Abrí esta nota, no la carpeta.
 
-> [!tip] Modelo mental para decidir qué patrón aplicar
-> - **¿Cómo fluyen los datos?** → patrones de Comunicación
-> - **¿Cómo se almacenan?** → patrones de Almacenamiento
-> - **¿Cómo se accede rápido?** → patrones de Caching
-> - **¿Cómo sobrevive a fallas?** → patrones de Confiabilidad
-> - **¿Cómo escala?** → patrones de Escalado
+## 🌐 Comunicación y API
 
-## ⭐ Alta frecuencia (los 15 que más caen)
+- **[[_API Design|API Design]]** 📁 — subtema con carpeta propia (`API Design/`): cómo diseñar las interfaces que exponen los servicios. REST, HTTP methods/status, versioning, BFF, rate limiting + [[_Pagination|Pagination]]. Abrí su MOC.
+- **[[_Service Mesh|Service Mesh]]** 📁 — subtema con carpeta propia (`Service Mesh/`): cómo se gestiona el tráfico *este-oeste* (servicio↔servicio) en microservicios. Fundamento [[North-South vs East-West Traffic]], mecanismos ([[Sidecar]], [[Data Plane vs Control Plane]]), capacidades ([[Mutual TLS]], [[Service Discovery]], [[Traffic Management]]) e implementaciones ([[Istio]]/[[Linkerd]]/[[Cilium]]/[[Envoy]]). Abrí su MOC.
+- [[API Gateway]] — punto de entrada único (tráfico norte-sur): rutea, autentica, limita y transforma.
+- [[Reverse Proxy]] — intermediario que recibe requests y los reenvía a backends.
+- [[Message Queue]] — desacoplar productores y consumidores con una cola intermedia.
+- [[Pub-Sub]] — publicar eventos a múltiples suscriptores sin acoplarlos.
+- [[Request-Response]] — el modelo síncrono clásico cliente↔servidor.
+- [[Webhooks]] — notificaciones HTTP salientes ante un evento.
+- [[Server-Sent Events]] — stream unidireccional servidor→cliente sobre HTTP.
+- [[Bidirectional Streaming]] — canal full-duplex (ej. gRPC/WebSocket) entre cliente y servidor.
 
-Los más pedidos en entrevistas, según la fuente: [[Primary-Replica]],
-[[Sharding]], [[Consistent Hashing]], [[Cache-Aside]],
-[[Cache Stampede Prevention]], [[Message Queue]], [[Pub-Sub|Pub/Sub]],
-[[Circuit Breaker]], [[Retry with Backoff]], [[Idempotency]],
-[[Horizontal Scaling]], [[Load Balancing]], [[Auto-Scaling]], [[API Gateway]],
-[[Rate Limiting]].
+## 📨 Eventos y procesamiento de datos
 
-## 💾 Almacenamiento
+- [[Event-Driven Architecture]] — sistemas que reaccionan a eventos en vez de llamadas directas.
+- [[Event Sourcing]] — guardar el estado como una secuencia de eventos, no como snapshot.
+- [[CQRS]] — separar el modelo de escritura del de lectura.
+- [[Stream Processing]] — procesar datos en flujo continuo (no por lotes).
+- [[Lambda Architecture]] — combinar capa batch + capa de streaming.
+- [[MapReduce]] — procesar datasets grandes en map + reduce paralelizable.
+- [[Saga]] — transacciones distribuidas como pasos compensables.
+- [[Two-Phase Commit]] — coordinar un commit atómico entre varios nodos.
+- [[Dead Letter Queue]] — adónde van los mensajes que no se pudieron procesar.
 
-- [[Primary-Replica]] — un primario toma todas las escrituras; las réplicas
-  copian y sirven lecturas. Si cae el primario, una réplica lo reemplaza.
-- [[Sharding]] — los datos se reparten entre varios servidores; una *shard key*
-  decide qué servidor guarda qué.
-- [[Consistent Hashing]] — agregar/quitar un servidor solo remapea una fracción
-  de las claves; servidores y claves viven en un anillo virtual.
-- [[Write-Ahead Log]] — toda operación se escribe primero en un log secuencial;
-  ante un crash, se reproduce el log para recuperar.
-- [[Event Sourcing]] — en vez del estado actual, se guarda la secuencia de
-  eventos; el estado se deriva reproduciéndolos.
-- [[CQRS]] — separar el modelo de escritura (consistencia) del de lectura
-  (consultas rápidas), incluso en bases distintas.
+## 💾 Almacenamiento y datos
+
+- [[Sharding]] — partir los datos horizontalmente entre varios nodos.
+- [[Consistent Hashing]] — repartir claves entre nodos minimizando el reshuffle al escalar.
+- [[Primary-Replica]] — un primario para escrituras, réplicas para lecturas.
+- [[Quorum]] — leer/escribir con mayoría para consistencia en sistemas distribuidos.
+- [[Vector Clocks]] — ordenar eventos y detectar conflictos en sistemas distribuidos.
+- [[Write-Ahead Log]] — registrar la intención antes de aplicar el cambio (durabilidad).
+- [[Distributed Lock]] — coordinar acceso exclusivo a un recurso entre procesos.
 
 ## ⚡ Caching
 
-- [[Cache-Aside]] — mirar la cache primero; si falla, leer de la base, devolver y
-  poblar la cache.
-- [[Write-Through]] — cada escritura va a cache y base a la vez; la cache siempre
-  está al día.
-- [[Write-Behind]] — escribir a la cache primero; la cache vuelca a la base en
-  lotes asíncronos (escrituras rápidas).
-- [[Read-Through]] — la cache misma carga de la base en un miss; la app solo
-  habla con la cache.
-- [[Cache Stampede Prevention]] — evitar que, al expirar una entrada popular,
-  miles de requests peguen a la base a la vez (coalescing, expiración
-  probabilística, locks).
-
-## 📡 Comunicación
-
-- [[Request-Response]] — el cliente pide y espera la respuesta; el patrón más
-  simple (REST, gRPC).
-- [[Message Queue]] — el productor encola un mensaje; el consumidor lo procesa a
-  su ritmo sin que el productor espere.
-- [[Pub-Sub|Pub/Sub]] — el publisher emite a un *topic*; varios subscribers reciben cada
-  mensaje (a diferencia de una cola, donde cada mensaje va a uno solo).
-- [[Event-Driven Architecture]] — los servicios se comunican emitiendo y
-  reaccionando a eventos, no con llamadas directas.
-- [[Webhooks]] — en vez de hacer *polling*, el servidor empuja eventos a una URL
-  que el cliente proveyó.
-- [[Server-Sent Events]] — push unidireccional servidor→cliente sobre una
-  conexión HTTP larga.
-- [[Bidirectional Streaming]] — conexión persistente donde ambos lados mandan
-  mensajes cuando quieren (WebSockets, gRPC bidireccional).
-
-## 🛡️ Confiabilidad
-
-- [[Circuit Breaker]] — si un servicio downstream falla repetido, dejar de
-  llamarlo y devolver un fallback; reintentar recuperación cada tanto.
-- [[Retry with Backoff]] — ante una falla, reintentar con demoras crecientes
-  (1s, 2s, 4s…) + *jitter* para evitar estampidas.
-- [[Bulkhead]] — aislar cargas en pools de recursos separados, para que una no
-  agote los recursos de las otras.
-- [[Timeout]] — fijar una duración máxima para llamadas externas; abortar y
-  devolver error/fallback si se excede.
-- **[[_Idempotency|Idempotency]]** 📁 — subtema con carpeta propia (`idempotency/`): diseñar operaciones para que ejecutarlas N veces dé el mismo resultado que ejecutarlas una. El concepto es [[Idempotency]]; la carpeta tiene la [[Idempotency Key|key]] y la [[Idempotency Architecture|arquitectura del servidor]]. Abrí su MOC.
-- [[Dead Letter Queue]] — si un mensaje no se puede procesar tras varios
-  reintentos, moverlo a una cola aparte en vez de bloquear la principal.
-- [[Graceful Degradation]] — si fallan componentes no críticos, seguir sirviendo
-  una experiencia degradada pero funcional.
+- [[Cache-Aside]] — la app consulta caché y, si falla, va a la DB y la puebla.
+- [[Read-Through]] — la caché misma carga el dato de la DB en un miss.
+- [[Write-Through]] — escribir a caché y DB en sincronía.
+- [[Write-Behind]] — escribir a caché y diferir la escritura a la DB.
+- [[Cache Stampede Prevention]] — evitar que muchas requests reconstruyan la misma entrada a la vez.
+- [[Content Delivery Network]] — cachear contenido cerca del usuario geográficamente.
+- [[Connection Pooling]] — reutilizar conexiones a la DB en vez de abrir una por request.
 
 ## 📈 Escalado
 
-- [[Horizontal Scaling]] — agregar más máquinas; 10 servidores aguantan ~10× el
-  tráfico de uno.
-- [[Vertical Scaling]] — pasar a una máquina más potente (más CPU/RAM/disco).
-- [[Load Balancing]] — repartir requests entre servidores (round-robin, least
-  connections, weighted, IP hash).
-- [[Auto-Scaling]] — agregar/quitar instancias según el tráfico (sube si la CPU
-  pasa un umbral, baja si cae).
-- [[Connection Pooling]] — reutilizar un pool de conexiones a la base en vez de
-  abrir una por request.
+- [[Horizontal Scaling]] — agregar más instancias.
+- [[Vertical Scaling]] — agrandar la instancia.
+- [[Auto-Scaling]] — ajustar la capacidad automáticamente según la carga.
+- [[Load Balancing]] — repartir el tráfico entre instancias.
+- **[[_Serverless|Serverless]]** 📁 — subtema con carpeta propia (`Serverless/`): scaling-to-zero, cold/warm start, AWS Lambda, IaC. Abrí su MOC.
 
-## 🔄 Procesamiento de datos
+## 🛡️ Confiabilidad y resiliencia
 
-- [[MapReduce]] — partir un dataset grande entre máquinas (map), procesar
-  independiente, combinar (reduce). La base del batch.
-- [[Stream Processing]] — procesar evento por evento al llegar, con latencia
-  sub-segundo (Kafka Streams, Flink, Spark Streaming).
-- [[Lambda Architecture]] — correr batch (preciso, lento) y stream (aproximado,
-  rápido) en paralelo; una capa de serving fusiona ambos.
-- [[Change Data Capture]] — capturar cambios de la base (insert/update/delete)
-  como stream de eventos al que otros se suscriben.
+- [[Circuit Breaker]] — dejar de llamar a un servicio no-sano para evitar fallos en cascada.
+- [[Retry with Backoff]] — reintentar con espera creciente.
+- [[Timeout]] — cortar una operación que tarda demasiado.
+- [[Bulkhead]] — aislar recursos para que una falla no hunda todo el sistema.
+- [[Graceful Degradation]] — seguir funcionando con capacidades reducidas ante una falla.
+- [[Health Check]] — sondear si una instancia está viva/sana.
+- [[Canary Deployment]] — liberar a un % chico antes del rollout completo.
+- **[[_Idempotency|Idempotency]]** 📁 — subtema con carpeta propia (`Idempotency/`): operaciones seguras de repetir (idempotency key, arquitectura). Abrí su MOC.
 
-## 🔌 API
+## 🔭 Observabilidad
 
-- **[[_API Design|API Design]]** 📁 — subtema con carpeta propia (`api-design/`): cómo diseñar las interfaces de los servicios. Incluye [[API Gateway]], [[Backend for Frontend]], [[Rate Limiting]], [[API Versioning]] y el sub-subtema [[_Pagination|Pagination]] (Offset/Cursor/Keyset). Abrí su MOC.
+- [[Distributed Tracing]] — seguir un request a través de múltiples servicios.
 
-## 🏗️ Infraestructura
+## 🔗 Conexión con el resto del vault
 
-- **[[_Serverless|Serverless]]** 📁 — subtema con carpeta propia (`serverless/`): ejecutar código sin gestionar servidores físicos. Incluye [[Serverless]] (fundamentos), [[Scaling to Zero]], [[Cold Start]]/[[Warm Start]], [[AWS Lambda]], [[Stateless]] e [[Infrastructure as Code]]. Abrí su MOC.
-- [[Content Delivery Network]] — distribuir contenido estático a *edge servers*
-  globales; sirve desde el más cercano, bajando latencia.
-- [[Reverse Proxy]] — servidor entre clientes y backends que hace SSL
-  termination, compresión, cache y ruteo.
-- [[Service Mesh]] — capa dedicada para comunicación servicio-a-servicio donde un
-  *sidecar* maneja LB, retries, circuit breaking, mTLS y observabilidad.
-- [[Sidecar]] — desplegar un proceso ayudante junto al servicio principal para
-  *cross-cutting concerns* sin tocar el código del servicio.
+- Volvé al [[_Home|Home]] para los otros dominios y los dashboards vivos.
+- Cruza con **IA** ([[_AI|AI]]): muchos sistemas LLM (RAG, agentes, MLOps) reusan estos patrones de comunicación, caching, escalado y resiliencia.
 
-## ✅ Consistencia
+## 🔍 Todas las notas del dominio (auto)
 
-- [[Two-Phase Commit]] — protocolo de transacción atómica entre participantes:
-  fase 1 pregunta "¿podés commitear?"; fase 2 commitea si todos dijeron que sí.
-- [[Saga]] — secuencia de transacciones locales; si un paso falla, transacciones
-  *compensatorias* deshacen los anteriores.
-- [[Quorum]] — con N réplicas, exigir W para escribir y R para leer con W + R > N,
-  garantizando que las lecturas vean la última escritura.
-- [[Vector Clocks]] — rastrear causalidad con un vector de timestamps lógicos por
-  nodo, para ordenar eventos o detectar concurrencia.
-- [[Distributed Lock]] — garantizar que solo un thread manipule un recurso a la vez (unique constraint); resuelve race conditions. Clave en la [[Idempotency Architecture|arquitectura idempotente]].
-
-## 👁️ Observabilidad
-
-- [[Health Check]] — cada servicio expone `/health`; LBs y orquestadores lo
-  consultan para saber si está vivo y listo.
-- [[Distributed Tracing]] — seguir un request por varios servicios; cada uno
-  agrega un *span* con timestamp, mostrando el camino y los cuellos de botella.
-- [[Canary Deployment]] — desplegar la versión nueva a un subconjunto chico,
-  rutear 1-5% del tráfico, monitorear y aumentar gradual o hacer rollback.
-
-## 🔗 Conexión con otros dominios
-
-Estos patrones se cruzan con el mapa de [[_RAG|RAG]]:
-
-- [[Change Data Capture]] — su nota vive en `ai/rag/` (donde apareció primero),
-  cubre tanto la ingesta de RAG como el patrón general de datos.
-- [[Server-Sent Events]] — el streaming de la respuesta del [[Enterprise RAG Assistant]].
-
-Todos los 50 patrones tienen nota completa con trade-offs. La próxima vez que un
-artículo aporte más profundidad sobre uno, su nota se enriquece (no se duplica).
+```dataview
+LIST
+FROM "System Design"
+WHERE file.name != this.file.name AND !contains(file.tags, "type/moc")
+SORT file.path ASC
+```

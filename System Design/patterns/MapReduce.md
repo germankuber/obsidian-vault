@@ -11,41 +11,33 @@ tags:
 aliases:
   - MapReduce
   - mapreduce
+updated: 2026-06-11
 ---
 
 # MapReduce
 
 > [!note] Definition
-> Partir un dataset enorme entre muchas máquinas (fase **map**), cada una procesa
-> su parte independiente, y combinar los resultados (fase **reduce**). Es la base
-> del procesamiento **batch** de datos a gran escala.
+> Partir un dataset enorme entre muchas máquinas (fase **map**), cada una procesa su parte independiente, y combinar los resultados (fase **reduce**). Es la base del procesamiento **batch** de datos a gran escala.
 
 ## Cómo funciona
 
 - **Map**: cada nodo aplica una función a su porción y emite pares clave-valor.
-- **Shuffle**: el framework agrupa los valores por clave y los manda al reducer
-  correspondiente.
+- **Shuffle**: el framework agrupa los valores por clave y los manda al reducer correspondiente.
 - **Reduce**: cada reducer agrega los valores de una clave en el resultado final.
 
-El framework (Hadoop, etc.) maneja la distribución, los reintentos y la
-tolerancia a fallas. El modelo escala horizontalmente sumando nodos.
+El framework (Hadoop, etc.) maneja la distribución, los reintentos y la tolerancia a fallas. El modelo escala horizontalmente sumando nodos.
 
 ## Cuándo usarlo
 
 > [!tip]
-> Para procesar **volúmenes masivos** de datos en batch donde la latencia no
-> importa: indexado, agregaciones históricas, ETL nocturno, log analytics. El
-> problema debe descomponerse en map + reduce.
+> Para procesar **volúmenes masivos** de datos en batch donde la latencia no importa: indexado, agregaciones históricas, ETL nocturno, log analytics. El problema debe descomponerse en map + reduce.
 
 ## Cuándo NO usarlo / trade-offs
 
 > [!warning]
-> - **Alta latencia**: es batch — los resultados tardan minutos u horas. Para
->   datos en vivo, [[Stream Processing]].
-> - **No todo encaja en map/reduce**: algoritmos iterativos (grafos, ML) son
->   torpes en este modelo; herramientas como Spark los hacen mejor.
-> - **Overhead de IO**: la escritura a disco entre fases (en Hadoop clásico) es
->   lenta — motores en memoria la evitan.
+> - **Alta latencia**: es batch — los resultados tardan minutos u horas. Para datos en vivo, [[Stream Processing]].
+> - **No todo encaja en map/reduce**: algoritmos iterativos (grafos, ML) son torpes en este modelo; herramientas como Spark los hacen mejor.
+> - **Overhead de IO**: la escritura a disco entre fases (en Hadoop clásico) es lenta — motores en memoria la evitan.
 > - Para datasets que entran en una máquina, es over-engineering.
 
 ## Patrones relacionados / alternativas

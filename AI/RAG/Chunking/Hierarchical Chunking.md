@@ -12,25 +12,20 @@ aliases:
   - Hierarchical Chunking
   - hierarchical-chunking
   - Parent-Child Chunking
+updated: 2026-06-11
 ---
 
 # Hierarchical Chunking
 
 > [!note] Definition
-> Trocear un documento en dos niveles: chunks **hijos** pequeños para la búsqueda
-> semántica, y chunks **padres** más grandes para darle contexto al LLM. Se busca
-> con los chicos pero se le entrega al modelo el bloque grande que los contiene.
+> Trocear un documento en dos niveles: chunks **hijos** pequeños para la búsqueda semántica, y chunks **padres** más grandes para darle contexto al LLM. Se busca con los chicos pero se le entrega al modelo el bloque grande que los contiene.
 
 ## La tensión que resuelve
 
-- Chunks **chicos** (~256 tokens) → mejores para *recuperar*: el embedding es
-  más enfocado y la similitud más precisa.
-- Chunks **grandes** (~1024 tokens) → mejores para *generar*: preservan el
-  contexto alrededor de la frase relevante, evitando respuestas mutiladas.
+- Chunks **chicos** (~256 tokens) → mejores para *recuperar*: el embedding es más enfocado y la similitud más precisa.
+- Chunks **grandes** (~1024 tokens) → mejores para *generar*: preservan el contexto alrededor de la frase relevante, evitando respuestas mutiladas.
 
-La jerarquía permite tener ambos: la búsqueda matchea el hijo de 256 tokens, pero
-al LLM se le pasa el padre de 1024 que lo envuelve. Así se gana precisión de
-recuperación sin sacrificar contexto.
+La jerarquía permite tener ambos: la búsqueda matchea el hijo de 256 tokens, pero al LLM se le pasa el padre de 1024 que lo envuelve. Así se gana precisión de recuperación sin sacrificar contexto.
 
 ## References
 

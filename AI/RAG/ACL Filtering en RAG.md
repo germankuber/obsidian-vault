@@ -14,28 +14,19 @@ aliases:
   - acl-filtering
   - Single-Stage Filtering
   - Permission Filtering RAG
+updated: 2026-06-11
 ---
 
 # ACL Filtering en RAG
 
 > [!note] Definition
-> Hacer cumplir los permisos (Access Control List) **dentro de la consulta a la
-> base vectorial**, en una sola etapa, de modo que la recuperación solo devuelva
-> chunks que el usuario tiene derecho a ver. Es la "regla de oro" de un RAG
-> empresarial: un usuario nunca debe recibir una respuesta derivada de un
-> documento prohibido.
+> Hacer cumplir los permisos (Access Control List) **dentro de la consulta a la base vectorial**, en una sola etapa, de modo que la recuperación solo devuelva chunks que el usuario tiene derecho a ver. Es la "regla de oro" de un RAG empresarial: un usuario nunca debe recibir una respuesta derivada de un documento prohibido.
 
 ## Por qué en una sola etapa
 
-La tentación ingenua es recuperar los mejores K chunks por relevancia y *después*
-filtrar los que el usuario no puede ver. Eso es **post-filtrado** y es malo: si
-recuperás 100 y 99 son inaccesibles, te queda 1 resultado (o ninguno) y
-desperdiciaste el trabajo. Peor: invita a fugas si el filtro se olvida en algún
-camino.
+La tentación ingenua es recuperar los mejores K chunks por relevancia y *después* filtrar los que el usuario no puede ver. Eso es **post-filtrado** y es malo: si recuperás 100 y 99 son inaccesibles, te queda 1 resultado (o ninguno) y desperdiciaste el trabajo. Peor: invita a fugas si el filtro se olvida en algún camino.
 
-El **filtrado en una sola etapa** mete el permiso como predicado de la propia
-búsqueda: la base vectorial solo considera candidatos accesibles desde el
-principio.
+El **filtrado en una sola etapa** mete el permiso como predicado de la propia búsqueda: la base vectorial solo considera candidatos accesibles desde el principio.
 
 ## Cómo se implementa
 
@@ -50,13 +41,10 @@ Cada vector lleva metadata de permisos junto al contenido:
 }
 ```
 
-En la consulta se pasa la identidad y los grupos del usuario, y la base filtra por
-`allowed_users`/`allowed_groups` **antes** de rankear por similitud.
+En la consulta se pasa la identidad y los grupos del usuario, y la base filtra por `allowed_users`/`allowed_groups` **antes** de rankear por similitud.
 
 > [!warning]
-> La firma ACL del usuario también debe formar parte de la clave de cualquier
-> [[Redis Cache]] de respuestas: si no, dos usuarios con permisos distintos
-> podrían compartir una respuesta cacheada y filtrarse información.
+> La firma ACL del usuario también debe formar parte de la clave de cualquier [[Redis Cache]] de respuestas: si no, dos usuarios con permisos distintos podrían compartir una respuesta cacheada y filtrarse información.
 
 ## References
 

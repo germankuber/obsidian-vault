@@ -11,14 +11,13 @@ tags:
 aliases:
   - Paragraph-Based Chunking
   - paragraph-based-chunking
+updated: 2026-06-11
 ---
 
 # Paragraph-Based Chunking
 
 > [!note] Definición
-> Partir en límites de **párrafo** (doble salto de línea o marcadores) y acumular
-> párrafos hasta el límite de tamaño. Si un solo párrafo ya excede el máximo, cae
-> a [[Sentence-Based Chunking|corte por oraciones]]. La **mejor coherencia** del set.
+> Partir en límites de **párrafo** (doble salto de línea o marcadores) y acumular párrafos hasta el límite de tamaño. Si un solo párrafo ya excede el máximo, cae a [[Sentence-Based Chunking|corte por oraciones]]. La **mejor coherencia** del set.
 
 ## Cómo funciona
 
@@ -47,9 +46,7 @@ for para in paragraphs:
 ```
 
 **Por qué funciona**
-- El párrafo es una unidad semántica **diseñada deliberadamente por el autor**
-  para expresar una idea/argumento completo. Respetarlo mantiene su estructura e
-  intención → los chunks más coherentes.
+- El párrafo es una unidad semántica **diseñada deliberadamente por el autor** para expresar una idea/argumento completo. Respetarlo mantiene su estructura e intención → los chunks más coherentes.
 
 ## Números
 
@@ -69,11 +66,9 @@ for para in paragraphs:
 
 > [!warning]
 > - Formatos sin párrafos claros (código, listas, tablas, chat logs).
-> - Documentos con saltos de párrafo inconsistentes o ausentes (PDFs mal
->   extraídos, transcripciones).
+> - Documentos con saltos de párrafo inconsistentes o ausentes (PDFs mal extraídos, transcripciones).
 > - Documentos muy cortos.
-> - Párrafos muy desiguales → chunks de tamaño irregular. Para formatos mixtos o
->   sin estructura confiable, [[Recursive Character Splitting]].
+> - Párrafos muy desiguales → chunks de tamaño irregular. Para formatos mixtos o sin estructura confiable, [[Recursive Character Splitting]].
 
 ## References
 

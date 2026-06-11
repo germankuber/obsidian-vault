@@ -12,38 +12,29 @@ aliases:
   - Auto-Scaling
   - auto-scaling
   - Autoscaling
+updated: 2026-06-11
 ---
 
 # Auto-Scaling
 
 > [!note] Definition
-> Agregar o quitar instancias **automáticamente** según el tráfico: suma cuando
-> la CPU (u otra métrica) supera un umbral, resta cuando el tráfico baja.
+> Agregar o quitar instancias **automáticamente** según el tráfico: suma cuando la CPU (u otra métrica) supera un umbral, resta cuando el tráfico baja.
 
 ## Cómo funciona
 
-Un controlador observa métricas (CPU, memoria, requests/s, largo de cola) y
-ajusta el número de instancias contra políticas definidas. Sobre
-[[Horizontal Scaling]] + [[Load Balancing]]: las instancias nuevas entran a la
-rotación del balanceador automáticamente. Ahorra costo (pagás por lo que usás) y
-absorbe picos.
+Un controlador observa métricas (CPU, memoria, requests/s, largo de cola) y ajusta el número de instancias contra políticas definidas. Sobre [[Horizontal Scaling]] + [[Load Balancing]]: las instancias nuevas entran a la rotación del balanceador automáticamente. Ahorra costo (pagás por lo que usás) y absorbe picos.
 
 ## Cuándo usarlo
 
 > [!tip]
-> Cuando el tráfico es **variable o impredecible**: picos diarios, campañas,
-> estacionalidad. En la nube es casi default para servicios stateless.
+> Cuando el tráfico es **variable o impredecible**: picos diarios, campañas, estacionalidad. En la nube es casi default para servicios stateless.
 
 ## Cuándo NO usarlo / trade-offs
 
 > [!warning]
-> - **El arranque no es instantáneo**: bootear una instancia lleva segundos o
->   minutos; ante un pico súbito llegás tarde. Mitigás con *pre-warming* o
->   escalado predictivo.
-> - **Flapping**: umbrales mal puestos hacen subir/bajar instancias sin parar
->   (caro e inestable) → hace falta *cooldown* e histéresis.
-> - **El cuello puede no ser la app**: si escalás la app pero la base no aguanta,
->   solo trasladás el problema ([[Sharding]], [[Connection Pooling]]).
+> - **El arranque no es instantáneo**: bootear una instancia lleva segundos o minutos; ante un pico súbito llegás tarde. Mitigás con *pre-warming* o escalado predictivo.
+> - **Flapping**: umbrales mal puestos hacen subir/bajar instancias sin parar (caro e inestable) → hace falta *cooldown* e histéresis.
+> - **El cuello puede no ser la app**: si escalás la app pero la base no aguanta, solo trasladás el problema ([[Sharding]], [[Connection Pooling]]).
 > - Requiere instancias **stateless** y arranque rápido.
 
 ## Patrones relacionados / alternativas

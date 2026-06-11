@@ -8,7 +8,7 @@ tags:
 aliases:
   - API Design MOC
   - API Design Index
-updated: 2026-06-10
+updated: 2026-06-11
 ---
 
 # API Design — Mapa del tema
@@ -25,7 +25,7 @@ updated: 2026-06-10
 
 ## 🚪 Entrada y ruteo
 
-- [[API Gateway]] — punto de entrada único que rutea, autentica, limita y transforma requests antes del backend.
+- [[API Gateway]] — punto de entrada único que rutea, autentica, limita y transforma requests antes del backend. Maneja el tráfico *norte-sur*; ver su contraparte *este-oeste* [[_Service Mesh|Service Mesh]] y la distinción [[North-South vs East-West Traffic]].
 - [[Backend for Frontend]] — una capa de API por tipo de cliente (móvil liviano, web más rico).
 
 ## 🛡️ Control de tráfico

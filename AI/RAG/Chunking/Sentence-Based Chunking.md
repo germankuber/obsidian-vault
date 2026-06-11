@@ -11,20 +11,18 @@ tags:
 aliases:
   - Sentence-Based Chunking
   - sentence-based-chunking
+updated: 2026-06-11
 ---
 
 # Sentence-Based Chunking
 
 > [!note] Definición
-> Detectar límites de **oración** y acumular oraciones completas hasta llegar al
-> límite de tokens; ahí se cierra el chunk y empieza otro. Nunca corta a mitad de
-> oración.
+> Detectar límites de **oración** y acumular oraciones completas hasta llegar al límite de tokens; ahí se cierra el chunk y empieza otro. Nunca corta a mitad de oración.
 
 ## Cómo funciona
 
 - Detecta oraciones con un tokenizer de NLP.
-- Acumula oraciones llevando la cuenta de tokens; al superar `max_chunk_size`,
-  cierra el chunk y resetea.
+- Acumula oraciones llevando la cuenta de tokens; al superar `max_chunk_size`, cierra el chunk y resetea.
 - **Tamaño adaptativo**: un chunk puede ir de 1 oración a muchas, hasta el límite.
 
 ```python
@@ -48,15 +46,13 @@ if current_chunk:
 ```
 
 **Por qué funciona**
-- La oración es una **unidad semántica completa** (un pensamiento). Respetar su
-  límite preserva significado; cortarla lo destruye.
+- La oración es una **unidad semántica completa** (un pensamiento). Respetar su límite preserva significado; cortarla lo destruye.
 
 **Librería**: NLTK `punkt` (`nltk.sent_tokenize`).
 
 ## Números
 
-- Velocidad: `O(n)` + overhead de detección de oraciones (rápida en la mayoría
-  de idiomas).
+- Velocidad: `O(n)` + overhead de detección de oraciones (rápida en la mayoría de idiomas).
 - Retrieval: **71-75% MRR@10** (+9-13% vs token-based).
 - Coherencia: **0.78/1.0** (+27 puntos vs token-based) — salto enorme.
 
@@ -73,8 +69,7 @@ if current_chunk:
 > - Contenido muy formateado (código, tablas, listas) → no hay "oraciones".
 > - Documentos sin límites claros de oración.
 > - Documentos muy cortos (tweets, títulos, labels).
-> - Pierde el contexto de **párrafo**: oraciones relacionadas pueden caer en
->   chunks distintos → si eso importa, [[Paragraph-Based Chunking]].
+> - Pierde el contexto de **párrafo**: oraciones relacionadas pueden caer en chunks distintos → si eso importa, [[Paragraph-Based Chunking]].
 
 ## References
 

@@ -12,42 +12,30 @@ aliases:
   - Load Balancing
   - load-balancing
   - Load Balancer
+updated: 2026-06-11
 ---
 
 # Load Balancing
 
 > [!note] Definition
-> Distribuir los requests entrantes entre varios servidores usando algoritmos
-> como *round-robin*, *least connections*, *weighted* o *IP hash*. Es lo que hace
-> posible el [[Horizontal Scaling]].
+> Distribuir los requests entrantes entre varios servidores usando algoritmos como *round-robin*, *least connections*, *weighted* o *IP hash*. Es lo que hace posible el [[Horizontal Scaling]].
 
 ## Cómo funciona
 
-El balanceador es la puerta de entrada: recibe el tráfico y elige a qué instancia
-mandarlo. Hace *health checks* ([[Health Check]]) para no rutear a instancias
-caídas. Algoritmos: round-robin (rota parejo), least-connections (al menos
-ocupado), weighted (según capacidad), IP hash (mismo cliente → misma instancia,
-para sticky sessions).
+El balanceador es la puerta de entrada: recibe el tráfico y elige a qué instancia mandarlo. Hace *health checks* ([[Health Check]]) para no rutear a instancias caídas. Algoritmos: round-robin (rota parejo), least-connections (al menos ocupado), weighted (según capacidad), IP hash (mismo cliente → misma instancia, para sticky sessions).
 
 ## Cuándo usarlo
 
 > [!tip]
-> Siempre que tengas **más de una instancia** de un servicio. Reparte carga, da
-> alta disponibilidad (saca de rotación lo que falla) y permite despliegues sin
-> downtime ([[Canary Deployment]]).
+> Siempre que tengas **más de una instancia** de un servicio. Reparte carga, da alta disponibilidad (saca de rotación lo que falla) y permite despliegues sin downtime ([[Canary Deployment]]).
 
 ## Cuándo NO usarlo / trade-offs
 
 > [!warning]
-> - **Puede ser un punto único de falla**: si el LB cae, cae todo → necesitás LBs
->   redundantes.
-> - **Sticky sessions complican el balanceo**: si las instancias guardan estado de
->   sesión, atás cada cliente a una instancia y perdés reparto parejo (mejor:
->   hacer las instancias stateless).
-> - **Health checks mal calibrados**: muy laxos rutean a instancias muertas; muy
->   agresivos sacan instancias sanas.
-> - Capa 4 (TCP) vs capa 7 (HTTP) es una decisión con trade-offs de features vs
->   rendimiento.
+> - **Puede ser un punto único de falla**: si el LB cae, cae todo → necesitás LBs redundantes.
+> - **Sticky sessions complican el balanceo**: si las instancias guardan estado de sesión, atás cada cliente a una instancia y perdés reparto parejo (mejor: hacer las instancias stateless).
+> - **Health checks mal calibrados**: muy laxos rutean a instancias muertas; muy agresivos sacan instancias sanas.
+> - Capa 4 (TCP) vs capa 7 (HTTP) es una decisión con trade-offs de features vs rendimiento.
 
 ## Patrones relacionados / alternativas
 

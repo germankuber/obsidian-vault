@@ -11,43 +11,34 @@ tags:
 aliases:
   - Vector Clocks
   - vector-clocks
+updated: 2026-06-11
 ---
 
 # Vector Clocks
 
 > [!note] Definition
-> Rastrear la **causalidad** en un sistema distribuido manteniendo un vector de
-> timestamps lógicos (uno por nodo). Comparando vectores se identifica si un
-> evento ocurrió antes que otro, o si fueron **concurrentes**.
+> Rastrear la **causalidad** en un sistema distribuido manteniendo un vector de timestamps lógicos (uno por nodo). Comparando vectores se identifica si un evento ocurrió antes que otro, o si fueron **concurrentes**.
 
 ## Cómo funciona
 
-Cada nodo mantiene un contador por cada nodo del sistema. Al hacer un evento,
-incrementa su propio contador; al recibir un mensaje, toma el máximo elemento a
-elemento y luego incrementa el suyo. Comparando dos vectores:
+Cada nodo mantiene un contador por cada nodo del sistema. Al hacer un evento, incrementa su propio contador; al recibir un mensaje, toma el máximo elemento a elemento y luego incrementa el suyo. Comparando dos vectores:
 - Si uno es ≤ el otro en todos los componentes → hay orden causal.
 - Si ninguno domina → eventos **concurrentes** (posible conflicto).
 
-No usan tiempo de reloj físico (que no es confiable entre máquinas), sino orden
-lógico.
+No usan tiempo de reloj físico (que no es confiable entre máquinas), sino orden lógico.
 
 ## Cuándo usarlo
 
 > [!tip]
-> En almacenes distribuidos sin líder (estilo Dynamo) para **detectar conflictos**
-> entre versiones de un mismo dato escritas en réplicas distintas, y decidir cuál
-> gana o si hay que mergear.
+> En almacenes distribuidos sin líder (estilo Dynamo) para **detectar conflictos** entre versiones de un mismo dato escritas en réplicas distintas, y decidir cuál gana o si hay que mergear.
 
 ## Cuándo NO usarlo / trade-offs
 
 > [!warning]
-> - **El vector crece con la cantidad de nodos**: en sistemas con muchos
->   escritores, los vectores se vuelven grandes (overhead de almacenamiento y red).
-> - **Detectan conflictos pero no los resuelven**: la lógica de merge (qué hacer
->   con dos versiones concurrentes) queda a cargo de la aplicación.
+> - **El vector crece con la cantidad de nodos**: en sistemas con muchos escritores, los vectores se vuelven grandes (overhead de almacenamiento y red).
+> - **Detectan conflictos pero no los resuelven**: la lógica de merge (qué hacer con dos versiones concurrentes) queda a cargo de la aplicación.
 > - **Complejo de implementar y razonar.**
-> - Si tenés un líder único ([[Primary-Replica]]) que ordena las escrituras, no
->   hacen falta.
+> - Si tenés un líder único ([[Primary-Replica]]) que ordena las escrituras, no hacen falta.
 
 ## Patrones relacionados / alternativas
 

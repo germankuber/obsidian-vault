@@ -11,36 +11,29 @@ tags:
 aliases:
   - Request-Response
   - request-response
+updated: 2026-06-11
 ---
 
 # Request-Response
 
 > [!note] Definition
-> El cliente manda un request y **espera** la respuesta antes de seguir. Es el
-> patrón de comunicación más simple — el de REST y gRPC unario.
+> El cliente manda un request y **espera** la respuesta antes de seguir. Es el patrón de comunicación más simple — el de REST y gRPC unario.
 
 ## Cómo funciona
 
-Comunicación síncrona y bloqueante (desde la perspectiva lógica): un request, una
-respuesta, correlacionados uno a uno. El cliente conoce el contrato y sabe qué
-esperar de vuelta.
+Comunicación síncrona y bloqueante (desde la perspectiva lógica): un request, una respuesta, correlacionados uno a uno. El cliente conoce el contrato y sabe qué esperar de vuelta.
 
 ## Cuándo usarlo
 
 > [!tip]
-> El **default** cuando el cliente necesita el resultado para continuar: leer un
-> dato, validar, ejecutar un comando y confirmar. Simple de razonar, fácil de
-> debuggear.
+> El **default** cuando el cliente necesita el resultado para continuar: leer un dato, validar, ejecutar un comando y confirmar. Simple de razonar, fácil de debuggear.
 
 ## Cuándo NO usarlo / trade-offs
 
 > [!warning]
-> - **Acopla temporalmente**: el cliente queda esperando; si el servidor está
->   lento o caído, el cliente sufre (de ahí [[Timeout]] y [[Circuit Breaker]]).
-> - **No sirve para trabajo lento o desacoplado**: subir un video, procesar un
->   batch. Para eso, [[Message Queue]].
-> - **No escala a fan-out**: un evento que interesa a muchos consumidores no
->   encaja — ahí va [[Pub-Sub|Pub/Sub]].
+> - **Acopla temporalmente**: el cliente queda esperando; si el servidor está lento o caído, el cliente sufre (de ahí [[Timeout]] y [[Circuit Breaker]]).
+> - **No sirve para trabajo lento o desacoplado**: subir un video, procesar un batch. Para eso, [[Message Queue]].
+> - **No escala a fan-out**: un evento que interesa a muchos consumidores no encaja — ahí va [[Pub-Sub|Pub/Sub]].
 
 ## Patrones relacionados / alternativas
 
