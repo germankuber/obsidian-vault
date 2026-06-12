@@ -5,5 +5,6 @@
   "obsidian-local-rest-api",
   "dataview",
   "update-time-on-edit",
-  "folder-notes"
+  "folder-notes",
+  "obsidian-git"
 ]

@@ -1,5 +1,5 @@
 ---
-title: "03 - The Spectrum of LLM Adaptation for Agents - RAG to Fine-tuning"
+title: 03 - The Spectrum of LLM Adaptation for Agents - RAG to Fine-tuning
 libro: Agentic Architectural Patterns for Building Multi-Agent Systems
 autor: Ali Arsanjani
 capitulo: 3
@@ -11,8 +11,9 @@ tags:
 aliases:
   - The Spectrum of LLM Adaptation for Agents - RAG to Fine-tuning
   - The Spectrum of LLM Adaptation for Agents
+updated: 2026-06-12
 ---
-
+ 
 # 03 - The Spectrum of LLM Adaptation for Agents - RAG to Fine-tuning
 
 > [!info] Capítulo 3 · *Agentic Architectural Patterns for Building Multi-Agent Systems* — Ali Arsanjani

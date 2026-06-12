@@ -15,6 +15,8 @@ updated: 2026-06-11
 
 # Agentic Architectural Patterns for Building Multi-Agent Systems — Mapa del libro
 
+<p align="center"><img src="assets/_cover.jpg" width="300"></p>
+
 > [!info] Ali Arsanjani
 > Mapa de lectura de *Agentic Architectural Patterns for Building Multi-Agent Systems*. Abrí esta nota para la tesis del libro, el índice de capítulos y las ideas que cruzan toda la obra. Empezá por la tesis y bajá.
 

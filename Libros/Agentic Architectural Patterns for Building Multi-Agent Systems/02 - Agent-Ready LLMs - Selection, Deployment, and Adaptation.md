@@ -1,5 +1,5 @@
 ---
-title: "02 - Agent-Ready LLMs - Selection, Deployment, and Adaptation"
+title: 02 - Agent-Ready LLMs - Selection, Deployment, and Adaptation
 libro: Agentic Architectural Patterns for Building Multi-Agent Systems
 autor: Ali Arsanjani
 capitulo: 2
@@ -11,6 +11,7 @@ tags:
 aliases:
   - Agent-Ready LLMs - Selection, Deployment, and Adaptation
   - Agent-Ready LLMs
+updated: 2026-06-12
 ---
 
 # 02 - Agent-Ready LLMs - Selection, Deployment, and Adaptation
@@ -40,7 +41,7 @@ El LLM es la tecnología predominante para dotar a los agentes de capacidades co
 
 La elección del framework (de un ReAct directo a uno con self-reflection o exploración multi-path) depende de la complejidad de la tarea y el nivel deseado de autonomía e inteligencia.
 
-![[02-fig-2.1.png]]
+![[02-fig-2.1.png|487]]
 *Figura 2.1 – The LLM as the central reasoning core of an AI agent*
 
 ### Ciclo de planning LLM-driven para loan processing (Tabla 2.1)
@@ -174,8 +175,6 @@ Críticos para sistemas production-grade trustworthy. **Robustness** = mantener 
 - **Data privacy y security** — no-negociable. Con APIs de terceros, entender políticas de manejo de data (dónde se procesa, cómo se almacena). Con modelos self-hosted, la responsabilidad recae en la org (infra, access controls, protocolos para proteger weights y data).
 - **Explainability features (XAI)** — cada vez más importante para agentes en decision-making que requiere transparencia/auditabilidad. Insights sobre *por qué* el LLM generó un output o tomó una decisión (ej. qué tool llamar); cruciales para debugging, fairness, compliance y confianza.
 
-(La **Tabla 2.4** consolida las 11 dimensiones — context window, model size/especialización, capabilities/reasoning, native tool use/function calling, robustness/reliability, safety/security, adaptability/fine-tuning, cost, licensing/ToS, provider support/ecosistema, data privacy/security, explainability/XAI.)
-
 ## Deployment y optimización de performance
 
 Elegida la fundación, sigue el deployment y asegurar performance óptima. Un LLM que potencia un agente (sobre todo interactivo) tiene demandas estrictas; performance lenta, no confiable o insegura puede arruinar un agente bien diseñado.
@@ -227,7 +226,7 @@ Agentes que disparan acciones vía tools introducen vulnerabilidades únicas:
 
 Práctica operativa especializada que extiende **MLOps** y **LLMOps** para los desafíos únicos de gestionar agentes. Aunque AgentOps abarca todo el agente (tools, memoria, lógica de interacción), una parte significativa se enfoca en la **governance operativa del LLM core**.
 
-![[02-fig-2.2.png]]
+![[02-fig-2.2.png|279]]
 *Figura 2.2 – AgentOps sequence*
 
 **Monitoreo continuo de la performance del LLM** (más allá de métricas genéricas, con indicadores agent-specific):
@@ -252,16 +251,16 @@ Práctica operativa especializada que extiende **MLOps** y **LLMOps** para los d
 
 ### Áreas y actividades de AgentOps (Tabla 2.6)
 
-| Área AgentOps | Foco / actividades | Ejemplos / métricas clave |
-|---|---|---|
-| Performance monitoring | Trackear efectividad y eficiencia del LLM en el contexto operativo del agente | Task success rate, tool use accuracy, response quality (relevancia/coherencia/helpfulness), latency (P50/P99), inference cost, token usage, drift detection (concept y data drift). |
-| Logging y traceability | Capturar info detallada del flujo de ejecución y la participación del LLM para debugging/análisis | Loguear inputs del LLM, reasoning steps (chain-of-thought), function calls y parámetros, tool responses, outputs finales, context snapshots. |
-| Version control | Gestionar cambios a prompts, configs de modelo y definiciones de tools como artefactos versionados | Versionar prompts, system messages, settings del LLM (temperature/top-k), tool schemas, configs de workflow. Repos Git para prompt engineering. |
-| Experimentación y A/B testing | Evaluar sistemáticamente distintos LLMs, prompts o configs para optimizar | Frameworks para testear nuevas versiones, variaciones de prompt, toolsets distintos, tuning de parámetros; medir impacto en task success, satisfacción o métricas operativas. |
-| Feedback y mejora continua | Mecanismos para recolectar y usar feedback de performance en refinamiento iterativo | User ratings/feedback, señales implícitas (completion, escalaciones), evaluaciones de revisores humanos; refinar prompts, re-tuning, mejorar lógica de tools. |
-| Security y compliance monitoring | Vigilancia continua de amenazas y adherencia a políticas/ética | Monitorear prompt injection, patrones de invocación de tools inusuales, violaciones de content policy, breaches de data privacy; compliance regulatorio y ético. |
-| Tooling y plataformas | Aprovechar herramientas especializadas | LLMOps/MLOps (Vertex AI, LangSmith, Arize AI, WhyLabs, ClearML, Weights & Biases) para monitoring, tracing, experiment tracking, versioning, data validation. |
-| Dashboarding y alerting | Visualizar métricas clave y configurar alertas de anomalías/degradación | Dashboards de operational health (latency/throughput/errors), task performance (success rates/quality), drift, security alerts, resource utilization. |
+| Área AgentOps                    | Foco / actividades                                                                                 | Ejemplos / métricas clave                                                                                                                                                           |
+| -------------------------------- | -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Performance monitoring           | Trackear efectividad y eficiencia del LLM en el contexto operativo del agente                      | Task success rate, tool use accuracy, response quality (relevancia/coherencia/helpfulness), latency (P50/P99), inference cost, token usage, drift detection (concept y data drift). |
+| Logging y traceability           | Capturar info detallada del flujo de ejecución y la participación del LLM para debugging/análisis  | Loguear inputs del LLM, reasoning steps (chain-of-thought), function calls y parámetros, tool responses, outputs finales, context snapshots.                                        |
+| Version control                  | Gestionar cambios a prompts, configs de modelo y definiciones de tools como artefactos versionados | Versionar prompts, system messages, settings del LLM (temperature/top-k), tool schemas, configs de workflow. Repos Git para prompt engineering.                                     |
+| Experimentación y A/B testing    | Evaluar sistemáticamente distintos LLMs, prompts o configs para optimizar                          | Frameworks para testear nuevas versiones, variaciones de prompt, toolsets distintos, tuning de parámetros; medir impacto en task success, satisfacción o métricas operativas.       |
+| Feedback y mejora continua       | Mecanismos para recolectar y usar feedback de performance en refinamiento iterativo                | User ratings/feedback, señales implícitas (completion, escalaciones), evaluaciones de revisores humanos; refinar prompts, re-tuning, mejorar lógica de tools.                       |
+| Security y compliance monitoring | Vigilancia continua de amenazas y adherencia a políticas/ética                                     | Monitorear prompt injection, patrones de invocación de tools inusuales, violaciones de content policy, breaches de data privacy; compliance regulatorio y ético.                    |
+| Tooling y plataformas            | Aprovechar herramientas especializadas                                                             | LLMOps/MLOps (Vertex AI, LangSmith, Arize AI, WhyLabs, ClearML, Weights & Biases) para monitoring, tracing, experiment tracking, versioning, data validation.                       |
+| Dashboarding y alerting          | Visualizar métricas clave y configurar alertas de anomalías/degradación                            | Dashboards de operational health (latency/throughput/errors), task performance (success rates/quality), drift, security alerts, resource utilization.                               |
 
 ## Citas
 

@@ -10,6 +10,7 @@ tags:
 aliases:
   - Ground Truth
   - Verdad de Referencia
+updated: 2026-06-11
 ---
 
 # Ground Truth
@@ -21,6 +22,7 @@ aliases:
 
 - Surge del [[Error Analysis]] manual: tras el [[Open Coding]] y el [[Axial Coding]], se **mapea cada categoría de error de vuelta a cada conversación**, etiquetando fila por fila. Para esto se puede usar un LLM, pero la base son las observaciones humanas.
 - Ese etiquetado **es** el ground truth: el output esperado y validado por humanos, contra el que después se mide el judge.
+- La **validación** de que ese ground truth es consistente (inter-annotator agreement, Cohen's Kappa) y los splits Train/Dev/Test que lo consumen viven en [[Judge Validation]].
 
 ## Para qué sirve
 
@@ -36,5 +38,6 @@ aliases:
 ## Related
 
 - [[LLM as Judge]]
+- [[Judge Validation]]
 - [[Error Analysis]]
 - [[Evals]]

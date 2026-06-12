@@ -12,6 +12,7 @@ aliases:
   - LLM Judge
   - LLM-as-a-Judge
   - Juez LLM
+updated: 2026-06-11
 ---
 
 # LLM as Judge
@@ -19,10 +20,37 @@ aliases:
 > [!note] Definición
 > Usar un **LLM para evaluar automáticamente** cada output de tu sistema según un eval definido, comparando su veredicto contra el [[Ground Truth]] humano. Es la pieza que **escala** el [[Error Analysis]] manual a todo el dataset. Forma parte del flujo de [[Evals]].
 
+## 7-Step LLM Judge Workflow
+
+> [!tip] El pipeline completo (Om Bharatiya)
+> 1. **Generar traces.**
+> 2. **Etiquetar** un subset (150-200) como PASS/FAIL — manual (más preciso) o con un LLM potente.
+> 3. **Split Train/Dev/Test** estratificado 15/40/45 (ver [[Judge Validation]]).
+> 4. **Desarrollar el judge prompt** con few-shot examples del Train.
+> 5. **Validar en Dev** — iterar mirando TPR/TNR (ver [[Judge Metrics]]).
+> 6. **Evaluación final en Test** — UNA sola vez, métricas no sesgadas.
+> 7. **Correr en todos los traces + corregir el bias** con [[judgy]] (`temperature=0`, `concurrency=20`). Ejemplo: raw pass rate sobre 1000 traces = 84.4%.
+
 ## Diseño del judge
 
 > [!tip] Preferí respuestas binarias (TRUE/FALSE), no Likert
 > Decisión de diseño clave del artículo: **no** usar una escala Likert ni un score 1–5. Se busca una respuesta **binaria** — ¿este output se libera al cliente o no? TRUE o FALSE. Es más simple y accionable, y te fuerza a decidir claramente (algo difícil con un "3.5/5" ambiguo).
+> La alternativa descartada es la [[Likert Scale]].
+
+## Técnicas del judge prompt
+
+- **Explanation-Before-Verdict** — la técnica **más impactante**: si el `label` va primero, la explicación es racionalización post-hoc; si el **razonamiento va primero**, el modelo delibera de verdad. Poné `explanation` antes que `label` en el output JSON.
+- **Estructura del prompt (4 partes):** (1) rol + definiciones de dominio (ej: las 16 definiciones dietéticas, ver [[Code-Based Evaluators]]); (2) criterios claros PASS/FAIL (considerar ingredientes Y métodos de cocción); (3) **few-shot examples** del Train; (4) output format JSON.
+- **Few-Shot Examples** — incluí **1 Pass claro + 1 Fail claro + 1 borderline**, cada uno con su razonamiento. No los copies de otro producto: escribilos para el tuyo.
+- **Binary Scores** (ya cubierto arriba) — refuerzo: límite claro → **menos validación** que una escala. Con 1-5 no sabés la diferencia entre 2 y 3, es 5× más trabajo validar, y las decisiones de negocio son binarias igual.
+- **Judge Temperature:** clasificación binaria **0.0** · Likert 1-5 **0.0-0.3** · critiques diversas **0.5-0.7** · brainstorming de failure modes **0.7-1.0**. **Para evaluar siempre 0.0.**
+
+> [!warning] Judge Biases (guardarse contra ellos)
+> - **Leniency** (default a Pass) → agregar fail examples; instruir *"when in doubt, FAIL"*.
+> - **Verbosity** (favorece respuestas largas) → ejemplos donde una respuesta corta pasa y una larga falla.
+> - **Position** (favorece primer/último) → randomizar el orden.
+> - **Sycophancy** (acuerda con texto confiado) → ejemplos donde el texto confiado está mal.
+> - **Anchoring** (se deja llevar por la primera evidencia) → instruir considerar TODA la evidencia.
 
 ## Ejemplo de judge prompt (verbatim del artículo)
 
@@ -58,7 +86,7 @@ stated in column B in this spreadsheet. Return only "TRUE" or "FALSE."
 ## Cuándo NO es la herramienta correcta
 
 > [!warning] Punto de partida, no bala de plata
-> El LLM judge necesita iteración, refinamiento y **calibración continua**, y depende de qué evals necesites. Según el producto, puede que requieras un enfoque totalmente distinto. Alternativas/complementos a investigar: [[Guardrails]] y [[Code Assertion-Based Evals]].
+> El LLM judge necesita iteración, refinamiento y **calibración continua**, y depende de qué evals necesites. Según el producto, puede que requieras un enfoque totalmente distinto. Alternativas/complementos a investigar: [[Guardrails]] y [[Code-Based Evaluators|Code Assertion-Based Evals]].
 
 ## Conexión en el vault
 
@@ -75,3 +103,8 @@ stated in column B in this spreadsheet. Return only "TRUE" or "FALSE."
 - [[Error Analysis]]
 - [[Grounded Eval Harness]]
 - [[Generator-Evaluator Pattern]]
+- [[Judge Validation]]
+- [[Judge Metrics]]
+- [[judgy]]
+- [[Code-Based Evaluators]]
+- [[Likert Scale]]

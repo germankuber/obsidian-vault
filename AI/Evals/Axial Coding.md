@@ -11,6 +11,7 @@ aliases:
   - Axial Coding
   - Axial Codes
   - Codificación Axial
+updated: 2026-06-11
 ---
 
 # Axial Coding
@@ -23,6 +24,7 @@ aliases:
 - Segundo paso del [[Error Analysis]], después del [[Open Coding]].
 - Aquí **sí podés usar un LLM**: en el caso del artículo, se usó Claude para leer todas las anotaciones de open coding y **sugerir un set de categorías conjuntas** (axial codes).
 - El resultado alimenta un **heatmap de errores** que muestra dónde se concentran los issues más frecuentes e impactantes → guía qué evals construir primero. En el ejemplo, las categorías derivadas fueron *Unfriendly Response*, *Missing Human Handoff* y *Not helpful*.
+- **Método (de la sociología / qualitative research):** el LLM descubre **4-6 failure modes nombrados** (cada label corto, ≤2 palabras, patrón distinto, aplicable a múltiples traces) y se **cuenta la frecuencia** de cada uno (`value_counts()`). Eso alimenta la priorización por [[Error Analysis#Frequency × Severity Prioritization|frecuencia × severidad]]. Cada label es un [[Error Analysis#Failure Mode|failure mode]].
 
 ## Por qué importa
 

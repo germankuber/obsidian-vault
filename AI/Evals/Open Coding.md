@@ -11,6 +11,7 @@ aliases:
   - Open Coding
   - Open Codes
   - Codificación Abierta
+updated: 2026-06-11
 ---
 
 # Open Coding
@@ -23,6 +24,7 @@ aliases:
 - Es el primer paso del [[Error Analysis]]: leés las conversaciones usuario↔sistema y vas dejando notas sobre los errores observados.
 - Las etiquetas son **libres y granulares** — no agrupás todavía, solo registrás lo que ves. La agrupación viene después con [[Axial Coding]].
 - Término tomado de la **qualitative research** (investigación cualitativa).
+- **Ritmo (versión de Om Bharatiya):** se revisan ~100 traces a **~30 seg/trace**, tomando notas **freeform sin categorías todavía** (las categorías llegan en [[Axial Coding]]). Reglas: no intentes atrapar todo, no debatas cada trace, salteá el system prompt si es siempre igual, entrá en flow. Tiempos: primer trace 45s → tras 10 traces 25s → tras 50 traces 20s → **total ~45 min para 100 traces**.
 
 ## Por qué importa
 

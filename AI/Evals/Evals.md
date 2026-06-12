@@ -13,13 +13,25 @@ aliases:
   - Evaluaciones
   - LLM Evals
   - LLM Evaluation
-updated: 2026-06-10
+updated: 2026-06-11
 ---
 
 # Evals
 
 > [!note] Definición
 > Tests que miden **sistemáticamente si un sistema de IA/LLM se comporta como se espera** y dónde se queda corto. No prueban que el sistema sea perfecto; **reducen la ignorancia** sobre cómo se comporta — y eso ya es una mejora seria.
+
+## Las tres verdades centrales
+
+> [!note] The Three Core Truths
+> 1. **No podés mejorar lo que no medís** — las métricas genéricas ("helpfulness score") no detectan problemas específicos; necesitás evals específicas de tu aplicación.
+> 2. **El [[Error Analysis]] es el paso MÁS importante** — más que los LLM judges, más que el tooling de observabilidad.
+> 3. **PMs y QAs DEBEN ser dueños del error analysis**, no solo los ingenieros: es product work disfrazado de trabajo técnico.
+
+Un eval también funciona como **unit test para sistemas no-deterministas**: igual que un unit test fija el comportamiento esperado de una función, un eval fija el comportamiento esperado de un sistema de IA cuyo output varía.
+
+> [!tip] El ciclo de desarrollo de IA ES el método científico
+> **Observe** (trace, ver [[Eval Observability]]) → **Hypothesize** ([[Error Analysis]]) → **Experiment** (construir evaluadores: [[Code-Based Evaluators]], [[LLM as Judge]]) → **Measure** (métricas + corregir bias con [[judgy]], ver [[Judge Metrics]]) → **Iterate** (cerrar el loop, ver [[Eval Lifecycle]]).
 
 ## Por qué hacen falta: determinístico vs probabilístico
 
@@ -61,7 +73,7 @@ El flujo completo (detalle en cada nota atómica):
 ## Más allá del LLM judge
 
 > [!warning] El LLM judge es un punto de partida, no una bala de plata
-> Según el producto, podés necesitar un set de evals totalmente distinto donde un LLM judge **no sea** el enfoque correcto. El artículo recomienda leer sobre [[Guardrails]] y [[Code Assertion-Based Evals]] como alternativas/complementos.
+> Según el producto, podés necesitar un set de evals totalmente distinto donde un LLM judge **no sea** el enfoque correcto. El artículo recomienda leer sobre [[Guardrails]] y [[Code-Based Evaluators|Code Assertion-Based Evals]] como alternativas/complementos.
 
 ## Conexión en el vault
 
@@ -69,6 +81,7 @@ El flujo completo (detalle en cada nota atómica):
 - Cruza con [[Hallucinations]] y [[Grounding]] (qué se evalúa) en [[_AI Fundamentals|AI Fundamentals]].
 - En MLOps, los evals son las métricas del [[Three-Tier Evaluation Pipeline]] y el problema de [[Offline vs Business Metrics]] (un eval offline puede no predecir el resultado de negocio).
 - Para retrieval, las métricas concretas viven en [[Reranking Metrics]] (NDCG, MRR, Precision@k).
+- Esta guía amplía el tema con el set completo de Om Bharatiya: validación del judge ([[Judge Validation]], [[Judge Metrics]], [[judgy]]), evals en código y safety ([[Code-Based Evaluators]], [[Guardrails]]), evals compuestas ([[RAG Evaluation]], [[Pipeline and Multi-Turn Evaluation]]) y operación ([[Eval Lifecycle]], [[Eval Observability]], [[Common Eval Mistakes]]).
 
 ## References
 
@@ -88,3 +101,13 @@ El flujo completo (detalle en cada nota atómica):
 - [[Hallucinations]]
 - [[Three-Tier Evaluation Pipeline]]
 - [[Reranking Metrics]]
+- [[Judge Validation]]
+- [[Judge Metrics]]
+- [[judgy]]
+- [[Code-Based Evaluators]]
+- [[Guardrails]]
+- [[RAG Evaluation]]
+- [[Pipeline and Multi-Turn Evaluation]]
+- [[Eval Lifecycle]]
+- [[Eval Observability]]
+- [[Common Eval Mistakes]]

@@ -102,7 +102,7 @@ El diagrama ilustra una arquitectura agéntica con múltiples agentes colaborand
 
 El agente opera en un **loop continuo**: sensa el entorno → razona sobre la situación usando su memoria y LLM core → planifica la próxima acción hacia sus goals → actúa sobre el entorno → sensa los resultados (feedback loop) para actualizar su memoria e informar los ciclos siguientes. Esto permite adaptación y aprendizaje en el tiempo.
 
-![[01-fig-1.2.png]]
+![[01-fig-1.2.png|696]]
 *Figura 1.2 – The agentic loop*
 
 **Data stores y environment context**:

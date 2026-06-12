@@ -10,7 +10,7 @@ aliases:
   - AI Agents MOC
   - Agentes de IA
   - Agent Harness MOC
-updated: 2026-06-10
+updated: 2026-06-11
 ---
 
 # AI Agents — Mapa del tema
@@ -53,6 +53,13 @@ updated: 2026-06-10
 - [[Tool Calling]] — el modelo propone una llamada a una herramienta; el sistema la valida y ejecuta. "El modelo pide; el sistema decide."
 - [[Function Calling]] — la versión estructurada: argumentos que matchean un schema. "Schema primero, ejecución después."
 
+## 🔌 Interoperabilidad / Protocolos
+
+- [[MCP]] — **Model Context Protocol**: protocolo cliente-servidor JSON-RPC 2.0 para que el agente obtenga contexto (tools/datos/prompts) de servers externos. *Layer 2 del stack agéntico (vertical, intra-org); la contraparte horizontal es [[A2A]].*
+- [[MCP Primitives]] — los 7 primitivos: tools · resources · prompts (server) + sampling · elicitation · logging (client) + tasks (experimental).
+- [[MCP Transports]] — STDIO (local) vs Streamable HTTP (remoto, SSE + OAuth).
+- [[MCP Lifecycle]] — handshake `initialize`, capability negotiation y notifications event-driven.
+
 ## 👥 Escala y governance
 
 - [[Multi-User Agent Design]] — per-user isolation, namespaced memory, tamper-evident audit logs; *"harness governance is an org-design problem"*.
@@ -62,6 +69,7 @@ updated: 2026-06-10
 Conceptos ya enlazados desde las notas de arriba pero que todavía no tienen nota propia — candidatos a promover cuando un próximo artículo aporte material:
 
 - [[SWE-bench]] — benchmark de coding (60%+ Verified, mayo 2026).
+- [[A2A]] — Agent-to-Agent protocol (Google → Linux Foundation): la capa **horizontal** agente↔agente, contraparte de [[MCP]] (ya resuelto). Muy referenciada desde los libros; candidata a promover.
 - [[Prompt Injection]] · [[Vector Database]] (este último ya enlazado desde [[AI Framework]]).
 
 Conceptos relacionados que ya tienen nota en otros subdominios: [[Grounding]], [[Hallucinations]], [[Evals]] (en `AI/fundamentals`) · [[RLHF]] (en `AI/fundamentals`, "análogo" al loop de feedback del harness).
