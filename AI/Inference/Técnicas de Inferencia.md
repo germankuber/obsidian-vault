@@ -18,7 +18,7 @@ aliases:
   - Disaggregation
   - Prefill-Decode Disaggregation
 reading:
-  total_words: 788
+  total_words: 917
   read_words: 0
   pct: 0
   last_read: ""
@@ -62,6 +62,8 @@ Las tres familias:
 
 - Evita recomputar el prefill de la parte compartida → prefill más rápido y barato.
 - Los proveedores **cobran menos por los input tokens cacheados**.
+- A nivel de implementación, el reuso es **por bloque**: con [[PagedAttention]] los prompts que comparten prefijo apuntan a los **mismos bloques físicos** del caché (copy-on-write de los bloques compartidos), y recién se copia un bloque cuando una secuencia diverge.
+- **Variantes**: **vLLM** identifica el prefijo compartido por **content-hash** de los bloques; **SGLang** usa **RadixAttention** (un **radix tree** de prefijos con desalojo **LRU**), que logra **mejor hit rate cuando los prefijos forman un árbol** — típico en agentes y en conversaciones ramificadas, no solo un único system prompt lineal.
 
 > [!warning] Trade-off / catch
 > El ahorro vale **solo hasta el primer token que NO coincide**. Si el **primer token ya difiere**, el ahorro es **CERO**.
@@ -118,6 +120,8 @@ Ver [[Quantization]] — comprimir la precisión de los pesos acelera **prefill 
 
 > [!warning] Trade-off
 > Es la opción más compleja de operar (mover la KV cache por red, dos pools de hardware), pero se vuelve **casi obligatoria a gran escala**.
+
+- **Números (DistServe)**: separar los pools de prefill y decode rinde **4.48× más requests** o **10.2× más ajuste de SLO**. La forma distribuida y los otros patrones de caché entre nodos se desarrollan en [[Distributed KV Cache#Patrón (a) Disaggregation (DistServe)]].
 
 ## Referencias
 

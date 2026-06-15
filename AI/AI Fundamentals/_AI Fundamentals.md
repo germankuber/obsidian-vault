@@ -32,7 +32,7 @@ updated: 2026-06-15
 Fundamentos transversales que sostienen el sub-dominio **[[_Inference|Inference]]** (`AI/Inference/`):
 
 - [[Tokens]] — la unidad atómica que procesa un LLM (≈ palabra o fragmento de palabra).
-- [[KV Cache]] — valores intermedios de atención que se producen en prefill y se reusan en decode.
+- [[KV Cache]] — valores intermedios de atención (prefill→decode) y **hub de la evolución del manejo de memoria del serving de LLMs** (6 eras: naive → PagedAttention → heterogéneo → distribuido → unificado).
 - [[Quantization]] — comprimir la precisión de los pesos (16→8/4-bit) para acelerar ambas fases de inferencia.
 
 ## 🌱 Por escribir (semillas del grafo)

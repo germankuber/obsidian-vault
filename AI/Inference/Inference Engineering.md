@@ -16,6 +16,7 @@ reading:
   read_words: 0
   pct: 0
   last_read: ""
+updated: 2026-06-15
 ---
 
 # Inference Engineering
@@ -72,7 +73,7 @@ La decisión de construir tu propio stack de inferencia o comprar una API cerrad
 - [[Prefill-Decode Split]]
 - [[Técnicas de Inferencia]]
 - [[Tokens]]
-- [[KV Cache]]
+- [[KV Cache]] — incluye la evolución del manejo de memoria (PagedAttention → distribuido → unificado)
 - [[Quantization]]
 - [[DeepSeek V3]]
 - [[Cursor Composer 2.0|Composer 2.0]]
