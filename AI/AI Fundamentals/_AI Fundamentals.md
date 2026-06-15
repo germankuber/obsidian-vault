@@ -9,7 +9,7 @@ aliases:
   - AI Fundamentals
   - AI Fundamentals MOC
   - Fundamentos de IA
-updated: 2026-06-10
+updated: 2026-06-15
 ---
 
 # AI Fundamentals — Mapa del tema
@@ -27,12 +27,20 @@ updated: 2026-06-10
 - [[Grounding]] — atar la respuesta a evidencia verificable; la principal defensa contra las alucinaciones.
 - **[[_Evals|Evals]]** 📁 — la evaluación de sistemas IA/LLM creció a sub-dominio propio (`AI/Evals/`): error analysis bottom-up, LLM-as-Judge, ground truth. Abrí su MOC.
 
+## 🧱 Conceptos base de inferencia
+
+Fundamentos transversales que sostienen el sub-dominio **[[_Inference|Inference]]** (`AI/Inference/`):
+
+- [[Tokens]] — la unidad atómica que procesa un LLM (≈ palabra o fragmento de palabra).
+- [[KV Cache]] — valores intermedios de atención que se producen en prefill y se reusan en decode.
+- [[Quantization]] — comprimir la precisión de los pesos (16→8/4-bit) para acelerar ambas fases de inferencia.
+
 ## 🌱 Por escribir (semillas del grafo)
 
 Conceptos base que aún no tienen nota propia — candidatos a promover cuando un artículo aporte material (varios vienen del pendiente "25 AI Concepts"):
 
-- [[Tokens]] · [[Attention]] · [[Transformers]] · [[Embeddings]] · [[Context Window]]
-- [[Fine-tuning]] · [[LoRA]] · [[Quantization]] · [[Distillation]] · [[Inference]]
+- [[Attention]] · [[Transformers]] · [[Embeddings]] · [[Context Window]]
+- [[Fine-tuning]] · [[LoRA]] · [[Distillation]] · [[Mixture-of-Experts]]
 - [[Prompting]] · [[Context Engineering]]
 
 ## 🔍 Todas las notas de esta carpeta (auto)

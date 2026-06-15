@@ -8,6 +8,7 @@ aliases:
   - AI
   - AI MOC
   - Inteligencia Artificial
+updated: 2026-06-15
 ---
 
 # AI — Mapa del tema
@@ -22,6 +23,7 @@ aliases:
 - **[[_MLOps|MLOps]]** 📁 (`AI/MLOps/`) — operacionalización de ML y la evolución hacia AutoMLOps: madurez, métricas, pipelines de evaluación.
 - **[[_GNN|GNN]]** 📁 (`AI/GNN/`) — graph neural networks e interpretabilidad: qué mira realmente una GNN, métodos de explicación.
 - **[[_Evals|Evals]]** 📁 (`AI/Evals/`) — evaluación de sistemas LLM: error analysis, open/axial coding, LLM-as-judge, ground truth.
+- **[[_Inference|Inference]]** 📁 (`AI/Inference/`) — inference engineering: servir LLMs rápido, barato y confiable. El split prefill/decode, las seis técnicas (batching, prefix caching, quantization, speculative decoding, parallelism, disaggregation) y self-hosting vs APIs cerradas.
 - **[[_AI Fundamentals|AI Fundamentals]]** 📁 (`AI/AI Fundamentals/`) — los conceptos transversales que cruzan todos los sub-dominios.
 
 ## 🔗 Conexión con el resto del vault
