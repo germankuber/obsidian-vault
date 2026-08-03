@@ -9,6 +9,7 @@ aliases:
   - Semantic Web
   - Web Semántica
   - Semantic Web MOC
+updated: 2026-08-03
 ---
 
 # 🕸️ Semantic Web — MOC
@@ -36,6 +37,7 @@ De ahí sale un stack de capas acumulativas, donde cada una se apoya en la anter
 ## 📝 Notas
 
 - [[SPARQL]] — el lenguaje de consulta: pattern matching sobre grafos, property paths, tests ejecutables.
+- [[competency questions]] — el instrumento que ancla todo proyecto de ontología: requisitos, alcance y tests de aceptación en un solo artefacto.
 
 > [!note] Dominio en construcción. Los conceptos del stack —[[RDF]], [[RDFS]], [[OWL]], [[SKOS]], [[SHACL]], [[Knowledge graph]]— están sembrados como enlaces sin resolver desde las notas de [[_Ontology Engineering|Ontology Engineering]] y son los próximos candidatos a nota propia.
 

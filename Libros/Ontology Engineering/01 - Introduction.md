@@ -88,7 +88,7 @@ El capítulo insiste en anclar la decisión en casos de uso concretos, porque un
 
 Todos esos motivadores comparten un problema: son demasiado vagos para guiar el modelado. *"Integrar datos"* no dice qué clases hacen falta. El capítulo introduce acá el instrumento que resuelve esa vaguedad y que va a reaparecer en cada decisión del libro.
 
-> [!note] **Definición.** Una **[[competency question]]** es una pregunta concreta, formulada en lenguaje natural y en el vocabulario del negocio, que la ontología debe poder responder una vez construida. No es una pregunta sobre la ontología ("¿cuántas clases tiene?") sino una pregunta **del dominio** que el sistema tendrá que contestar: *"¿qué medicamentos están contraindicados para un paciente con insuficiencia renal?"*, *"¿qué empleados tienen la certificación para operar este equipo?"*, *"¿qué pólizas cubren este siniestro en esta jurisdicción?"*.
+> [!note] **Definición.** Una **[[competency questions|competency question]]** es una pregunta concreta, formulada en lenguaje natural y en el vocabulario del negocio, que la ontología debe poder responder una vez construida. No es una pregunta sobre la ontología ("¿cuántas clases tiene?") sino una pregunta **del dominio** que el sistema tendrá que contestar: *"¿qué medicamentos están contraindicados para un paciente con insuficiencia renal?"*, *"¿qué empleados tienen la certificación para operar este equipo?"*, *"¿qué pólizas cubren este siniestro en esta jurisdicción?"*.
 
 Lo que las hace el instrumento central del libro es que cumplen **tres funciones a la vez**, que normalmente vivirían en documentos separados y desincronizados:
 

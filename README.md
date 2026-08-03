@@ -8,7 +8,7 @@ Base de conocimiento personal sobre **IA**, **System Design** y lectura técnica
 
 No es una carpeta de apuntes sueltos: es un grafo navegable donde cada nota es atómica, está enlazada con las demás por `[[wikilinks]]`, y cuelga de un **MOC** (Map of Content) que le da contexto. La idea es que el conocimiento se descubra navegando, no buscando.
 
-**255 notas** · **5 dominios** · **24 MOCs** · **5 libros técnicos resumidos capítulo por capítulo**
+**256 notas** · **5 dominios** · **24 MOCs** · **5 libros técnicos resumidos capítulo por capítulo**
 
 ---
 
@@ -19,7 +19,7 @@ No es una carpeta de apuntes sueltos: es un grafo navegable donde cada nota es a
 | **[AI](AI/)** | 102 | Agents · RAG · MLOps · GNN · Evals · Inference · Fundamentals |
 | **[System Design](System%20Design/)** | 82 | Patrones de arquitectura, tecnologías, preparación de entrevistas |
 | **[Libros](Libros/)** | 65 | Notas de lectura por capítulo, un MOC por libro |
-| **[Semantic Web](Semantic%20Web/)** | 2 | RDF · OWL · SKOS · SPARQL · SHACL — el stack de representación de conocimiento |
+| **[Semantic Web](Semantic%20Web/)** | 3 | RDF · OWL · SKOS · SPARQL · SHACL — el stack de representación de conocimiento |
 | **wiki** | — | Espacio de trabajo y notas en curso |
 
 El punto de entrada real del vault es **[`_Home.md`](_Home.md)** — desde ahí se llega a todos los dominios y a los dashboards vivos.
