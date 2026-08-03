@@ -37,10 +37,11 @@ De ahí sale un stack de capas acumulativas, donde cada una se apoya en la anter
 ## 📝 Notas
 
 - [[SPARQL]] — el lenguaje de consulta: pattern matching sobre grafos, property paths, tests ejecutables.
+- [[OWL]] — el lenguaje de ontologías: axiomas lógicos, clases definidas, razonamiento automático, perfiles EL/QL/RL/DL.
 - [[SHACL]] — validación estructural de grafos: shapes, restricciones, informe de validación. La contraparte de mundo cerrado de OWL.
 - [[competency questions]] — el instrumento que ancla todo proyecto de ontología: requisitos, alcance y tests de aceptación en un solo artefacto.
 
-> [!note] Dominio en construcción. Los conceptos que faltan —[[RDF]], [[RDFS]], [[OWL]], [[SKOS]], [[Knowledge graph]]— están sembrados como enlaces sin resolver desde las notas de [[_Ontology Engineering|Ontology Engineering]] y son los próximos candidatos a nota propia.
+> [!note] Dominio en construcción. Los conceptos que faltan —[[RDF]], [[RDFS]], [[SKOS]], [[Knowledge graph]], [[Description Logic]]— están sembrados como enlaces sin resolver desde las notas de [[_Ontology Engineering|Ontology Engineering]] y son los próximos candidatos a nota propia.
 
 ## 🔗 Conexiones con otros dominios
 
