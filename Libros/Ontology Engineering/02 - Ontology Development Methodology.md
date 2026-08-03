@@ -108,9 +108,66 @@ Las técnicas que funcionan:
 - **Confrontar casos borde** — *"¿esto también cuenta como X?"* es la pregunta que descubre dónde están las fronteras reales de un concepto y dónde el experto mismo no tenía una respuesta consolidada.
 - **Devolver el modelo en lenguaje natural** — mostrarle al experto lo que el modelo *dice*, parafraseado, en lugar de mostrarle axiomas que no puede leer.
 
-> [!warning] **Validar afirmaciones no alcanza: hay que validar consecuencias.** Este es el punto más importante de toda la sección. El experto revisa lo que el ontologista escribió y dice "sí, es correcto" — pero un conjunto de axiomas correctos individualmente puede tener consecuencias lógicas que el experto jamás habría aceptado. Declarar dos clases como disjuntas es una afirmación inocente que **prohíbe** una categoría de instancias; si en el dominio real esas instancias existen, el modelo acaba de divergir del mundo sin que nadie lo note. Mostrale al experto lo que el **razonador infiere**, no solo lo que vos escribiste.
+### Validar afirmaciones no alcanza: hay que validar consecuencias
 
-> [!tip] Un ciclo de validación efectivo: poblá la ontología con instancias reales del dominio, corré el razonador, y llevale al experto las clasificaciones inferidas. *"El sistema dedujo que este caso es de tipo X — ¿es correcto?"* Esa pregunta detecta errores de modelado que ninguna revisión de axiomas detecta.
+Es el punto más importante de toda la sección, y el más contraintuitivo. La validación normal —mostrarle al experto lo que escribiste y que confirme— **no detecta la clase de error más peligrosa**.
+
+El motivo es estructural: en una ontología los axiomas **se combinan**. El experto revisa cada afirmación por separado, todas le parecen correctas, y ninguno de los dos ve que juntas implican algo que él jamás habría aceptado. Nadie afirmó lo falso; lo falso **se dedujo**.
+
+#### El caso: una ontología de seguros
+
+El ontologista trabaja con un experto en pólizas. Recoge tres afirmaciones, en tres reuniones distintas, y las formaliza:
+
+```turtle
+# Afirmación 1 — reunión sobre tipos de póliza
+:PolizaVida         rdfs:subClassOf  :Poliza .
+:PolizaPatrimonial  rdfs:subClassOf  :Poliza .
+:PolizaVida         owl:disjointWith :PolizaPatrimonial .   # ← el axioma clave
+
+# Afirmación 2 — reunión sobre productos
+:SeguroDeVidaConAhorro rdfs:subClassOf :PolizaVida .
+
+# Afirmación 3 — reunión sobre coberturas
+:SeguroDeVidaConAhorro rdfs:subClassOf :PolizaPatrimonial .
+```
+
+Ahora poné cada afirmación frente al experto por separado, como haría una validación normal:
+
+| Se le pregunta | Responde | ¿Tiene razón? |
+|---|---|---|
+| *"¿Una póliza de vida es un tipo de póliza?"* | Sí, obviamente | ✅ |
+| *"¿Una de vida y una patrimonial son cosas distintas?"* | Sí, son ramos distintos | ✅ |
+| *"¿El seguro de vida con ahorro es una póliza de vida?"* | Sí, está en el ramo vida | ✅ |
+| *"¿Tiene componente patrimonial?"* | Sí, la parte de ahorro es un activo | ✅ |
+
+**Las cuatro respuestas son correctas.** El experto no se equivocó en ninguna. Y sin embargo el modelo ya está roto.
+
+#### Lo que el razonador deduce
+
+Al correr el razonador, `SeguroDeVidaConAhorro` aparece como **clase insatisfacible**: una clase que no puede tener **ninguna** instancia. La cadena lógica:
+
+1. Todo `SeguroDeVidaConAhorro` es una `PolizaVida` *(afirmación 2)*.
+2. Todo `SeguroDeVidaConAhorro` es una `PolizaPatrimonial` *(afirmación 3)*.
+3. Nada puede ser `PolizaVida` **y** `PolizaPatrimonial` a la vez *(afirmación 1, la disjunción)*.
+4. Por lo tanto, **nada puede ser un `SeguroDeVidaConAhorro`**.
+
+> [!warning] **El producto existe, se vende, tiene miles de clientes — y la ontología acaba de declarar que es imposible.** Nadie afirmó eso: se dedujo de tres afirmaciones que el experto validó una por una. Ese es exactamente el modo de falla — la divergencia entre modelo y mundo **no está en ninguna afirmación, está en su combinación**.
+
+El daño además se propaga en silencio: cualquier consulta que pida pólizas de ese tipo devuelve vacío. No falla, no da error — devuelve cero resultados, que es lo peor posible porque parece un dato legítimo.
+
+#### La pregunta correcta
+
+El error se detecta **invirtiendo la dirección de la validación**. En vez de mostrar lo que escribiste, mostrás lo que el sistema dedujo:
+
+> *"Corrí el modelo y dedujo que **no puede existir ningún seguro de vida con ahorro**. ¿Eso es correcto?"*
+
+Ahí el experto salta en dos segundos: *"¿Cómo que no puede existir? Es nuestro producto estrella."* Y esa reacción abre la discusión real, que era conceptual desde el principio: ¿el ramo vida y el patrimonial son verdaderamente excluyentes, o son dos **componentes** que un mismo producto puede combinar? La disjunción de la afirmación 1 era demasiado fuerte — pero eso solo se vuelve visible cuando alguien ve su consecuencia.
+
+> [!note] **Por esto el razonador es la herramienta central del campo.** No solo verifica que no te contradigas: convierte las consecuencias ocultas de tus axiomas en algo que un humano puede leer y refutar. Sin él, este error habría vivido meses en el modelo y se habría descubierto cuando alguien notara que un reporte devuelve menos pólizas de las que hay.
+
+> [!tip] **El ciclo de validación que funciona**: (1) poblá la ontología con instancias reales del dominio; (2) corré el razonador; (3) llevale al experto las **clasificaciones y las imposibilidades inferidas**, parafraseadas en su lenguaje — *"el sistema dedujo que este caso es de tipo X"*, *"el sistema dice que esto no puede existir"*; (4) rastreá cada desacuerdo hasta el axioma que lo causó. Ninguna revisión de axiomas encuentra lo que este ciclo encuentra.
+
+> [!warning] Corolario práctico: **una clase insatisfacible nunca es un detalle técnico a postergar.** Es el razonador diciéndote que el modelo afirma que algo del dominio es imposible. Casi siempre significa que una disjunción o una restricción está de más, y casi siempre el experto lo resuelve en un minuto — si se lo mostrás en su lenguaje en vez de mostrarle el axioma.
 
 ## Reuso antes que construcción
 
