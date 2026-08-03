@@ -8,18 +8,19 @@ aliases:
   - Home
   - Inicio
   - Index
-updated: 2026-06-15
+updated: 2026-08-03
 ---
 
 # 🏠 Home — Índice del vault
 
 > [!note] Punto de entrada
-> Esta es la nota raíz del vault. Desde acá llegás a los dos dominios y a los dashboards vivos (se actualizan solos con Dataview). Empezá por el dominio que te interese y bajá por su MOC.
+> Esta es la nota raíz del vault. Desde acá llegás a todos los dominios y a los dashboards vivos (se actualizan solos con Dataview). Empezá por el dominio que te interese y bajá por su MOC.
 
 ## 🗂️ Dominios
 
 - [[_System Design|System Design]] — patrones de diseño de sistemas (almacenamiento, caching, comunicación, confiabilidad, escalado, consistencia, observabilidad…).
 - [[_AI|AI]] — el dominio de **IA**, con sus sub-dominios: [[_AI Agents|AI Agents]] · [[_RAG|RAG]] · [[_MLOps|MLOps]] · [[_GNN|GNN]] · [[_Evals|Evals]] · [[_Inference|Inference]] · [[_AI Fundamentals|AI Fundamentals]] (harnesses/agentes, retrieval-augmented generation, MLOps/AutoMLOps, graph neural networks e interpretabilidad, evaluación de sistemas LLM, inference engineering, y los fundamentos transversales).
+- [[_Semantic Web|Semantic Web]] — el stack de representación de conocimiento: [[RDF]], [[OWL]], [[SKOS]], [[SPARQL]] y [[SHACL]]. Grafos, vocabularios formales, razonamiento y consulta — la base técnica de las ontologías y los knowledge graphs.
 
 ## 📚 Meta
 
