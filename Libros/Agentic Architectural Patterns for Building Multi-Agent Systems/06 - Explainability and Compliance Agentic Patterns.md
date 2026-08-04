@@ -10,7 +10,7 @@ tags:
   - status/permanent
 aliases:
   - Explainability and Compliance Agentic Patterns
-updated: 2026-06-11
+updated: 2026-07-08
 ---
 
 # 06 - Explainability and Compliance Agentic Patterns
@@ -47,7 +47,7 @@ Cómo se profundiza la aplicación de cada patrón al madurar de single-agent (N
 - **Guía** — seleccionar cuidadosamente los **junctures críticos** donde el auditing es más necesario; aplicarlo en cada paso impacta severamente la performance. Enfocarse en los handoffs donde el riesgo de malinterpretación o violación de política es más alto. Balancear compliance estricto vs latencia aceptable.
 - **Naturaleza** — es un check **reactivo** (sobre el output ya producido); por eso se complementa con FCoT, que es proactivo.
 
-![[06-fig-6.1.png]]
+![[06-fig-6.1.png|545]]
 *Figura 6.1 – Instruction Fidelity Auditing workflow*
 
 ## Fractal Chain-of-Thought (FCoT) Embedding
@@ -66,10 +66,10 @@ Cómo se profundiza la aplicación de cada patrón al madurar de single-agent (N
 - **Guía** — requiere una capa de orquestación robusta capaz de manejar memoria compartida, disparar loops reflexivos y manejar updates recursivos. Empezar definiendo una *objective function* clara para la autocorrección. Tener en cuenta la mayor latencia/costo de tokens de los checks recursivos y aplicar el patrón a tareas complejas de alto valor donde correctness y adaptabilidad importan más que la velocidad cruda.
 - **Naturaleza** — check **proactivo e interno** (durante el trabajo del agente); complementa al Instruction Fidelity Auditing (reactivo y externo). (FCoT también aparece como framework de razonamiento en el [[09 - Agent-Level Patterns|cap. 9]].)
 
-![[06-fig-6.2.png]]
+![[06-fig-6.2.png|880]]
 *Figura 6.2 – FCoT internal reasoning loop*
 
-![[06-fig-6.3.png]]
+![[06-fig-6.3.png|674]]
 *Figura 6.3 – FCoT use case example*
 
 ## Persistent Instruction Anchoring
@@ -82,7 +82,7 @@ Cómo se profundiza la aplicación de cada patrón al madurar de single-agent (N
 - **Consecuencias** — *Pros*: **reliability** (mejora significativamente el recall de instrucciones upstream, reduce instruction drift), **explainability** (la presencia de instrucciones ancladas en los mensajes agente-a-agente da un trace auditable de cómo se mantuvieron las constraints). *Con*: **prompt overhead** (agrega un overhead menor al prompt y requiere una estructura de templating consistente en todos los agentes para ser efectivo).
 - **Guía** — establecer un **formato estandarizado** para los anchors (ej. `PERSISTENT_GOAL: [...]` o `<CONSTRAINT>...</CONSTRAINT>`) y usarlo consistentemente en todos los agentes, para que la instrucción se pueda parsear y re-insertar de forma confiable en cada paso, maximizando su visibilidad para el LLM.
 
-![[06-fig-6.4.png]]
+![[06-fig-6.4.png|439]]
 *Figura 6.4 – Persistent Instruction Anchoring workflow*
 
 ## Shared Epistemic Memory
@@ -101,7 +101,7 @@ Cómo se profundiza la aplicación de cada patrón al madurar de single-agent (N
   - **TTL / timestamp**: la información en un sistema agéntico "se pudre" rápido (un hecho sobre el server status de hace 5 minutos puede ser falso ahora). Imponer un schema donde cada entrada de memoria requiera **timestamp** y **source_agent_id**, para que los agentes downstream puedan ponderar la confiabilidad del dato ("este hecho tiene 20 minutos; debería re-verificarlo") en vez de confiar ciegamente.
   - **Tools tipados estrictos**: exponer la memoria vía tools estrictas y tipadas (ej. `update_order_status(id, status)`), NO una tool genérica `write_memory(text)` — esto evita que la memoria compartida se vuelva un vertedero de texto no estructurado e improcesable.
 
-![[06-fig-6.5.png]]
+![[06-fig-6.5.png|501]]
 *Figura 6.5 – Shared Epistemic Memory Workflow*
 
 ## Composición de patrones para confiabilidad sistémica

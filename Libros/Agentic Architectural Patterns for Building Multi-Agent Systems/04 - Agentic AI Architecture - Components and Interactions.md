@@ -1,5 +1,5 @@
 ---
-title: "04 - Agentic AI Architecture - Components and Interactions"
+title: 04 - Agentic AI Architecture - Components and Interactions
 libro: Agentic Architectural Patterns for Building Multi-Agent Systems
 autor: Ali Arsanjani
 capitulo: 4
@@ -10,6 +10,7 @@ tags:
   - status/permanent
 aliases:
   - Agentic AI Architecture - Components and Interactions
+updated: 2026-07-03
 ---
 
 # 04 - Agentic AI Architecture - Components and Interactions
@@ -19,9 +20,9 @@ aliases:
 
 ## Resumen
 
-Tras la Parte 1 (landscape de GenAI, preparar el LLM como motor, espectro de adaptación), este capítulo hace el **shift de la teoría a la estructura**: provee el blueprint arquitectónico práctico para sistemas agénticos robustos. El punto pivotal: **un LLM, por capaz que sea, no es el producto final sino un componente crítico dentro de un constructo operativo más amplio y distribuido** — un paradigm shift *de sistemas monolíticos a ecosistemas dinámicos de agentes inteligentes role-based*. El capítulo (1) define qué hace "agéntico" a un sistema y lo distingue de LLMs y workflows, (2) disecciona la **anatomía del agente** como bloques funcionales de un loop operativo continuo, (3) explora los **data stores y contexto** del que dependen, (4) introduce los **modelos de interacción y features** + el stack tecnológico emergente, y (5) mapea las **consideraciones técnicas** a los componentes que impactan. Entender esta arquitectura es prerequisito para los design patterns de la Parte 2.
+Tras la Parte 1 (landscape de GenAI, preparar el LLM como motor, espectro de adaptación), este capítulo hace el **shift de la teoría a la estructura**: provee el blueprint arquitectónico práctico para sistemas agénticos robustos. El punto pivotal: The — un paradigm shift *de sistemas monolíticos a ecosistemas dinámicos de agentes inteligentes role-based*. El capítulo (1) define qué hace "agéntico" a un sistema y lo distingue de LLMs y workflows, (2) disecciona la **anatomía del agente** como bloques funcionales de un loop operativo continuo, (3) explora los **data stores y contexto** del que dependen, (4) introduce los **modelos de interacción y features** + el stack tecnológico emergente, y (5) mapea las **consideraciones técnicas** a los componentes que impactan. Entender esta arquitectura es prerequisito para los design patterns de la Parte 2.
 
-![[04-fig-4.1.png]]
+![[04-fig-4.1.png|187]]
 *Figura 4.1 – The hierarchy of autonomy*
 
 ## Definir un agente: conceptos core y capacidades
@@ -84,7 +85,7 @@ Single-agent autónomo cuyo goal primario es reservar un itinerario de viaje com
 
 Aplicación de la *agentic anatomy* (Fig. 1.1) a un workflow multi-agente full-stack de aprobación de préstamos. Una institución financiera despliega un sistema multi-agente que va de la interacción inicial con el cliente al disbursement final (verificación de datos, credit assessment, risk scoring, compliance, aprobación). Cada agente especializa una fase, usando el **A2A protocol** para comunicar/coordinar y accediendo a una **shared memory layer** para contexto consistente.
 
-![[04-fig-4.2.png]]
+![[04-fig-4.2.png|641]]
 *Figura 4.2 – Use case example: Agentic loan processing*
 
 | Componente | Ejemplo Loan Processing |
@@ -107,7 +108,7 @@ Aplicación de la *agentic anatomy* (Fig. 1.1) a un workflow multi-agente full-s
 
 *Context is king* (cap. 1) vale especialmente para agentes que deben tomar decisiones informadas y actuar apropiadamente; dependen mucho de data stores y contexto del entorno para percibir, razonar y actuar.
 
-![[04-fig-4.3.png]]
+![[04-fig-4.3.png|325]]
 *Figura 4.3 – Contextual inputs versus grounding failures*
 
 (La Fig. 4.3 contrasta un workflow saludable y *grounded* —contexto rico → razonamiento preciso— contra failure modes donde memoria stale o retrieval fallido lleva a acciones incorrectas.)
@@ -158,7 +159,7 @@ Dos modelos fundamentales, que difieren en cómo intercambian info:
 - **Direct communication** — los agentes se mandan mensajes explícitamente usando un lenguaje y protocolo común. *Ejemplo*: el `InventoryAgent` detecta stock bajo y manda un mensaje directo `{"task": "reorder_part", "part_id": "XYZ-123", "quantity": 500}` al `ProcurementAgent`.
 - **Indirect communication (Stigmergy)** — los agentes interactúan indirectamente observando y modificando un entorno compartido (ej. una DB). *Ejemplo*: el `ManufacturingAgent` actualiza un registro en una DB compartida a `{"status": "complete"}`; el `LogisticsAgent`, que monitorea esa DB, ve el cambio de status e inicia el shipping.
 
-![[04-fig-4.4.png]]
+![[04-fig-4.4.png|273]]
 *Figura 4.4 – Agent interaction models*
 
 ### El stack tecnológico emergente (3 capas)
@@ -170,7 +171,7 @@ La implementación práctica de esos modelos se apoya en un stack emergente de c
 
 Muchos sistemas sofisticados usan un **enfoque híbrido**: function calling para acciones internas y protocolos de nivel más alto para colaboración externa.
 
-![[04-fig-4.5.png]]
+![[04-fig-4.5.png|382]]
 *Figura 4.5 – Emerging agentic stack*
 
 ## Consideraciones técnicas para arquitecturas agénticas (Tabla 4.7)

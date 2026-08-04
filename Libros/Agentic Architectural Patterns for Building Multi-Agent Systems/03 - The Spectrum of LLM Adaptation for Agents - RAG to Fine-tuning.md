@@ -11,7 +11,7 @@ tags:
 aliases:
   - The Spectrum of LLM Adaptation for Agents - RAG to Fine-tuning
   - The Spectrum of LLM Adaptation for Agents
-updated: 2026-06-12
+updated: 2026-07-03
 ---
  
 # 03 - The Spectrum of LLM Adaptation for Agents - RAG to Fine-tuning
@@ -25,14 +25,14 @@ El cap. 2 estableció el LLM como motor; este cubre el paso siguiente: **el viaj
 
 El capítulo presenta cuatro técnicas de adaptación que forman un **espectro**, y subraya que rara vez se elige una sola: lo correcto es una **combinación pensada** alineada con los requisitos del agente, los recursos disponibles y el nivel de customización necesario. (1) **RAG** — enriquecer dinámicamente el conocimiento del LLM en tiempo de inferencia con info externa actualizada; (2) **Fine-tuning** — modificaciones más profundas y persistentes de los parámetros del modelo (de PEFT a full fine-tuning); (3) **ICL (in-context learning)** — ajustes de comportamiento on-the-fly vía ejemplos en el prompt, sin tocar pesos; y (4) **Grounding** — conectar sistemáticamente los outputs a fuentes verificables (no-negociable para responsible AI). Beneficios de la especialización: enhanced accuracy/relevance (el agente "habla el idioma" de su dominio), improved reliability/trustworthiness (grounding + menos alucinaciones), optimized efficiency (modelos chicos focalizados con menor latencia/costo) y better goal alignment. El capítulo también introduce un **Agentic AI Maturity Model** (expandiendo los niveles 5-6 del modelo del cap. 1) y una **arquitectura agéntica jerárquica** (orchestrator + sub-agents + tools/AgentTools + callbacks) como blueprint concreto.
 
-![[03-fig-3.1.png]]
+![[03-fig-3.1.png|710]]
 *Figura 3.1 – An LLM as the brain of agents (image generated with Google Imagen)*
 
 ## De LLMs genéricos a agentes especializados
 
 Los LLMs pre-entrenados son **generalistas por diseño**; los agentes enterprise necesitan ser **especialistas**. Adaptar el LLM es el proceso crítico para cerrar la brecha entre potencial amplio y aplicación especializada, transformando el núcleo cognitivo del agente en un experto de su rol. Beneficios directos: **enhanced accuracy/relevance** (habla el idioma del dominio), **improved reliability/trustworthiness** (grounding, menos alucinaciones), **optimized efficiency** (modelos chicos focalizados → mejor performance con menor latencia/costo) y **better goal alignment** (comportamiento que matchea objetivos y constraints operativos). El éxito requiere una **selección estratégica de técnicas** —a menudo una combinación, no un único método—.
 
-![[03-fig-3.2.png]]
+![[03-fig-3.2.png|812]]
 *Figura 3.2 – Agent specialization: adapting agents for task-specific execution*
 
 ### Agentic AI Maturity Model (Tabla 3.1)
@@ -56,7 +56,7 @@ Pregunta de diseño clave: ¿qué tan grande/granular debe ser un agente? No hay
 
 Evolución significativa respecto del agente único navegando una lista plana de tools (enfoque monolítico que no escala ni mantiene claridad al crecer la complejidad). Establece un **ecosistema estructurado y observable** que espeja una organización bien gestionada, diseñado para modularidad y resiliencia. En la cima: **orchestrator agents coarse-grained** (como conductores de IA; su responsabilidad no es ejecutar cada paso sino entender el proceso end-to-end y conducir el workflow diseñando y supervisando la colaboración entre agentes especializados). Delegan tareas compound especializadas a un equipo de **sub-agents fine-grained** (cada uno experto en una función: analizar un documento, chequear compliance, acceder a una DB).
 
-![[03-fig-3.3.png]]
+![[03-fig-3.3.png|627]]
 *Figura 3.3 – Orchestrator agent architecture*
 
 Ejemplo: el `NewCustomerOnboarding_Agent` (orquestador / "AI conductor") gestiona el onboarding end-to-end; invoca un `KYC_Agent` (know your customer) y un `CreditCheck_Agent`, y para tareas atómicas simples (ej. mandar el welcome email) invoca directamente un `send_email_tool` fine-grained. El orquestador se enfoca en el flujo del proceso, delegando trabajo especializado sin conocer los detalles internos.
@@ -108,7 +108,7 @@ Escenario: *"Generate a concise summary of current market sentiment regarding Co
 - **Sin RAG**: conocimiento limitado al último training (meses viejo); produce un resumen genérico y desactualizado ("CompanyCorp is a leading technology company..."). *Outcome*: inútil, riesgo de errores estratégicos.
 - **Con RAG**: orquesta queries a múltiples fuentes — financial news APIs (Bloomberg/Reuters), press release DB, stock market data API. **Augment**: Reuters (Q1 EPS $1.25 vs $1.10 esperado, revenue +15% YoY, stock +7% pre-market), earnings highlight (net income $500M, +25% en AI services), market data (precio $150.00, +7.5% desde el cierre). **Generate**: resumen coherente y data-rich, market sentiment "strongly positive". *Outcome*: resumen oportuno y accionable.
 
-![[03-fig-3.4.png]]
+![[03-fig-3.4.png|548]]
 *Figura 3.4 – Example flow for RAG with a real-time specialist*
 
 | Aspecto clave | Sin RAG | Con RAG |
@@ -123,12 +123,12 @@ Escenario: *"Generate a concise summary of current market sentiment regarding Co
 Escenario: *"A $75,000 wire transfer from an account in Country A to a personal account of Mr. John Doe in Country B."* Stakes altísimos (penalidades regulatorias, pérdidas, daño reputacional); navegar reglas AML jurisdiction-dependent, políticas internas (a veces más estrictas que la regulación pública) y sanctions lists actualizadas.
 - **Sin RAG (el generalista riesgoso)**: conoce principios AML generales pero no las regulaciones AML actuales específicas de Country A/B, los matices de política interna, ni si John Doe apareció recién en una sanctions list. Decide con reglas simplistas ("Transaction amount is high ($75,000). Flag for manual review."). *Outcome*: o ineficiente (flaggea demasiadas transacciones benignas) o, peor, non-compliance si se pierde una regulación recién promulgada. (Fig. 3.5 ilustra el "better safe than sorry" que crea cuellos de botella y deja vulnerable a breaches.)
 
-![[03-fig-3.5.png]]
+![[03-fig-3.5.png|628]]
 *Figura 3.5 – The risky generalist workflow*
 
 - **Con RAG (el gatekeeper preciso)**: **Retrieve** de fuentes especializadas — regulatory intelligence DB (large outbound transfers de Country A, inbound a Country B), repositorio version-controlled de políticas internas, sanctions screening API. **Augment**: regulación (transfers >$50K USD de Country A a recipients individuales en non-FATF states requieren Form XYZ y enhanced due diligence), política interna (Bank Policy Manual v3.1.2: transfers >$25K a personal accounts en Country B requieren proof of purpose y disparan Level 2 Manager review), sanctions check (John Doe — No active matches). **Generate**: recomendación detallada y grounded — Sanctions: Cleared; External regulation: Breach (>$50K → Form XYZ + EDD); Internal policy: Breach (>$25K → proof of purpose + Level 2 review); Recommendation: Hold transaction, iniciar EDD, request Form XYZ, route a Level 2 Manager queue. *Outcome*: recomendación precisa, compliant, risk-aware, con audit trail.
 
-![[03-fig-3.6.png]]
+![[03-fig-3.6.png|690]]
 *Figura 3.6 – Example workflow leveraging a RAG-enabled agent*
 
 | Aspecto clave | Sin RAG | Con RAG |
@@ -209,12 +209,12 @@ Sea que el LLM se adapte vía RAG, fine-tuning o ICL, una práctica final es ese
 
 ### Técnicas de grounding (Tabla 3.8)
 
-| Aspecto de grounding | Descripción y propósito | Ejemplo de implicación para el agente |
-|---|---|---|
-| **Citing sources y attributions** | El agente da referencias claras al material fuente original (sobre todo si vino vía RAG). Aumenta transparencia, permite verificar a usuarios/auditores, construye confianza y accountability. | Un HR agent, tras responder sobre la política de parental leave, da un link directo a la sección específica del documento de política interna que referenció. |
+| Aspecto de grounding                      | Descripción y propósito                                                                                                                                                                                                                                                                                                          | Ejemplo de implicación para el agente                                                                                                                                       |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Citing sources y attributions**         | El agente da referencias claras al material fuente original (sobre todo si vino vía RAG). Aumenta transparencia, permite verificar a usuarios/auditores, construye confianza y accountability.                                                                                                                                   | Un HR agent, tras responder sobre la política de parental leave, da un link directo a la sección específica del documento de política interna que referenció.               |
 | **Fact verification y cross-referencing** | Para info crítica, especialmente si fue generada internamente por el LLM (no citada directamente), el agente cross-referencia programáticamente las aserciones contra knowledge bases/DBs/fuentes autoritativas confiables antes de actuar/presentar. Algunas arquitecturas usan tools de fact-checking o sub-agentes dedicados. | Antes de finalizar una config de orden compleja sugerida por su LLM, un sales assistant cross-verifica la compatibilidad de componentes contra una DB de productos interna. |
-| **Leveraging confidence scores** | El agente interpreta y actúa sobre los confidence scores que el LLM puede proveer. Según el score, procede, expresa incertidumbre, busca validación adicional o escala a un humano. | Un diagnostic support agent, si su LLM expresa baja confianza (ej. <70%) en un diagnóstico de fallo, lo flaggea para review obligatorio de un técnico senior. |
-| **Proactive ambiguity reduction** | El agente asegura que su propio entendimiento de la query/instrucción/estado sea preciso e inequívoco **antes** de generar respuesta o plan; pregunta clarificación si el input es vago. | Un travel planning agent, ante "Book a flight to Springfield soon", responde "¿A qué Springfield te referís y qué fechas considerás 'soon'?" antes de proceder. |
+| **Leveraging confidence scores**          | El agente interpreta y actúa sobre los confidence scores que el LLM puede proveer. Según el score, procede, expresa incertidumbre, busca validación adicional o escala a un humano.                                                                                                                                              | Un diagnostic support agent, si su LLM expresa baja confianza (ej. <70%) en un diagnóstico de fallo, lo flaggea para review obligatorio de un técnico senior.               |
+| **Proactive ambiguity reduction**         | El agente asegura que su propio entendimiento de la query/instrucción/estado sea preciso e inequívoco **antes** de generar respuesta o plan; pregunta clarificación si el input es vago.                                                                                                                                         | Un travel planning agent, ante "Book a flight to Springfield soon", responde "¿A qué Springfield te referís y qué fechas considerás 'soon'?" antes de proceder.             |
 
 Esto es la base de la fase **Grounding and evaluation** del GenAI Maturity Model. La conclusión del capítulo: desarrollar LLMs verdaderamente *agent-ready* suele involucrar una **combinación pensada** de las cuatro estrategias — RAG para contexto actual, fine-tuning para especializaciones core, ICL para flexibilidad inmediata, y grounding para outputs confiables.
 
@@ -250,3 +250,4 @@ Esto es la base de la fase **Grounding and evaluation** del GenAI Maturity Model
 - [[Function Calling]] · [[Tool Calling]] — function calling como base de los niveles 1-2 del Agentic Maturity Model; SFT para `tool_call_json`.
 - [[LLM]] — el sujeto adaptado (candidato a nota propia).
 - **PEFT · LoRA · Adapter tuning · Prefix/Prompt-tuning · SFT · FFT · Domain-adaptive pretraining · Catastrophic forgetting · In-context learning (ICL) · Few-shot/Many-shot · ReAct · Reflexion · Agentic RAG · AgentTools · Router-Executor / Planner-Worker** — técnicas/conceptos del capítulo; candidatos a nota propia.
+ en un ambiente más cómodo 

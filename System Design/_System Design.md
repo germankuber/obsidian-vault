@@ -9,6 +9,7 @@ aliases:
   - System Design
   - System Design MOC
   - Patrones de Diseño de Sistemas
+updated: 2026-07-01
 ---
 
 # System Design — Mapa del tema
@@ -18,6 +19,7 @@ aliases:
 
 ## 🌐 Comunicación y API
 
+- [[Networking Essentials]] — recorrido fundacional por la pila de red (IP/TCP/UDP/QUIC, el web request, HTTP/REST/GraphQL/gRPC, SSE/WebSockets/WebRTC, load balancing L4/L7, regionalización/CDN, manejo de fallos). Ata el dominio: empezá acá si querés el porqué detrás de cada elección de protocolo.
 - **[[_API Design|API Design]]** 📁 — subtema con carpeta propia (`API Design/`): cómo diseñar las interfaces que exponen los servicios. REST, HTTP methods/status, versioning, BFF, rate limiting + [[_Pagination|Pagination]]. Abrí su MOC.
 - **[[_Service Mesh|Service Mesh]]** 📁 — subtema con carpeta propia (`Service Mesh/`): cómo se gestiona el tráfico *este-oeste* (servicio↔servicio) en microservicios. Fundamento [[North-South vs East-West Traffic]], mecanismos ([[Sidecar]], [[Data Plane vs Control Plane]]), capacidades ([[Mutual TLS]], [[Service Discovery]], [[Traffic Management]]) e implementaciones ([[Istio]]/[[Linkerd]]/[[Cilium]]/[[Envoy]]). Abrí su MOC.
 - [[API Gateway]] — punto de entrada único (tráfico norte-sur): rutea, autentica, limita y transforma.
@@ -40,6 +42,7 @@ aliases:
 - [[Saga]] — transacciones distribuidas como pasos compensables.
 - [[Two-Phase Commit]] — coordinar un commit atómico entre varios nodos.
 - [[Dead Letter Queue]] — adónde van los mensajes que no se pudieron procesar.
+- **[[_Streaming|Streaming]]** 📁 — subtema con carpeta propia (`technologies/streaming/`): tecnologías de event streaming/messaging concretas (no patrones). Primer deep-dive: [[Kafka]] (partitions/topics, replicación leader-follower, at-least-once vs exactly-once, message queue vs stream, log compaction, comparación vs RabbitMQ/SQS/Kinesis). Abrí su MOC.
 
 ## 💾 Almacenamiento y datos
 
@@ -50,6 +53,8 @@ aliases:
 - [[Vector Clocks]] — ordenar eventos y detectar conflictos en sistemas distribuidos.
 - [[Write-Ahead Log]] — registrar la intención antes de aplicar el cambio (durabilidad).
 - [[Distributed Lock]] — coordinar acceso exclusivo a un recurso entre procesos.
+- **[[_Coordination|Coordination]]** 📁 — subtema con carpeta propia (`technologies/coordination/`): tecnologías de coordinación distribuida concretas (consenso, leader election, locks, service discovery) — no patrones. Primer deep-dive: [[ZooKeeper]] (árbol de znodes, watches, ZAB/consenso, ensemble CP, recipes de lock/leader election, vs etcd/Consul, por qué Kafka migró a KRaft). Abrí su MOC.
+- **[[_Databases|Databases]]** 📁 — subtema con carpeta propia (`technologies/databases/`): bases de datos concretas (no patrones). Deep-dives: [[Cassandra]], [[Redis]], [[Elasticsearch]], [[DynamoDB]]. Abrí su MOC.
 
 ## ⚡ Caching
 

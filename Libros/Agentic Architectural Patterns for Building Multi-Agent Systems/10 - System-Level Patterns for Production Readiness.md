@@ -1,5 +1,5 @@
 ---
-title: "10 - System-Level Patterns for Production Readiness"
+title: 10 - System-Level Patterns for Production Readiness
 libro: Agentic Architectural Patterns for Building Multi-Agent Systems
 autor: Ali Arsanjani
 capitulo: 10
@@ -10,6 +10,7 @@ tags:
   - status/permanent
 aliases:
   - System-Level Patterns for Production Readiness
+updated: 2026-07-17
 ---
 
 # 10 - System-Level Patterns for Production Readiness
@@ -45,7 +46,7 @@ Los patrones system-level forman el *backbone operativo* de una aplicación agé
 - **Central registry (discovery & directory)** — las "yellow pages" del sistema, para discovery dinámico. *Patrón habilitado*: **Tool and Agent Registry**. Todos los agentes y tools descubribles registran acá sus capacidades y endpoints.
 - **Governance services (oversight & compliance)** — una capa dedicada que observa y gobierna el comportamiento del agente. *Patrón habilitado*: **Real-Time Compliance Monitoring**. Un servicio/agente de compliance se suscribe al message bus o actúa de gateway para interceptar y adjudicar acciones contra un policy engine central. Impone constraints a nivel **action-level** (ej. `approve loan`), **row-level** (registros específicos) y **field-level** (ej. bloquear PII/PHI), asegurando compliance granular antes de que cualquier operación proceda.
 
-![[10-fig-10.1.png]]
+![[10-fig-10.1.png|752]]
 *Figura 10.1 – A system integration architecture showing how system-level patterns provide the foundational infrastructure for agentic applications*
 
 ### Pattern chaining en la práctica: ejemplo de supply chain automatizado
@@ -64,7 +65,7 @@ Recorrido de un evento de negocio de punta a punta, mostrando cómo los patrones
 > - **Recovery**: en vez de crashear, la lógica interna del agente atrapa ese código de error específico, se re-autentica automáticamente con el IAM, obtiene un token fresco y reintenta el request al `ShippingAPI`.
 > - **Result**: el workflow se reanuda automáticamente, demostrando cómo los patrones de seguridad system-level trabajan con la robustez agent-level (cap. 7) para manejar interrupciones comunes.
 
-![[10-fig-10.2.png]]
+![[10-fig-10.2.png|754]]
 *Figura 10.2 – A sequence diagram showing how system-level patterns chain together in an automated supply chain workflow*
 
 ### Guía para el rollout enterprise (Tabla 10.2)
@@ -87,7 +88,7 @@ A medida que el ecosistema agéntico crece, el número de agentes especializados
 - **Consecuencias** — *Pros*: **modularity y scalability** (capacidades nuevas sin cambiar una línea de los agentes existentes), **resilience** (si una tool/agente cae, el registry puede proveer alternativas, ruteando alrededor del fallo). *Cons*: **single point of failure** (el registry mismo; debe diseñarse para high availability y resiliencia), **overhead** (agrega un network hop extra para discovery → algo de latencia; además hay que mantenerlo).
 - **Guía** — para casos simples, una DB compartida o incluso un JSON file bien mantenido sirve de registry. Para enterprise, herramientas dedicadas de service discovery como **Consul** o **etcd** son más robustas. La clave de un registry exitoso es un **schema de metadata rico y bien definido** para describir capacidades.
 
-![[10-fig-10.3.png]]
+![[10-fig-10.3.png|699]]
 *Figura 10.3 – The Tool and Agent Registry pattern decouples the agent from the tool implementation*
 
 ## 2. Real-Time Compliance Monitoring
@@ -100,7 +101,7 @@ En industrias reguladas (finanzas, salud, legal) los sistemas agénticos no pued
 - **Consecuencias** — *Pros*: **trust y safety** (esencial para construir confianza y operar segura y legalmente; provee un audit trail de todas las acciones), **dynamic governance** (las políticas se actualizan en el engine central **sin redeployar los agentes**, adaptándose rápido a nuevas regulaciones). *Cons*: **performance overhead** (chequear cada acción contra un policy engine agrega latencia; aplicar juiciosamente a operaciones sensibles/críticas), **complexity** (requiere setup y mantenimiento de un policy engine separado y un set de reglas cuidadosamente armado).
 - **Guía** — usar un policy language estándar como **Rego** (para OPA) es muy recomendado. Por eficiencia, no toda acción necesita chequearse: enfocarse en crear **policy "choke points"** para interacciones críticas (acceso a data stores, APIs externas, comunicación con usuarios). El compliance gobierna *qué acciones* se permiten, pero sus reglas se basan en *quién* las realiza — y para ser seguro el sistema no puede confiar en la identidad auto-proclamada del agente: debe poder probarla verificablemente. Eso lleva directo al siguiente patrón.
 
-![[10-fig-10.4.png]]
+![[10-fig-10.4.png|687]]
 *Figura 10.4 – The Real-Time Compliance Monitoring pattern intercepts actions for policy adjudication*
 
 ## 3. Agent Authentication and Authorization
@@ -115,7 +116,7 @@ Cuando los agentes pueden actuar autónomamente en nombre del sistema, un usuari
 - **Guía** — **no reinventes la rueda de seguridad**: implementar tu propio protocolo de auth es un anti-pattern común que lleva a breaches. Apalancá estándares enterprise battle-tested: **OAuth 2.0** para autorización y **OIDC (OpenID Connect)** para autenticación. Entendé el flujo **OAuth 2.0 M2M (machine-to-machine)** — como los agentes son servicios automatizados sin humano que ingrese password, el flujo apropiado es **client credentials**: (1) **Setup**: registrás el agente como client con tu authorization server (Okta, Microsoft Entra ID —ex Azure AD—, Google IAM) → recibís `client_id` y `client_secret`; (2) **Token request**: el agente presenta `client_id` y `client_secret` al token endpoint; (3) **Token issuance**: el server valida y emite un access token short-lived (típicamente JWT); (4) **API call**: el agente incluye el token en el header `Authorization`; (5) **Validation**: el resource server (o un API gateway delante) valida el token (autenticidad, no expirado) y chequea los scopes para autorizar la acción. **Centralizá el enforcement en un API gateway**: en vez de que cada agente implemente su propia validación de tokens, el gateway intercepta todos los requests entrantes, valida el JWT, hace checks iniciales de autorización y pasa el request validado (con identidad y permisos del agente) al servicio downstream — simplifica dramáticamente el código de cada agente.
 - **Key resources** — **OAuth 2.0 website** (https://oauth.net/), **RFC 6749** (spec oficial del OAuth 2.0 authorization framework), **JWT debugger** (https://www.jwt.io/, para decodificar payload y verificar firma), **documentación del IdP (identity provider)** elegido (Okta, Auth0, Microsoft Entra ID, Google Cloud IAM — guías paso a paso del client credentials flow), **secrets management** (el `client_id`/`client_secret` nunca hardcodeados; usar HashiCorp Vault, AWS Secrets Manager o Google Secret Manager para almacenarlos y recuperarlos seguros en runtime).
 
-![[10-fig-10.5.png]]
+![[10-fig-10.5.png|694]]
 *Figura 10.5 – The Agent Authentication and Authorization pattern secures interactions using standard IAM protocols*
 
 ## 4. Event-Driven Reactivity
@@ -129,7 +130,7 @@ Los agentes a menudo necesitan responder a cosas del mundo exterior en (casi) ti
 - **Consecuencias** — *Pros*: **scalability y decoupling** (sistema altamente escalable y desacoplado; los producers no necesitan saber quiénes son los consumers y viceversa; se agregan más agentes consumidores sin cambiar los producers), **responsiveness** (el sistema se vuelve altamente reactivo y opera casi en tiempo real, disparado por eventos al ocurrir). *Cons*: **complexity** (complejidad operativa de desplegar/gestionar un message bus; la programación asincrónica es más difícil de debuggear que un request-response simple), **guaranteed delivery** (hay que configurar bien el bus para manejar garantías de entrega —ej. "at least once"— y los fallos de mensajes).
 - **Guía** — definí un **schema versionado y claro** para los payloads de eventos (ej. con **Avro** o **Protobuf**) para que producers y consumers se comuniquen confiablemente en el tiempo. Empezá con un **managed service** (Google Pub/Sub, Amazon SQS/SNS) para reducir la carga operativa antes de considerar self-hostear algo como Kafka.
 
-![[10-fig-10.6.png]]
+![[10-fig-10.6.png|633]]
 *Figura 10.6 – The Event-Driven Reactivity pattern enables scalable and responsive systems through a central message bus*
 
 ## Citas

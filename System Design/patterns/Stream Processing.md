@@ -11,13 +11,13 @@ tags:
 aliases:
   - Stream Processing
   - stream-processing
-updated: 2026-06-11
+updated: 2026-07-01
 ---
 
 # Stream Processing
 
 > [!note] Definition
-> Procesar los datos **evento por evento, a medida que llegan**, con latencia sub-segundo. En vez de juntar todo y procesar en lote, se procesa el flujo continuo. Herramientas: Kafka Streams, Apache Flink, Spark Streaming.
+> Procesar los datos **evento por evento, a medida que llegan**, con latencia sub-segundo. En vez de juntar todo y procesar en lote, se procesa el flujo continuo. Herramientas: Kafka Streams, [[Flink|Apache Flink]], Spark Streaming.
 
 ## Cómo funciona
 
@@ -38,6 +38,7 @@ Un pipeline consume de un stream ([[Pub-Sub|Pub/Sub]]/Kafka), aplica transformac
 
 ## Patrones relacionados / alternativas
 
+- [[Flink]] — el motor de stream processing de referencia (stateful, event-time, exactly-once): la implementación concreta de este patrón.
 - [[MapReduce]] — batch: preciso pero lento.
 - [[Lambda Architecture]] — corre batch + stream en paralelo.
 - [[Change Data Capture]] — fuente típica de eventos para el stream.

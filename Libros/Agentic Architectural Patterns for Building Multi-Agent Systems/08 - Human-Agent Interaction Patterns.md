@@ -10,7 +10,7 @@ tags:
   - status/permanent
 aliases:
   - Human-Agent Interaction Patterns
-updated: 2026-06-11
+updated: 2026-07-10
 ---
 
 # 08 - Human-Agent Interaction Patterns
@@ -72,10 +72,10 @@ Ejemplo que ilustra cómo los patrones se encadenan en un workflow real para cum
 - **Consecuencias** — *Pros*: **Safety y trust** (fundamental para sistemas seguros y confiables; vetea decisiones críticas o ambiguas con un humano, reduciendo el riesgo de errores automatizados costosos) y **manejo de edge cases** (mecanismo robusto para situaciones novedosas no entrenadas). *Con*: **bottleneck** — el humano en el loop puede volverse cuello de botella de performance; la velocidad global queda limitada por la disponibilidad y responsiveness de los operadores humanos.
 - **Guía** — diseñar la interfaz human-facing con cuidado: que presente el contexto de forma concisa y dé una forma **estructurada** de input (botones, forms) para minimizar ambigüedad. Asegurar un mecanismo robusto para gestionar el estado "pausado" del agente, incluyendo **timeouts** y **default actions** si el humano no responde dentro de cierto período.
 
-![[08-fig-8.1.png]]
+![[08-fig-8.1.png|260]]
 *Figura 8.1 – Agent Calls Human escalation flow*
 
-![[08-fig-8.2.png]]
+![[08-fig-8.2.png|179]]
 *Figura 8.2 – Agent Calls Human escalation flow (cont.)*
 
 ## Human Delegates to Agent
@@ -89,7 +89,7 @@ Ejemplo que ilustra cómo los patrones se encadenan en un workflow real para cum
 - **Consecuencias** — *Pros*: **eficiencia** (extremadamente potente para productividad; descarga tareas complejas y time-consuming a un sistema autónomo) y **capacidad** (resuelve problemas demasiado grandes para una interacción single-prompt). *Con*: **riesgo de misalignment** — el riesgo primario es que el agente malinterprete el goal inicial de alto nivel y gaste recursos significativos ejecutando un plan no alineado con la verdadera intención del usuario.
 - **Guía** — para mitigar el misalignment, implementar un **Plan Confirmation step**: tras generar el plan inicial (paso 2 del ejemplo), el agente lo presenta al usuario para una aprobación rápida "go/no-go" antes de empezar la ejecución autónoma. Ese pequeño checkpoint asegura que la interpretación del goal es correcta sin obligar al usuario a supervisar cada paso.
 
-![[08-fig-8.3.png]]
+![[08-fig-8.3.png|341]]
 *Figura 8.3 – Human Delegates to Agent workflow*
 
 ## Human Calls Agent
@@ -102,7 +102,7 @@ Ejemplo que ilustra cómo los patrones se encadenan en un workflow real para cum
 - **Consecuencias** — *Pros*: **velocidad y eficiencia** (optimizado para velocidad; ideal para asistentes transaccionales muy responsivos) y **simplicidad** (lógica directa; uno de los patrones agénticos más fáciles de implementar y debuggear). *Con*: **scope limitado** — no apto para tareas complejas multi-step ni goals long-running; brilla en interacciones single-purpose bien definidas.
 - **Guía** — la clave es la **definición robusta de tools**: bien documentadas con descripciones claras y parámetros **strongly typed** (cada parámetro define explícitamente su tipo: string, integer, Boolean). Esa metadata es lo que permite al LLM seleccionar la tool correcta y extraer los argumentos necesarios desde una query conversacional. Conecta con [[Function Calling]] / [[Tool Calling]].
 
-![[08-fig-8.4.png]]
+![[08-fig-8.4.png|365]]
 *Figura 8.4 – Human Calls Agent sequence*
 
 ## Agent Delegates to Agent
@@ -115,7 +115,7 @@ Ejemplo que ilustra cómo los patrones se encadenan en un workflow real para cum
 - **Consecuencias** — *Pros*: **modularidad y especialización** (cada agente es experto en su dominio y se desarrolla, testea y actualiza independientemente) y **enhanced capability** (combinando skills se resuelven problemas mucho más complejos que con un único agente). *Con*: **orchestration overhead** — la performance y confiabilidad dependen fuertemente del orquestador; diseñar la lógica de descomposición, delegación y síntesis suma complejidad y puede introducir latencia.
 - **Guía** — la **capacidad de planning del orquestador es el componente más crítico**. Para workflows simples y predecibles, el plan de descomposición puede ser una secuencia estática predefinida de llamadas a agentes. Para tareas complejas y dinámicas, el orquestador mismo puede necesitar usar un LLM para generar un plan multi-step (como en el ejemplo).
 
-![[08-fig-8.5.png]]
+![[08-fig-8.5.png|501]]
 *Figura 8.5 – Agent Delegates to Agent architecture*
 
 ## Agent Calls Proxy Agent
@@ -128,7 +128,7 @@ Ejemplo que ilustra cómo los patrones se encadenan en un workflow real para cum
 - **Consecuencias** — *Pros*: **seguridad** (centraliza y aísla el acceso a sistemas externos; los primarios nunca manejan credenciales sensibles, reduciendo la attack surface) y **decoupling/maintainability** (si la API del partner cambia, solo se actualiza el proxy; los primarios quedan intactos). *Con*: **latencia** — introduce un "hop" extra en la cadena de comunicación; menos apto para interacciones que requieren respuestas de latencia extremadamente baja.
 - **Guía** — usar este patrón para **enforcement de una frontera de seguridad clara** entre el sistema agéntico interno y el mundo exterior. El proxy debe ser el único componente con el acceso de red y las credenciales para alcanzar un servicio externo específico. Asegurar que el protocolo de comunicación interno entre primario y proxy sea simple y estandarizado, creando efectivamente una **API interna** que abstrae la complejidad externa.
 
-![[08-fig-8.6.png]]
+![[08-fig-8.6.png|590]]
 *Figura 8.6 – Agent Calls Proxy Agent pattern for secure interaction*
 
 ## Métricas de evaluación por patrón (Tabla 8.2)

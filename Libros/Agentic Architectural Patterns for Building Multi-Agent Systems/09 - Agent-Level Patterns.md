@@ -10,7 +10,7 @@ tags:
   - status/permanent
 aliases:
   - Agent-Level Patterns
-updated: 2026-06-11
+updated: 2026-07-15
 ---
 
 # 09 - Agent-Level Patterns
@@ -28,7 +28,7 @@ El capítulo recorre los cinco patrones en orden de madurez, cada uno motivando 
 
 ## Mapeo anatomía → patrón (Tabla 9.1)
 
-![[09-fig-9.1.png]]
+![[09-fig-9.1.png|525]]
 *Figura 9.1 – The agent anatomy*
 
 Patrones que describen las interacciones internas entre los componentes de un solo agente:
@@ -57,10 +57,10 @@ Las cuatro capas de la arquitectura interna (loop Perceive → Reason → Act):
 - **Consecuencias** — *Pro*: **simplicidad** de implementación y debug; más fácil gestionar y observar el estado de un solo agente que de un multi-agent. *Con*: **no escala** cuando crecen las tools o la complejidad del dominio; el agente se sobrecarga, el prompt se vuelve inmanejable, degrada performance y sube la probabilidad de error.
 - **Guía** — provee un loop de ejecución completo y self-contained, pero es **stateless**: no tiene memoria de interacciones pasadas y trata cada task como la primera. Para experiencias inteligentes y personalizadas hace falta memoria → siguiente patrón.
 
-![[09-fig-9.2.png]]
+![[09-fig-9.2.png|455]]
 *Figura 9.2 – The Single Agent Baseline pattern*
 
-![[09-fig-9.3.png]]
+![[09-fig-9.3.png|250]]
 *Figura 9.3 – Single Agent loan agent workflow*
 
 ## Agent-Specific Context and Memory
@@ -76,7 +76,7 @@ Las cuatro capas de la arquitectura interna (loop Perceive → Reason → Act):
 - **Consecuencias** — *Pro*: comportamiento **stateful** y personalización; aprende de la experiencia, recuerda preferencias, adapta acciones. *Con*: complejidad y **contextual drift** — memoria mal gestionada hace recordar info desactualizada/irrelevante y degrada performance.
 - **Guía** — corto plazo: empezar simple con sliding window de las últimas N vueltas o summarization. Largo plazo: RAG sobre vector database (enfoque estándar). Ser **deliberado** sobre qué se guarda en largo plazo: enfocarse en data de alto valor (perfiles de usuario, decisiones clave, hechos finalizados) para no contaminar la memoria con ruido.
 
-![[09-fig-9.4.png]]
+![[09-fig-9.4.png|444]]
 *Figura 9.4 – Agent-specific memory*
 
 ## Sensing with RAG
@@ -94,7 +94,7 @@ Las cuatro capas de la arquitectura interna (loop Perceive → Reason → Act):
 - **Consecuencias** — *Pros*: **accuracy y trust** (reduce drásticamente alucinaciones, genera confianza), **knowledge freshness** (actualizar la fuente, sin reentrenar el LLM). *Cons*: **dependencia de la calidad del retrieval** (si trae contexto irrelevante, confunde al LLM y degrada la respuesta), y **contextual drift / RAG drift** (el conocimiento indexado se vuelve stale/desactualizado y decae la performance).
 - **Guía** — la calidad del retrieval es lo primordial: invertir en un pipeline robusto de procesamiento de documentos que limpie y chunkee bien; elegir embedding model y vector DB según el dominio. Para queries complejas, **agentic RAG**: un agente dedicado refina la query inicial, hace búsquedas iterativas y sintetiza resultados de múltiples documentos para dar al LLM el mejor contexto posible.
 
-![[09-fig-9.5.png]]
+![[09-fig-9.5.png|328]]
 *Figura 9.5 – Context-aware retrieval (RAG) agent*
 
 ## Structured Reasoning and Self-Correction
@@ -111,7 +111,7 @@ Las cuatro capas de la arquitectura interna (loop Perceive → Reason → Act):
 - **Consecuencias** — *Pro*: **fiabilidad y transparencia**; el pensamiento externalizado facilita el debug a developers y la comprensión a auditores de *por qué* se tomó una decisión. *Con*: **latencia y costo** por los pasos extra; un self-correction loop requiere ≥2 llamadas LLM separadas en vez de una.
 - **Guía** — componer los patrones para máximo efecto: Persistent Instruction Anchoring en todos los prompts complejos para mantener al agente on-task; Chain-of-Thought para el pase inicial (análisis step-by-step transparente); y para decisiones high-stakes, un **Self-Correction loop** donde un segundo prompt pide explícitamente al LLM jugar el rol de crítico/auditor revisando el CoT inicial contra el contexto y las restricciones originales.
 
-![[09-fig-9.6.png]]
+![[09-fig-9.6.png|404]]
 *Figura 9.6 – A self-correction loop, where an agent generates a preliminary output and then critiques it against its goals, leading to a more reliable final result*
 
 ## Multimodal Sensory Input
@@ -127,10 +127,10 @@ Las cuatro capas de la arquitectura interna (loop Perceive → Reason → Act):
   - **[[A2A]] (Agent-to-Agent protocol)** — para comunicación entre agentes, a menudo a través de **fronteras organizacionales**. Building block para workflows complejos u orquestadores multi-agente; permite que agentes de distintas compañías se comuniquen seguramente para un goal compartido, manejando authorization y authentication (ej. **OAuth**).
 - **Ejemplo (loan desde imagen)** — *Pipeline*: percepción (recibe imagen del formulario) → tool OCR (`ocr_service`) → observación (texto extraído: *Applicant: John Doe, Loan Amount: $600,000*) → razonamiento (pasa el texto al LLM core). *Nativo*: percepción (imagen + prompt "Analyze this loan application form image and provide a decision") → razonamiento (manda imagen + texto a un LLM nativo multimodal que hace OCR y decisión en un solo paso).
 
-![[09-fig-9.7.png]]
+![[09-fig-9.7.png|520]]
 *Figura 9.7 – Multimodal processing via multimodal pipeline*
 
-![[09-fig-9.8.png]]
+![[09-fig-9.8.png|319]]
 *Figura 9.8 – Native multimodal LLM multimodal processing*
 - **Consecuencias** — *Pro*: **expande los use cases** drásticamente; de tool basada en lenguaje a asistente que interactúa con las mismas interfaces que un humano (ej. reduce tiempo de procesamiento de claims interpretando imágenes en workflows de aprobación). *Con*: **costo y latencia**; los modelos multimodales son computacionalmente más caros, requieren infra especializada (GPUs) y un enfoque distinto de testing/validación que los text-only.
 - **Guía** — elegir según necesidad: el **pipeline** suele ser buen punto de partida (usar servicios best-in-class como un OCR muy preciso, más control y observabilidad por paso); el **modelo nativo multimodal** es más simple de orquestar y más potente para tareas que requieren comprensión holística profunda de imagen + texto juntos, pero ofrece menos control granular.

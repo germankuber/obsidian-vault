@@ -9,7 +9,7 @@ aliases:
   - AI Fundamentals
   - AI Fundamentals MOC
   - Fundamentos de IA
-updated: 2026-06-15
+updated: 2026-07-04
 ---
 
 # AI Fundamentals — Mapa del tema
@@ -20,6 +20,7 @@ updated: 2026-06-15
 ## 🧠 Entrenamiento y alineación
 
 - [[RLHF]] — alinear un LLM con preferencias humanas vía RL (SFT → reward model → PPO). Incluye RLAIF, DPO, Constitutional AI.
+- [[Fine-tuning]] — seguir entrenando el modelo sobre tus ejemplos para ajustar estilo/comportamiento; modifica la parametric memory, pero es mala vía para hechos que cambian.
 
 ## ✅ Calidad, evaluación y confiabilidad
 
@@ -32,6 +33,7 @@ updated: 2026-06-15
 Fundamentos transversales que sostienen el sub-dominio **[[_Inference|Inference]]** (`AI/Inference/`):
 
 - [[Tokens]] — la unidad atómica que procesa un LLM (≈ palabra o fragmento de palabra).
+- [[Context Window]] — el máximo de texto que el modelo procesa de una vez (en [[Tokens]]); el techo que restringe la working memory de un agente.
 - [[KV Cache]] — valores intermedios de atención (prefill→decode) y **hub de la evolución del manejo de memoria del serving de LLMs** (6 eras: naive → PagedAttention → heterogéneo → distribuido → unificado).
 - [[Quantization]] — comprimir la precisión de los pesos (16→8/4-bit) para acelerar ambas fases de inferencia.
 
@@ -39,8 +41,8 @@ Fundamentos transversales que sostienen el sub-dominio **[[_Inference|Inference]
 
 Conceptos base que aún no tienen nota propia — candidatos a promover cuando un artículo aporte material (varios vienen del pendiente "25 AI Concepts"):
 
-- [[Attention]] · [[Transformers]] · [[Embeddings]] · [[Context Window]]
-- [[Fine-tuning]] · [[LoRA]] · [[Distillation]] · [[Mixture-of-Experts]]
+- [[Attention]] · [[Transformers]] · [[Embeddings]]
+- [[LoRA]] · [[Distillation]] · [[Mixture-of-Experts]]
 - [[Prompting]] · [[Context Engineering]]
 
 ## 🔍 Todas las notas de esta carpeta (auto)

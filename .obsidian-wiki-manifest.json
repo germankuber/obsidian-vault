@@ -1,0 +1,24 @@
+{
+  "manifest_version": 1,
+  "generated_by": "obsidian-knowledge-extractor",
+  "entries": [
+    {
+      "url": "https://designgurus.substack.com/p/redis-streams-vs-kafka-vs-rabbitmq",
+      "title": "Kafka, RabbitMQ, or Redis Streams? A Practical Guide to Choosing",
+      "author": "Arslan Ahmad",
+      "content_hash": "sha256:c9d43573494c9cf2f4917dcc34fda810d788509ce42137fa31df1e98a4d5074b",
+      "hash_basis": "pasted",
+      "fetch_method": "pasted",
+      "ingested_at": "2026-07-05",
+      "last_reingested_at": null,
+      "notes_created": [
+        "System Design/technologies/streaming/Message Broker vs Distributed Log.md"
+      ],
+      "notes_merged": [],
+      "images": [
+        "System Design/technologies/streaming/assets/broker-vs-log-comparison.jpg"
+      ],
+      "status_note": "paywalled Substack; full article present in pasted HTML"
+    }
+  ]
+}

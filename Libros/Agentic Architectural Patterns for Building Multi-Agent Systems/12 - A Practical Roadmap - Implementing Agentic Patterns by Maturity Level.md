@@ -1,5 +1,5 @@
 ---
-title: "12 - A Practical Roadmap - Implementing Agentic Patterns by Maturity Level"
+title: 12 - A Practical Roadmap - Implementing Agentic Patterns by Maturity Level
 libro: Agentic Architectural Patterns for Building Multi-Agent Systems
 autor: Ali Arsanjani
 capitulo: 12
@@ -10,6 +10,7 @@ tags:
   - status/permanent
 aliases:
   - A Practical Roadmap - Implementing Agentic Patterns by Maturity Level
+updated: 2026-07-30
 ---
 
 # 12 - A Practical Roadmap - Implementing Agentic Patterns by Maturity Level
@@ -28,7 +29,7 @@ El capítulo **simplifica los 6 niveles del Agentic AI Maturity Model del cap. 3
 - **Objetivo arquitectónico** — construir y validar rápidamente la lógica core de un workflow agéntico en una aplicación única, **monolítica y síncrona**. Crear un sistema funcional que pruebe el valor de negocio del enfoque agéntico, aunque todavía no esté optimizado para escala o resiliencia.
 - **Principio core** — **simplicidad para habilitar validación rápida**. Probar el valor de negocio del workflow agéntico sin el overhead de los sistemas distribuidos. El sistema se construye como una única app monolítica donde un orquestador central llama síncronamente a los worker agents; diseño predecible, fácil de desarrollar y debuggear, el camino más rápido a un prototipo funcional.
 
-![[12-fig-12.1.png]]
+![[12-fig-12.1.png|419]]
 *Figura 12.1 – Level 1 patterns*
 
 **Patrones a implementar** (los más esenciales de cada categoría):
@@ -53,7 +54,7 @@ El capítulo **simplifica los 6 niveles del Agentic AI Maturity Model del cap. 3
 - **Objetivo arquitectónico** — re-arquitecturar el prototipo foundational en un set de **microservicios asincrónicos** desacoplados, escalables, resilientes y observables. Construir un sistema production-ready que sea cost-efficient, seguro y trustworthy para operaciones de negocio reales.
 - **Principio core** — **decoupling para scalability y resilience**. Un sistema production-ready debe sobrevivir fallos de componentes y manejar cargas fluctuantes sin colapsar. *Pero la transición a microservicios debe estar guiada por la necesidad*: los microservicios introducen complejidad operativa significativa, así que este shift se recomienda **solo cuando el enfoque monolítico ya no cumple** los requisitos de escala, fault isolation o velocidad del equipo.
 
-![[12-fig-12.2.png]]
+![[12-fig-12.2.png|501]]
 *Figura 12.2 – Level 2 maturity*
 
 Cuando el shift se justifica, la arquitectura se apoya en **tres cambios estructurales fundamentales**:
@@ -84,7 +85,7 @@ Cuando el shift se justifica, la arquitectura se apoya en **tres cambios estruct
 - **Objetivo arquitectónico** — evolucionar el production-ready service en un sistema **state-of-the-art, auto-mejorable** que desarrolla expertise profunda de dominio y optimiza su propia performance mediante feedback loops automatizados y análisis estratégico.
 - **Principio core** — **self-optimization**. El sistema ya no es estático; es un ecosistema dinámico que aprende. Diseñado no solo para ejecutar sus tareas sino para **medir su propia performance, aprender de sus éxitos y fallos, y adaptar su comportamiento** para ser más efectivo y eficiente con el tiempo.
 
-![[12-fig-12.3.png]]
+![[12-fig-12.3.png|429]]
 *Figura 12.3 – Level 3 patterns*
 
 Para lograr esa auto-mejora autónoma, la arquitectura se apoya en **tres pilares fundamentales**:

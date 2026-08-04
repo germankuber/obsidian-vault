@@ -1,5 +1,5 @@
 ---
-title: "11 - Advanced Adaptation - Building Agents That Learn"
+title: 11 - Advanced Adaptation - Building Agents That Learn
 libro: Agentic Architectural Patterns for Building Multi-Agent Systems
 autor: Ali Arsanjani
 capitulo: 11
@@ -10,6 +10,7 @@ tags:
   - status/permanent
 aliases:
   - Advanced Adaptation - Building Agents That Learn
+updated: 2026-07-30
 ---
 
 # 11 - Advanced Adaptation - Building Agents That Learn
@@ -33,7 +34,7 @@ Para crear un agente que aprenda se necesita un sistema de **bucle cerrado** que
 - **Learn** — según la evaluación, los modelos subyacentes se actualizan o fine-tunean para que sea más probable que produzcan outputs de alta calidad en el futuro.
 - **Deploy** — los modelos mejorados se despliegan de forma segura de vuelta al sistema, haciendo todo el ecosistema más capaz para el próximo ciclo.
 
-![[11-fig-11.1.png]]
+![[11-fig-11.1.png|396]]
 *Figura 11.1 – The Self-Improvement Flywheel for agentic systems*
 
 ### El R⁵ model: marco operacional para agentes de producción
@@ -57,7 +58,7 @@ Patrón fundacional de todos los sistemas auto-mejorables. Las dos primeras etap
 - **Consecuencias** — *Pros*: **objectivity** (desacoplar generación de evaluación → feedback más objetivo y confiable, evita que el sistema refuerce sus propios sesgos), **specialization** (permite usar modelos distintos y altamente especializados para el planner —optimizado para creatividad— y el scorer —optimizado para juicio analítico—). *Con*: **complexity** (más complejo de implementar y orquestar que un sistema single-agent).
 - **Guía** — empezar definiendo un **scoring rubric claro y simple** para el scorer: ese rubric es el *contrato* entre los dos agentes y define qué significa "calidad". Asegurar que el canal de comunicación entre planner y scorer sea robusto y maneje el paso de feedback estructurado eficientemente. (Pregunta abierta que lleva al próximo patrón: ¿cómo sabe el scorer qué es "bueno"? Necesita un yardstick domain-specific.)
 
-![[11-fig-11.2.png]]
+![[11-fig-11.2.png|161]]
 *Figura 11.2 – The planner-scorer architecture*
 
 ## 2. Custom Evaluation Metrics
@@ -70,7 +71,7 @@ Un crítico literario nunca usaría los mismos criterios para juzgar un haiku y 
 - **Consecuencias** — *Pros*: **relevance** (señal de calidad altamente relevante y precisa, optimiza por lo que realmente le importa al negocio), **automation** (una métrica bien definida permite automatizar completamente la evaluación, esencial para escalar el loop). *Con*: **development cost** (desarrollar y validar una métrica custom requiere expertise de dominio y esfuerzo de ingeniería significativos).
 - **Guía** — involucrar **expertos de dominio desde el principio** para definir las dimensiones críticas de calidad. Empezar con una métrica simple basada en reglas y refinarla con el tiempo. Tener un "golden dataset" para benchmarkear la métrica, que ayuda a calibrar sus pesos y thresholds.
 
-![[11-fig-11.3.png]]
+![[11-fig-11.3.png|475]]
 *Figura 11.3 – Components of a custom evaluation metric*
 
 ## 3. Preference-Controlled Synthetic Data Generation
@@ -84,7 +85,7 @@ En el corazón del flywheel está el scorer, cuyo juicio guía todo el aprendiza
 - **Consecuencias** — *Pros*: **scalability** (datasets masivos a una fracción del costo/tiempo de la anotación manual), **control** (control fine-grained sobre los tipos de distinciones de calidad que querés que el scorer aprenda). *Con*: **risk of bias** (la calidad de la data sintética está limitada por las capacidades del generator; si tiene sesgos inherentes, se codifican en la training data).
 - **Guía** — la clave es la **variable de control** usada para crear la diferencia de calidad entre los pares (calidad del contexto RAG, claridad de una instrucción, inclusión de un elemento deseado). Asegurar una forma programática fuerte de garantizar que una versión sea confiablemente mejor que la otra.
 
-![[11-fig-11.4.png]]
+![[11-fig-11.4.png|199]]
 *Figura 11.4 – Synthetic data generation workflow*
 
 ## 4. Advanced Model Tuning Patterns
@@ -104,7 +105,7 @@ Imaginá un atleta de clase mundial entrenando con su coach: el atleta (el plann
 - **Consecuencias** — *Pros*: **exponential improvement** (incremento rápido y compuesto de la performance, las mejoras en un agente alimentan directamente las del otro), **aligned capabilities** (asegura que la capacidad de generar soluciones y la de reconocer calidad no diverjan). *Con*: **extreme complexity** (de los patrones más complejos de implementar; requiere un pipeline MLOps maduro para gestionar múltiples training loops dependientes).
 - **Guía** — la clave es gestionar la **cadencia de los training loops**: no hace falta reentrenar ambos agentes después de cada output; típicamente se corre el loop en *batches*, juntando suficiente data nueva para que cada fine-tuning run sea estadísticamente significativo y cost-effective.
 
-![[11-fig-11.5.png]]
+![[11-fig-11.5.png|197]]
 *Figura 11.5 – The co-evolutionary training loop*
 
 ## 6. Adversarial Testing and Red Teaming
@@ -117,7 +118,7 @@ En el software tradicional, la QA diseña test suites comprehensivos para hallar
 - **Consecuencias** — *Pro*: **proactive security** (halla vulnerabilidades antes de que puedan explotarse). *Con*: **resource-intensive** (requiere recursos computacionales dedicados para correr los testing loops continuos).
 - **Guía** — diseñar el red team agent para que sea **creativo**: usar un LLM para generar test cases novedosos e inesperados. Enfocar sus ataques en las áreas de mayor riesgo: políticas de seguridad, constraints de privacidad de datos y ethical guardrails.
 
-![[11-fig-11.6.png]]
+![[11-fig-11.6.png|229]]
 *Figura 11.6 – The adversarial testing loop*
 
 ## 7. Cost Management and Tokenomics
@@ -131,7 +132,7 @@ El flywheel de auto-mejora es un arma de doble filo: motor potente de valor, per
 - **Consecuencias** — *Pro*: **financial control** (visibilidad y control esenciales sobre los costos operativos de un learning system). *Con*: **potential to stifle learning** (si los budgets son demasiado restrictivos, puede impedir que el sistema corra suficientes training cycles para mejorar significativamente).
 - **Guía** — **taggear todos los cloud resources** asociados al sistema agéntico para trackear costos con precisión. Implementar **alerts** que disparen cuando se consume cierto % del budget. Usar esa data para analizar el ROI de los learning loops.
 
-![[11-fig-11.7.png]]
+![[11-fig-11.7.png|402]]
 *Figura 11.7 – The cost management feedback loop*
 
 ## 8. Measuring Business Value (ROI)
@@ -144,7 +145,7 @@ Podemos medir la performance técnica del sistema (task success rate, model accu
 - **Consecuencias** — *Pro*: **strategic alignment** (demuestra claramente el impacto de negocio de la inversión en IA agéntica, justificando su desarrollo continuo). *Con*: **data engineering complexity** (requiere inversión significativa en data engineering para construir y mantener los pipelines que conectan data operacional y de negocio).
 - **Guía** — trabajar de cerca con stakeholders de negocio para identificar los **KPIs que más importan**. Asegurar que el data logging sea estructurado y consistente para hacer el pipeline confiable. Empezar con una o dos métricas clave y expandir con el tiempo.
 
-![[11-fig-11.8.png]]
+![[11-fig-11.8.png|316]]
 *Figura 11.8 – The ROI measurement pipeline*
 
 ## Mapeo R⁵ ↔ patrones (Tabla 11.1)

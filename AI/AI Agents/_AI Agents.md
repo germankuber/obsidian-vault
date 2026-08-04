@@ -10,7 +10,7 @@ aliases:
   - AI Agents MOC
   - Agentes de IA
   - Agent Harness MOC
-updated: 2026-06-11
+updated: 2026-07-05
 ---
 
 # AI Agents — Mapa del tema
@@ -27,6 +27,10 @@ updated: 2026-06-11
 - [[Harness Responsibilities]] — las **cinco** funciones centrales (Tool Execution · Memory & Context · Sandboxing · State Persistence · Permission Enforcement).
 - [[Sandboxing]] — aislar la ejecución contra calls malformadas, prompt injection y errores.
 - [[Permission Enforcement]] — acceso autorizado, **en tiempo de ejecución**; los refusals del modelo solo cuentan si el harness rechaza antes de ejecutar.
+
+## 🧠 Memoria — qué recuerda el agente
+
+- [[Agent Memory]] — los **7 tipos de memoria** (working · semantic · episodic · procedural · retrieval · parametric · prospective) sobre el marco **CoALA** y los ejes *stored-vs-active* / *what-vs-where*. Es la responsabilidad **#2 del harness** (Memory & Context) en detalle. *"A better agent forgets on purpose."*
 
 ## 📈 Madurez — cuán completo es el harness
 
@@ -70,6 +74,12 @@ Conceptos ya enlazados desde las notas de arriba pero que todavía no tienen not
 
 - [[SWE-bench]] — benchmark de coding (60%+ Verified, mayo 2026).
 - [[A2A]] — Agent-to-Agent protocol (Google → Linux Foundation): la capa **horizontal** agente↔agente, contraparte de [[MCP]] (ya resuelto). Muy referenciada desde los libros; candidata a promover.
+- [[JSON-RPC 2.0]] — el protocolo de RPC sobre el que se construye [[MCP]] (cliente-servidor, mensajes request/response).
+- [[Reflexion]] — patrón introspectivo (pensar → actuar → reflexionar); nivel 3 del [[Agentic AI Maturity Model]], junto a [[ReAct]].
+- [[Swarm Architecture]] — coordinación descentralizada y emergente: red peer-to-peer sobre un shared task board, sin líder central (contraparte de [[Supervisor Architecture]]).
+- [[Unified tool registry]] — el registro unificado donde el client combina las tools de todos los MCP servers para exponerlas al LLM.
+- [[MCP Inspector]] — la dev tool oficial de MCP para debuggear servers e inspeccionar sus primitivos.
+- [[Lost in the Middle]] — el fenómeno por el que un LLM presta menos atención a la info en el medio de un contexto largo; causa de instruction drift.
 - [[Prompt Injection]] · [[Vector Database]] (este último ya enlazado desde [[AI Framework]]).
 
 Conceptos relacionados que ya tienen nota en otros subdominios: [[Grounding]], [[Hallucinations]], [[Evals]] (en `AI/fundamentals`) · [[RLHF]] (en `AI/fundamentals`, "análogo" al loop de feedback del harness).

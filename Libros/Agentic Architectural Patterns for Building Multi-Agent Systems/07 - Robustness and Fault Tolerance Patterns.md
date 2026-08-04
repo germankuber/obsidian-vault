@@ -1,5 +1,5 @@
 ---
-title: "07 - Robustness and Fault Tolerance Patterns"
+title: 07 - Robustness and Fault Tolerance Patterns
 libro: Agentic Architectural Patterns for Building Multi-Agent Systems
 autor: Ali Arsanjani
 capitulo: 7
@@ -10,6 +10,7 @@ tags:
   - status/permanent
 aliases:
   - Robustness and Fault Tolerance Patterns
+updated: 2026-07-09
 ---
 
 # 07 - Robustness and Fault Tolerance Patterns
@@ -23,7 +24,7 @@ Si el cap. 6 hizo a los sistemas *trustworthy* en su razonamiento, este los hace
 
 El capítulo introduce dos elementos nuevos respecto de los deep-dives previos (caps. 5 y 6, sobre lógica estructural de coordinación y accountability): **pattern chaining** y **métricas empíricas**. La razón es que estamos entrando en el dominio de la *operational reliability*: como los patrones de robustez (y los de interacción humana del cap. 8) introducen overhead tangible en latencia y costo de tokens, requieren un nivel más alto de justificación empírica medible. Los 13 patrones se agrupan conceptualmente en cuatro familias por el tipo de fallo que atacan: **recuperación ante fallos accidentales** (Parallel Execution Consensus, Delayed Escalation, Watchdog Timeout, Adaptive Retry, Auto-Healing, Incremental Checkpointing, Majority Voting), **auditabilidad** (Causal Dependency Graph), **seguridad ante amenazas intencionales** (Agent Self-Defense, Agent Mesh Defense, Execution Envelope Isolation/Sandboxing) y **eficiencia operacional** (Optimizing for Translation Overhead, Rate-Limited Invocation, Fallback Model Invocation, Trust Decay and Scoring, Canary Agent Testing). Cada patrón motiva al siguiente en una narrativa de fallos cada vez más severos: de un resultado dudoso (consensus) → a un humano innecesariamente molestado (delayed escalation) → a un agente colgado (watchdog) → a uno que responde mal de forma determinista (adaptive retry) → a uno que crashea entero (auto-healing) → a perder horas de trabajo (checkpointing) → a necesitar máxima confianza (majority voting) → a explicar el porqué (causal graph) → a defenderse de ataques (self-defense, mesh defense, sandboxing) → a ser eficiente y económicamente sostenible (translation overhead, rate limiting, fallback, trust decay, canary). La tesis: la robustez es un *enfoque por capas*, adoptado progresivamente según la madurez del sistema, no un feature todo-o-nada.
 
-![[07-fig-7.1.png]]
+![[07-fig-7.1.png|1028]]
 *Figura 7.1 – Robustness and fault tolerance pattern chaining*
 
 ## Guía estratégica
@@ -80,7 +81,7 @@ Estos patrones introducen complejidad arquitectónica y overhead computacional, 
 - **Consecuencias** — *Pros*: **reliability y validación** (reduce el riesgo de output no verificado de un agente no-determinista), **fault tolerance** (resiliencia ante fallo de un modelo/servicio; si uno no responde, se puede seguir con el otro). *Cons*: **cost y latency** (correr múltiples agentes duplica llamadas LLM y aumenta latencia, debe esperar varias respuestas), **complexity** (capa extra de orquestación para paralelismo, comparación y escalación).
 - **Guía** — definir una tolerancia clara y apropiada para "agreement" (varía por caso: 5% en un forecast financiero vs 5 puntos en un credit score). Establecer un escalation path robusto para desacuerdos: un tercer agente "tie-breaker", fallback a un sistema rule-based determinista, o revisión humana.
 
-![[07-fig-7.2.png]]
+![[07-fig-7.2.png|567]]
 *Figura 7.2 – Parallel execution consensus workflow*
 
 ## 2. Delayed Escalation Strategy
@@ -93,7 +94,7 @@ Estos patrones introducen complejidad arquitectónica y overhead computacional, 
 - **Consecuencias** — *Pros*: **efficiency** (reduce interrupciones innecesarias y alert fatigue, los humanos se enfocan en lo genuinamente crítico), **resilience** (más resiliente a fallos transitorios que se auto-resuelven). *Cons*: **delayed resolution** (para errores críticos no-transitorios introduce intencionalmente un delay antes de notificar al humano; la ventana de retry debe tunearse con cuidado), **complexity** (el path tiered con retry y state management es más complejo que una escalación directa).
 - **Guía** — definir la política de escalación con cuidado: nº de retries, tiempo entre intentos y condiciones de escalación según el caso y la tolerancia al delay (un fraud-detection puede tener ventana de segundos; un data processing no-crítico, minutos). Siempre mandar un context packet comprehensivo al revisor humano.
 
-![[07-fig-7.3.png]]
+![[07-fig-7.3.png|825]]
 *Figura 7.3 – Delayed Escalation Strategy*
 
 ## 3. Watchdog Timeout Supervisor
@@ -106,7 +107,7 @@ Estos patrones introducen complejidad arquitectónica y overhead computacional, 
 - **Consecuencias** — *Pros*: **reliability y availability** (mecanismo clave para sistemas self-healing; evita que un agente colgado cause fallos en cascada, mejora uptime), **predictability** (impone un upper bound al tiempo de ejecución, performance más predecible). *Cons*: **resource management** (tareas mal canceladas pueden dejar recursos en estado inconsistente, ej. un lock de DB no liberado; la lógica de cancelación debe manejar cleanup), **tuning complexity** (un timeout muy corto cancela tareas válidas largas; muy largo no responde a tiempo a un stall genuino).
 - **Guía** — tunear la duración del timeout según la performance esperada y la tolerancia a latencia. Usar frameworks async (ej. `asyncio` de Python o multiprocessing) para timers no-bloqueantes. Asegurar que el fallback maneje no solo el timeout sino el cleanup de la tarea cancelada. (Implementación de ejemplo usa `asyncio.wait_for(...)`.)
 
-![[07-fig-7.4.png]]
+![[07-fig-7.4.png|309]]
 *Figura 7.4 – Watchdog Timeout Supervisor*
 
 ## 4. Adaptive Retry with Prompt Mutation
@@ -119,7 +120,7 @@ Estos patrones introducen complejidad arquitectónica y overhead computacional, 
 - **Consecuencias** — *Pros*: **resilience** (intenta activamente recuperarse de fallos deterministas del LLM en vez de rendirse), **improved accuracy** (instrucciones mejor enmarcadas suelen dar un resultado más preciso que el prompt simple original). *Cons*: **increased complexity** (generar mutaciones significativas es más complejo que un retry simple; puede requerir una librería de variantes de prompt o otra llamada LLM para reformular), **cost y latency** (cada retry consume tokens y tiempo; usar para tareas de alto valor donde la correctness lo justifica).
 - **Guía** — crear una librería de mutaciones predefinidas para failure modes comunes (ej. JSON malformado → mutación que agrega instrucciones de formato estrictas; fallo de razonamiento → mutación chain-of-thought). Empezar con pocas mutaciones de alto impacto y expandir al observar más patrones de fallo.
 
-![[07-fig-7.5.png]]
+![[07-fig-7.5.png|261]]
 *Figura 7.5 – Adaptive Retry with Prompt Mutation*
 
 ## 5. Auto-Healing Agent Resuscitation
@@ -132,7 +133,7 @@ Estos patrones introducen complejidad arquitectónica y overhead computacional, 
 - **Consecuencias** — *Pros*: **high availability** (fundamental para sistemas self-healing; el fallo de un proceso no causa disrupción prolongada), **reduced operational overhead** (automatiza la recuperación, libera a ops para root cause analysis). *Cons*: **masking bugs** (un bug persistente puede causar un "crash loop" donde el agente se reinicia constantemente, consumiendo recursos y ocultando el problema), **state restoration complexity** (para stateful, reiniciar no alcanza; la lógica de checkpointing agrega complejidad).
 - **Guía** — implementar health checks con un mecanismo confiable (endpoint `/health` dedicado o heartbeat periódico). Para prevenir crash loops, implementar **crash loop backoff** (el supervisor espera progresivamente más entre reintentos de un agente que falla repetidamente). Para stateful, combinar con checkpointing sobre un store persistente.
 
-![[07-fig-7.6.png]]
+![[07-fig-7.6.png|312]]
 *Figura 7.6 – Auto-Healing Agent Resuscitation*
 
 ## 6. Incremental Checkpointing
@@ -145,7 +146,7 @@ Estos patrones introducen complejidad arquitectónica y overhead computacional, 
 - **Consecuencias** — *Pros*: **efficiency y cost savings** (reduce el cómputo/tiempo desperdiciado al recuperarse de fallos → menor costo operacional), **increased resilience** (workflows largos más robustos; los fallos son menos catastróficos porque no se pierde todo el progreso). *Cons*: **I/O overhead** (escribir estado en cada checkpoint introduce latencia de I/O, ralentiza el happy path), **increased complexity** (la lógica de save/load/validate de checkpoints agrega complejidad y requiere un store durable confiable).
 - **Guía** — elegir checkpoints estratégicamente: checkpointear tras cada operación menor crea I/O excesivo; muy infrecuente diluye el valor. Identificar los pasos más intensivos o de mayor riesgo y poner checkpoints justo después. Asegurar que el mecanismo sea **atómico** (evitar archivos de estado corruptos) y usar un store durable apropiado al tamaño del estado (cloud storage bucket para archivos grandes, DB para data estructurada).
 
-![[07-fig-7.7.png]]
+![[07-fig-7.7.png|150]]
 *Figura 7.7 – Incremental Checkpointing*
 
 ## 7. Majority Voting Across Agents
@@ -158,7 +159,7 @@ Estos patrones introducen complejidad arquitectónica y overhead computacional, 
 - **Consecuencias** — *Pros*: **enhanced reliability** (máximo nivel de confianza para decisiones automáticas; un outlier es simplemente sobrevotado), **democratized decisions** (no depende del sesgo/failure mode de un solo modelo sino del consenso de un grupo diverso → más robusto y justo). *Cons*: **high cost y latency** (el patrón de redundancia más caro: 3+ llamadas costosas por decisión; espera al más lento de los N), **increased orchestration complexity** (gestionar N llamadas paralelas, agregar, contar votos y manejar casos sin mayoría).
 - **Guía** — usar un nº **impar** de agentes (3, 5…) para evitar empates. Los agentes del pool deben ser lo más independientes posible (idealmente distintos foundation models, distintos prompt templates, o fine-tuned en datasets distintos) para diversidad de razonamiento. Definir un protocolo claro para el caso sin mayoría.
 
-![[07-fig-7.8.png]]
+![[07-fig-7.8.png|272]]
 *Figura 7.8 – Majority Voting Across Agents*
 
 ## 8. Causal Dependency Graph
@@ -171,7 +172,7 @@ Estos patrones introducen complejidad arquitectónica y overhead computacional, 
 - **Consecuencias** — *Pros*: **explainability y auditability** (lineage claro, recorrible y machine-readable por decisión; invaluable para compliance regulatorio, root cause analysis y confianza), **debugging** (ante un fallo, trazar dependencias hacia atrás desde el punto de fallo identifica el dato/paso exacto, acelera dramáticamente el debug). *Cons*: **storage y performance overhead** (mantener un grafo detallado por transacción introduce overhead de storage e I/O; el logging puede volverse cuello de botella), **implementation discipline** (solo funciona si *cada* agente cumple estrictamente el protocolo de logging; un solo agente que no loguea sus dependencias rompe la cadena causal).
 - **Guía** — para workflows simples, un objeto JSON en una DB estándar o log file alcanza. Para grafos muy complejos o frecuentemente recorridos, usar una **graph database** (Neo4j, Amazon Neptune). Crítico establecer un schema de logging estandarizado y *enforced* que todos los agentes sigan.
 
-![[07-fig-7.9.png]]
+![[07-fig-7.9.png|503]]
 *Figura 7.9 – Causal Dependency Graph*
 
 ## 9. Agent Self-Defense
@@ -198,7 +199,7 @@ Estos patrones introducen complejidad arquitectónica y overhead computacional, 
 - **Consecuencias** — *Pros*: **zero-trust security** (best practice moderna; previene lateral movement y contiene el blast radius de un agente comprometido), **centralized policy y logging** (punto único para gestionar políticas inter-agente y auditar toda la comunicación). *Cons*: **performance bottleneck** (el firewall inspecciona cada mensaje → latencia; si el firewall falla, single point of failure que detiene toda la comunicación inter-agente), **policy management overhead** (al crecer agentes e interacciones, las políticas se vuelven complejas de gestionar).
 - **Guía** — el `FirewallAgent` debe diseñarse para alta performance y alta disponibilidad (no volverse cuello de botella). Definir políticas con el **principio de least privilege**: cada agente solo los permisos mínimos necesarios (ej. read-only donde se pueda, acceso a data sensible restringido a muy pocos agentes internos trusted).
 
-![[07-fig-7.11.png]]
+![[07-fig-7.11.png|293]]
 *Figura 7.11 – Agent Mesh Defense*
 
 ## 11. Execution Envelope Isolation (Sandboxing)
@@ -211,7 +212,7 @@ Estos patrones introducen complejidad arquitectónica y overhead computacional, 
 - **Consecuencias** — *Pros*: **strong security containment** (fundamental para workloads de alto riesgo; limita el blast radius, protege host y otros agentes), **resource management** (límites estrictos de CPU/memoria previenen que un agente malicioso/defectuoso cause un DoS al host). *Cons*: **performance overhead** (crear/gestionar/destruir sandboxes por tarea introduce overhead y latencia vs correr directo en el host), **implementation complexity** (configurar un sandbox seguro con el set mínimo de permisos requiere expertise en containerization-Docker, micro-VMs-Firecracker o process isolation-gVisor).
 - **Guía** — para seguridad enterprise-grade, usar tecnologías de sandboxing maduras (Docker) en vez de solo subprocesses. Aplicar **least privilege**: por default denegar todos los permisos (network, file I/O…) y conceder explícitamente solo el mínimo absoluto para la tarea específica. (Ejemplo básico usa `subprocess.run(..., timeout=5)`; producción usaría containers con controles más estrictos.)
 
-![[07-fig-7.12.png]]
+![[07-fig-7.12.png|354]]
 *Figura 7.12 – Execution Envelope Isolation*
 
 ## 12. Optimizing for Translation Overhead
@@ -237,7 +238,7 @@ Estos patrones introducen complejidad arquitectónica y overhead computacional, 
 - **Consecuencias** — *Pros*: **system stability** (evita que un agente sature una dependencia downstream y cause fallos en cascada), **cost y quota management** (gestión predecible del uso de API, evita costos inesperados y bloqueos por violar términos de uso). *Cons*: **introduces latency** (por diseño encola/retrasa requests que exceden el threshold; el sistema debe manejar estos delays con gracia), **tuning complexity** (muy alto = sin protección; muy bajo = cuello de botella innecesario).
 - **Guía** — usar una librería madura y testeada (ej. `ratelimiter` en Python) en vez de implementar de cero. Cuando un request es rate-limited, implementar **exponential backoff** para los retries (esperas progresivamente más largas), previniendo un "thundering herd" de retries que sature el sistema apenas la ventana expira. (Implementación de ejemplo usa un *sliding window* con `deque` de timestamps.)
 
-![[07-fig-7.14.png]]
+![[07-fig-7.14.png|441]]
 *Figura 7.14 – Rate-Limited Invocation*
 
 ## 14. Fallback Model Invocation
@@ -250,7 +251,7 @@ Estos patrones introducen complejidad arquitectónica y overhead computacional, 
 - **Consecuencias** — *Pros*: **high availability** (graceful degradation efectiva; sigue operando aun cuando el modelo primario no está disponible), **cost management** (también usable para ahorrar costos: rutear requests simples low-stakes al backup más barato por default, usar el primario caro solo para tareas complejas). *Cons*: **inconsistent responses** (primario y backup pueden tener distintas capacidades, tonos y knowledge bases → UX inconsistente en el failover), **maintenance overhead** (mantener integraciones de ≥2 LLMs, con prompt templates y output validation separados).
 - **Guía** — (la implementación de ejemplo simula un fallo aleatorio del primario que dispara el backup; valida el output con `_is_valid` antes de aceptarlo).
 
-![[07-fig-7.15.png]]
+![[07-fig-7.15.png|311]]
 *Figura 7.15 – Fallback Model Invocation*
 
 ## 15. Trust Decay and Scoring
@@ -263,7 +264,7 @@ Estos patrones introducen complejidad arquitectónica y overhead computacional, 
 - **Consecuencias** — *Pros*: **self-optimizing y efficient** (el sistema aprende a favorecer sus mejores componentes → mayor calidad, menor tasa de fallos, más eficiencia sin intervención manual), **graceful degradation** (maneja la degradación lenta de un agente ruteando el tráfico lejos del componente defectuoso). *Cons*: **implementation complexity** (mantener/actualizar/decaer scores agrega complejidad al orquestador), **agent starvation** (un agente que falla unas veces puede bajar tanto su score que nunca se lo vuelve a elegir, aun si ya se arregló el problema subyacente).
 - **Guía** — (la implementación de ejemplo: `success_increment=0.1`, `failure_decrement=0.2`, floor de score en 0.1; ordena agentes por score descendente y delega al mejor disponible).
 
-![[07-fig-7.16.png]]
+![[07-fig-7.16.png|393]]
 *Figura 7.16 – Trust Decay and Scoring*
 
 ## 16. Canary Agent Testing
@@ -276,7 +277,7 @@ Estos patrones introducen complejidad arquitectónica y overhead computacional, 
 - **Consecuencias** — *Pros*: **zero-downtime validation** (gold standard para testear cambios en vivo; decisiones data-driven sin impacto en usuarios de producción), **risk mitigation** (de-riesga el deployment atrapando bugs, regresiones o cambios no intencionales antes de una caída a nivel sistema). *Cons*: **increased cost** (caro: correr y mantener ≥2 versiones en paralelo, duplicando infra y costos de inferencia durante el test), **implementation complexity** (orquestación y logging sofisticados para el dual traffic flow, más un pipeline de analytics robusto para comparar outputs).
 - **Guía** — empezar con el "shadow mode" (el canary no sirve tráfico en vivo). Una vez confiados, progresar a un **live canary test** donde un pequeño % de tráfico (ej. 1%) se rutea al canary para la respuesta real (permite testear impactos reales como latencia). Esencial un framework robusto de métricas y monitoring para comparar las versiones en métricas de negocio clave, no solo similitud de output.
 
-![[07-fig-7.17.png]]
+![[07-fig-7.17.png|527]]
 *Figura 7.17 – Canary Agent Testing*
 
 ## Citas

@@ -10,9 +10,9 @@ tags:
   - status/permanent
 aliases:
   - GenAI in the Enterprise - Landscape, Maturity, and Agent Focus
-updated: 2026-06-11
+updated: 2026-06-24
 ---
-
+****
 # 01 - GenAI in the Enterprise - Landscape, Maturity, and Agent Focus
 
 > [!info] Capítulo 1 · *Agentic Architectural Patterns for Building Multi-Agent Systems* — Ali Arsanjani
@@ -198,17 +198,6 @@ Pasar de PoCs a sistemas robustos, confiables y escalables presenta hurdles sign
 >   - **Entangled workflow failure**: el agente no estaba bien integrado al workflow de soporte humano. Al fallar, su única función era decir "I cannot help with that. Please contact support" — no transfería el chat, ni daba un ticket number, ni pasaba el historial → forzaba a los clientes a empezar todo de nuevo, destruyendo las ganancias de eficiencia.
 > - Tras una semana de quejas escalando, menciones negativas en social media y el alto costo de correcciones manuales, retiraron el agente. **La lección: un PoC exitoso sobre data limpia en un lab NO garantiza un sistema production-ready.** No arquitecturar para el contexto real, los edge cases y la integración con los procesos de negocio existentes convirtió un experimento prometedor en un fracaso costoso.
 
-### Tabla 1.3 – Desafíos para llevar GenAI a producción
-
-| Categoría de desafío | Consideraciones / desafíos específicos |
-|---|---|
-| Strategic y organizational | Graduar PoCs (demostrar ROI, stakeholder alignment, integración operativa), problem-solution fit, change management, driving user adoption. |
-| Data-related | Data governance (ownership, licensing), data quality (relevante, unbiased), romper data silos, privacy y compliance (GDPR, HIPAA, user trust). |
-| Model y technical | Robustness y security (adversarial attacks, input validation, drift, secure tool use), scalability (infra, serving), integración técnica (legacy, APIs), monitoring y LLMOps/AgentOps, minimizar alucinaciones/asegurar accuracy (grounding, context). |
-| Resource-related | Adquirir/retener expertise técnica y gestionar constraints de costo/recursos (compute, development). |
-| Ethical y responsible AI | Mitigar bias, asegurar transparency y explainability, establecer governance frameworks, adherir a compliance y estándares éticos. |
-
-Superar este set multifacético requiere un compromiso estratégico a nivel C-level, inversión significativa en infra y talento, prácticas de governance robustas y un roadmap claro que vaya más allá de la experimentación para embeber GenAI y la IA agéntica como capacidades core de valor en la empresa.
 
 ## Citas
 

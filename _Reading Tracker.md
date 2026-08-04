@@ -2,13 +2,15 @@
 title: Reading Tracker
 tags:
   - meta/reading-tracker
+  - type/moc
+  - status/permanent
 aliases:
   - Reading Tracker
   - Pendiente de leer
 cssclasses:
   - reading-tracker
 created: 2026-06-15
-updated: 2026-06-15
+updated: 2026-07-05
 ---
 
 # 📖 Reading Tracker

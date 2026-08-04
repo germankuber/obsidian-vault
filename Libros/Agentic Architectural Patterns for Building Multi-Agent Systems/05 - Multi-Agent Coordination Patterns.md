@@ -1,5 +1,5 @@
 ---
-title: "05 - Multi-Agent Coordination Patterns"
+title: 05 - Multi-Agent Coordination Patterns
 libro: Agentic Architectural Patterns for Building Multi-Agent Systems
 autor: Ali Arsanjani
 capitulo: 5
@@ -10,6 +10,7 @@ tags:
   - status/permanent
 aliases:
   - Multi-Agent Coordination Patterns
+updated: 2026-07-03
 ---
 
 # 05 - Multi-Agent Coordination Patterns
@@ -61,7 +62,7 @@ Patrón fundacional para **desacoplar la intención del usuario del agente espec
 - **Consecuencias** — *Pros*: **decoupling** (la capa de extracción no conoce nombres de agentes; los agentes no parsean lenguaje natural), **scalability** (agregar un agente = registrar sus capacidades en el grafo, la lógica de routing no cambia), **safety** (el grafo es un whitelist: no puede mandar "delete database" a un agente salvo que el link esté explícitamente definido). *Cons*: **latency** (la extracción requiere una llamada LLM antes del trabajo real), **schema rigidity** (si la query no encaja en los enums Action/Resource, la extracción falla o degrada).
 - **Guía** — schema con abstracción "Goldilocks": ni demasiado granular (`FindPDF`/`FindWordDoc` → grafo masivo) ni demasiado amplio (`DoWork` → pierde poder de distinguir); 10-20 actions/resources canónicos suele bastar. Usar **function calling** (no prompt engineering simple) para forzar JSON estricto. Considerar un **semantic cache** en la capa de routing (embeber la query, chequear vector DB por requests previos similares) para bypassear la extracción en queries repetidas, reduciendo latencia y costo.
 
-![[05-fig-5.1.png]]
+![[05-fig-5.1.png|401]]
 *Figura 5.1 – The Agent Router pattern*
 
 ## 2. Task Delegation Frameworks
@@ -78,7 +79,7 @@ El "sistema operativo" del multi-agente: el modelo de alto nivel que dicta cómo
 - **Consecuencias** — *Pros*: **predictability** (flujo claro, simple de monitorear/debuggear/auditar), **governance** (control centralizado simplifica enforcement de reglas de negocio y compliance). *Cons*: **scalability** (el orquestador único puede volverse cuello de botella), **single point of failure** (si el orquestador falla, todo el workflow se detiene).
 - **Guía** — mantener **separación estricta de concerns** para evitar un "God agent": el orquestador solo coordina (rutea, trackea estado, decide), no ejecuta lógica de dominio. **Robust state management**: como es single point of failure, persistir el estado ("checkpointing") tras cada paso (frameworks como **LangGraph** lo hacen, persistiendo el graph state a una DB → reanudar exactamente donde quedó). Comunicación **determinista** (output schemas estrictos vía Pydantic/JSON mode, no lenguaje libre). El supervisor como **central fault handler** (retry, route a backup, fail gracefully).
 
-![[05-fig-5.2.png]]
+![[05-fig-5.2.png|421]]
 *Figura 5.2 – Supervisor Architecture workflow*
 
 ### 2b. Swarm Architecture (coordinación descentralizada emergente)
@@ -91,7 +92,7 @@ El "sistema operativo" del multi-agente: el modelo de alto nivel que dicta cómo
 - **Consecuencias** — *Pros*: **resilience** (sin controlador central → sin single point of failure; sigue operando aunque algunos agentes caigan), **scalability** (peer-to-peer escala horizontal agregando agentes). *Cons*: **debuggability** (el flujo emergente y no-lineal es difícil de debuggear/predecir), **governance** (enforcing reglas/compliance sin autoridad central es difícil).
 - **Guía** — para la mayoría de las apps enterprise, empezar con **Supervisor** (más fácil de construir/debuggear/gobernar). Algunas apps se benefician de descentralización con el tiempo (Swarm: más resiliente y adaptativo). En la práctica, muchos sistemas complejos adoptan un **modelo híbrido**: un orquestador top-level gestiona el proceso de negocio pero delega sub-goals grandes a "swarms"/"crews" auto-organizados que manejan los detalles entre sí — combinando la claridad del control central con la adaptabilidad de la decisión distribuida.
 
-![[05-fig-5.3.png]]
+![[05-fig-5.3.png|565]]
 *Figura 5.3 – Swarm Architecture workflow*
 
 ### Comparación Supervisor vs Swarm (Tabla 5.2)
@@ -119,7 +120,7 @@ Mientras los frameworks de delegación definen las "rules of engagement" (centra
 - **Consecuencias** — *Pros*: **flexibility** (excelente para problemas ill-posed que requieren contribuciones iterativas), **auditability** (el log append-only da una historia clara de cómo evolucionó la solución, crucial para el "chain of thought" del sistema). *Cons*: **latency** (escritura central + evaluación → más lento que message passing directo), **bottleneck** (el controller puede ser cuello de botella si el blackboard no se shardea/indexa).
 - **Guía** — mejor con muchos "weak experts" (agentes especializados pero limitados) o cuando se necesita convergencia trazable. Evitar para tareas simples low-latency (el overhead supera el beneficio). Implementar una "cleanup strategy" / "forgetting mechanism" para prunear facts viejos o invalidados, o el blackboard se vuelve un scratchpad ruidoso que degrada la performance.
 
-![[05-fig-5.4.png]]
+![[05-fig-5.4.png|384]]
 *Figura 5.4 – Blackboard topology*
 
 ### 3b. Contract-Net Marketplace (Mediator + Bids)
@@ -131,7 +132,7 @@ Mientras los frameworks de delegación definen las "rules of engagement" (centra
 - **Consecuencias** — *Pros*: **adaptive selection** (se adapta dinámicamente a disponibilidad/capacidades cambiantes sin cambios de código), **high utilization** (desacopla requester de provider; el trabajo fluye a los mejores en ese momento). *Cons*: **auction latency** (la negociación introduce overhead antes de empezar), **risk of gaming** (sin incentivos para bidding honesto, los agentes pueden sobrestimar su confidence para ganar tareas).
 - **Guía** — usar con un toolset grande/variable o cuando se optimiza por factores dinámicos (costo/velocidad). Evitar para workflows fijos y predecibles (routing estático es más simple/rápido). El solicitor debe imponer **deadlines estrictos** para recibir bids (evitar espera infinita). Considerar un **"reputation score"** para penalizar agentes que ganan contratos pero no entregan calidad.
 
-![[05-fig-5.5.png]]
+![[05-fig-5.5.png|546]]
 *Figura 5.5 – Contract-Net Protocol*
 
 ### 3c. Supervision Tree with Guarded Capabilities
@@ -144,7 +145,7 @@ Mientras los frameworks de delegación definen las "rules of engagement" (centra
 - **Consecuencias** — *Pros*: **high resilience** (recovery automático sin intervención humana), **blast-radius control** (un crash en una rama riesgosa no afecta las ramas seguras ni el root). *Cons*: **complexity** (más coreografía arquitectónica; pensar en términos de árboles y lifecycle), **communication overhead** (la comunicación cross-tree requiere gateways claros / mailboxes; los agentes no pueden "agarrar" data de un sibling).
 - **Guía** — crítico para producción con tools inestables (web browsing, code execution). Evitar árboles profundos para utilities simples single-shot (el overhead domina). Implementar **backoff logic**: si un child crashea 5 veces en 1 segundo, dejar de reiniciarlo (evitar "crash loop" que quema recursos). Imponer que los children no bypasseen a su supervisor para comunicarse con el root.
 
-![[05-fig-5.6.png]]
+![[05-fig-5.6.png|636]]
 *Figura 5.6 – Supervision Tree with Guarded Capabilities*
 
 ## 4. Multi-Agent Planning
@@ -157,7 +158,7 @@ Mientras los frameworks de delegación definen las "rules of engagement" (centra
 - **Consecuencias** — *Pros*: **efficiency** (especialización + ejecución paralela), **leverages specialization** (resultados de mayor calidad que un agente general). *Cons*: **coordination overhead** (el planning consume recursos, puede ser cuello de botella), **risk of rigidity** (un plan estático falla si el entorno cambia o una sub-tarea falla).
 - **Guía** — el plan debe ser **flexible, no estático**: adaptarse ante info nueva o sub-tareas fallidas. Definir claramente las **dependencias** entre sub-tareas para handoffs fluidos y evitar errores de ejecución.
 
-![[05-fig-5.7.png]]
+![[05-fig-5.7.png|733]]
 *Figura 5.7 – Multi-Agent Planning workflow*
 
 ## 5. Knowledge Sharing
@@ -169,7 +170,7 @@ Mientras los frameworks de delegación definen las "rules of engagement" (centra
 - **Consecuencias** — *Pros*: **collective intelligence** (el sistema se vuelve más capaz que la suma de sus partes; aprende de la experiencia colectiva), **efficiency** (resuelve problemas recurrentes más rápido). *Cons*: **data integrity** (riesgo de propagar info incorrecta o maliciosa), **governance overhead** (se necesita un sistema para gestionar/verificar/prunear el knowledge base).
 - **Guía** — **knowledge representation**: formato estructurado (JSON) para facts objetivos específicos; texto no estructurado en vector DBs para conocimiento experiencial matizado. **Provenance**: trackear la fuente de todo conocimiento compartido (evaluar confiabilidad, debuggear propagación de info incorrecta). **Trust y verification**: permitir que los agentes raten/validen info de sus peers, o delegar un "governance agent" especializado que revise y prunee periódicamente.
 
-![[05-fig-5.8.png]]
+![[05-fig-5.8.png|653]]
 *Figura 5.8 – Agent information sharing*
 
 ## 6. Tool Routing in Multi-Agent Contexts
@@ -181,7 +182,7 @@ Mientras los frameworks de delegación definen las "rules of engagement" (centra
 - **Consecuencias** — *Pros*: **higher accuracy** (limitar las opciones de tools por agente reduce invocaciones incorrectas), **focus** (agentes muy especializados, más eficientes). *Cons*: **rigidity** (menos flexible si una tarea inesperadamente requiere una tool fuera del set predefinido), **upfront design** (requiere diseño y mantenimiento cuidadoso del routing map).
 - **Guía** — para muchos tools, crear un **tool registry** que los agentes puedan consultar (routing más dinámico que asignaciones hardcoded). La lógica de routing puede delegarse a un **router agent LLM-powered** que use function-calling para seleccionar el agente y su tool asociada.
 
-![[05-fig-5.9.png]]
+![[05-fig-5.9.png|451]]
 *Figura 5.9 – Centralized tool routing example implementation*
 
 ## 7. Consensus
@@ -194,7 +195,7 @@ Mientras los frameworks de delegación definen las "rules of engagement" (centra
 - **Consecuencias** — *Pros*: **reliability** (decisiones basadas en un entendimiento compartido y validado, no un único data point potencialmente viciado), **fault tolerance** (el fallo de un agente no necesariamente detiene el proceso). *Cons*: **latency** (múltiples rounds de comunicación → no apto para sistemas real-time), **complexity** (manejar edge cases: fallo de agentes, network partitions, malicious actors).
 - **Guía** — **termination condition** clara (máximo de rounds o threshold de convergencia, evitar loops infinitos). El **convergence algorithm** como lógica primaria (de un promedio numérico simple a métodos que pesan opiniones según la reliability histórica del agente). Priorizar **explainability** (registrar el razonamiento y estados intermedios del debate como audit trail).
 
-![[05-fig-5.10.png]]
+![[05-fig-5.10.png|340]]
 *Figura 5.10 – Agent consensus workflow*
 
 ## 8. Agent Negotiation
@@ -207,7 +208,7 @@ Mientras los frameworks de delegación definen las "rules of engagement" (centra
 - **Consecuencias** — *Pros*: **flexibility** (acuerdos dinámicos con mejores outcomes que políticas rígidas), **optimality** (descubre soluciones "win-win" no obvias para una autoridad central). *Cons*: **time y complexity** (puede ser lento e intensivo, sin garantía de acuerdo), **no guarantee** (puede fallar → deadlock si no hay fallback).
 - **Guía** — definir **termination conditions y fallback positions** claras (¿qué pasa si no hay deal? el agente necesita un plan B). Loggear toda la secuencia de ofertas/contraofertas para auditabilidad y oversight humano.
 
-![[05-fig-5.11.png]]
+![[05-fig-5.11.png|422]]
 *Figura 5.11 – Agent Negotiation workflow*
 
 ## 9. Resource Allocation
@@ -220,7 +221,7 @@ Mientras los frameworks de delegación definen las "rules of engagement" (centra
 - **Consecuencias** — *Pros*: **optimization** (recursos escasos hacia las tareas más críticas, maximiza utility global), **stability** (previene contención, deadlocks, race conditions). *Cons*: **overhead** (el proceso de allocation introduce latencia), **risk of starvation** (reglas mal diseñadas → los low-priority nunca reciben recursos; se necesita un safeguard).
 - **Guía** — lógica de allocation **transparente y explícita** (prioridad/bidding/fairness; clave para debugging y explainability). En sistemas de subasta, diseñar las reglas para fomentar bidding del valor real (**incentive compatibility** — previene misrepresentación de necesidades). El mecanismo debe adaptarse a condiciones cambiantes y **preempt** tareas low-priority si surge una crítica.
 
-![[05-fig-5.12.png]]
+![[05-fig-5.12.png|737]]
 *Figura 5.12 – Resource Allocation*
 
 ## 10. Conflict Resolution
@@ -237,7 +238,7 @@ Mientras los frameworks de delegación definen las "rules of engagement" (centra
 - **Consecuencias** — *Pros*: **coherence** (el sistema no termina en estado contradictorio/deadlock), **safety** (previene situaciones peligrosas — colisiones de robots, corrupción lógica de datos). *Cons*: **latency** (detección+resolución añaden overhead), **complexity** (diseñar políticas/protocolos robustos para cada escenario aumenta mucho el esfuerzo de ingeniería).
 - **Guía (rica)** — **conflict detection** primero (el "early warning system": un supervisor central que monitorea acciones/planes; resource locking; registrar acciones intencionadas en un shared space antes de ejecutar). **Explainable resolutions / audit trail** (loggear por qué se eligió cada resolución, ej. "Agent B's plan approved over Agent A's because policy [N] states safety-critical tasks have priority"). **Defined escalation paths / human-in-the-loop** (fallback último: un humano que revisa el contexto y da el juicio final). **Simulate to understand** (stress-test de las estrategias bajo condiciones variadas antes de deployar, identificar deadlocks/comportamientos emergentes indeseados).
 
-![[05-fig-5.13.png]]
+![[05-fig-5.13.png|509]]
 *Figura 5.13 – Conflict Resolution workflow*
 
 ## 11. Formation Control
@@ -250,7 +251,7 @@ Mientras los frameworks de delegación definen las "rules of engagement" (centra
 - **Consecuencias** — *Pros*: **scalability** (la formación crece a cientos/miles de agentes sin aumentar la carga de ningún controlador, decisiones locales), **resilience** (robusto al fallo de agentes individuales; si uno cae, los vecinos cierran el gap). *Cons*: **local optima** (agentes con info local pueden quedar atascados en obstáculos complejos — ej. un cul-de-sac — que un global planner evitaría), **stability risks** (control laws mal tuneadas → oscilación, la formación tiembla por sobre-corrección).
 - **Guía** — **neighbor discovery** confiable (comunicación directa low-latency tipo mesh local, u observar un shared state). Las **control laws** son el core: diseñarlas con principios de **control theory** para estabilidad (que no oscile ni se rompa bajo estrés). **Simulaciones** esenciales para testear/refinar las control laws antes de deployar en un entorno físico.
 
-![[05-fig-5.14.png]]
+![[05-fig-5.14.png|407]]
 *Figura 5.14 – A single agent's control loop for Formation Control*
 
 ## Citas
