@@ -6,12 +6,12 @@ capitulo: 8
 created: 2026-08-03
 tags:
   - libros/ontology-engineering
-  - type/case-study
-  - status/stub
+  - type/reading-note
+  - status/done
 aliases:
   - Tools and Practical Considerations
   - Cap 8 - Herramientas y consideraciones prácticas
-updated: 2026-08-03
+updated: 2026-08-04
 ---
 
 # 08 - Tools and Practical Considerations
@@ -29,9 +29,11 @@ La segunda mitad son las **consideraciones prácticas**, y es donde el capítulo
 
 Cierra ubicando el trabajo en el paisaje contemporáneo: la relación entre ontologías y **knowledge graphs**, donde el término "ontología" a menudo desaparece del vocabulario del proyecto aunque el trabajo sea exactamente el mismo.
 
+> [!warning] **Estado del herramental: el libro es de 2019 y esta sección envejeció.** Lo esencial sigue vigente (Protégé, los razonadores, la lógica de elección), pero hay cambios que importan: **Pellet está discontinuado** (usar Openllet), **Blazegraph fue abandonado en 2020**, y aparecieron dos piezas que hoy son prácticamente obligatorias y que el libro no puede mencionar: **ROBOT** para automatización y CI, y el **ODK** para estructura de repositorio. El mapa actualizado a 2026 está en [[Herramental de ontologías]].
+
 ## Editores
 
-**[[Protégé]]** es el estándar de facto: open source, desarrollado en Stanford, con soporte completo de [[OWL]] 2, integración con razonadores y un ecosistema de plugins. Existe en versión escritorio y en WebProtégé para trabajo colaborativo.
+**[[Protégé]]** es el estándar de facto: open source, desarrollado en Stanford, con soporte completo de [[OWL]] 2, integración con razonadores y un ecosistema de plugins. Existe en versión escritorio y en WebProtégé para trabajo colaborativo. *(Sigue vigente: versión estable 5.6.8, septiembre 2025.)*
 
 Lo que un editor aporta más allá de escribir axiomas:
 
@@ -117,6 +119,44 @@ En la práctica industrial el término "ontología" a menudo desaparece del voca
 > [!note] La diferencia práctica es de **énfasis**, no de naturaleza. El mundo de las ontologías pone el peso en el rigor lógico y el razonamiento; el mundo de los knowledge graphs lo pone en la escala, la población de datos y la consulta. Los mejores sistemas toman de ambos: rigor suficiente para que el significado sea explícito, pragmatismo suficiente para que escale.
 
 > [!tip] Todo lo que este libro enseña aplica a un knowledge graph, aunque nadie en el proyecto use la palabra "ontología": [[competency questions]] para acotar el alcance, análisis de terminología para el vocabulario, decisiones de modelado explícitas, evaluación contra casos de uso, y governance para que sobreviva. La ausencia del término no es ausencia del problema.
+
+### La división que el libro no menciona: RDF vs property graphs
+
+Es la decisión de arquitectura más consecuente del lado industrial, y son **modelos de datos incompatibles**, no dos sintaxis de lo mismo.
+
+| | RDF (tripletas) | Property Graph (LPG) |
+|---|---|---|
+| **Unidad** | `sujeto → predicado → objeto` | Nodos y aristas con propiedades |
+| **Identidad** | IRI **global**, resoluble | ID local a la base |
+| **Atributos en aristas** | No nativo (reificación o RDF-star) | **Nativo** — su ventaja principal |
+| **Esquema** | Ontología formal, razonamiento | Opcional, sin semántica formal |
+| **Consulta** | [[SPARQL]] (W3C) | Cypher / Gremlin / **GQL** (ISO 39075:2024) |
+| **Federación** | Nativa vía `SERVICE` | Débil: los IDs no son globales |
+| **Fuerte en** | Interoperabilidad, datos públicos, dominios regulados | Analítica de grafos, recorridos, performance |
+
+> [!tip] **Criterio**: ¿los datos deben interoperar fuera de la organización, hay requisito regulatorio, o necesitás inferencia? → RDF. ¿Es un grafo interno con muchos atributos en las relaciones y el caso es recorrido y analítica? → property graph. La mayoría de los sistemas empresariales cae en el segundo grupo — por eso Neo4j domina la mención comercial mientras RDF domina los datos públicos y la biomedicina.
+
+> [!note] **RDF-star** (parte de RDF 1.2 / SPARQL 1.2, en track de Recommendation) cierra la brecha principal: permite anotar una tripleta directamente —`<< :juan :trabajaEn :acme >> :desde 2019 .`— sin reificar. Es el desarrollo más relevante del stack RDF de los últimos años. Ver [[Knowledge graph]].
+
+### De dónde salen los datos
+
+El libro asume que la ontología existe y los datos aparecen. En un proyecto real el mapeo es el 70% del esfuerzo:
+
+| Enfoque | Herramienta | Cuándo |
+|---|---|---|
+| **R2RML / RML** | Estándar W3C | Mapeo declarativo de relacional (y CSV/JSON/XML) a RDF |
+| **Virtual KG (OBDA)** | **Ontop** | No materializar: SPARQL se reescribe a SQL contra la base existente. El perfil OWL 2 QL existe para esto |
+| **Extracción desde texto** | Pipelines con LLM | Ver [[Ontología y LLMs]] |
+
+> [!tip] El enfoque **virtual** es el más subestimado: si los datos ya viven en una base relacional que otros sistemas usan, materializarlos como RDF crea un problema de sincronización permanente. Ontop lo evita — los datos se quedan donde están y la ontología es una capa de acceso semántico.
+
+> [!warning] **Entity resolution es el problema difícil, no el mapeo.** Fusionar fuentes exige decidir cuándo dos registros son la misma entidad. En RDF se expresa con `owl:sameAs`, y usarlo a la ligera es destructivo: es transitivo y simétrico, así que **un solo enlace erróneo fusiona dos entidades para siempre** y propaga todas sus propiedades cruzadas.
+
+### Ontologías y LLMs
+
+Fuera del alcance del libro por fecha, y hoy la pregunta obvia. La relación es bidireccional: **la ontología aporta grounding** (trazabilidad, restricción del espacio de salida, verificación) y **el LLM ataca el cuello de botella histórico** de la construcción (extracción de terminología y tripletas a escala).
+
+> [!note] La división del trabajo que funciona: el LLM hace **lenguaje** —entender la pregunta, extraer del texto, redactar—; el grafo y el razonador hacen **verdad y estructura**. Cuando se le pide al modelo que haga de base de conocimiento, falla; cuando se le pide que sea la interfaz de lenguaje sobre una base de conocimiento, funciona. Ver [[Ontología y LLMs]] y [[Graph RAG]].
 
 ## Para aplicar
 

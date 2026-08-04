@@ -6,11 +6,11 @@ created: 2026-08-03
 tags:
   - libros/ontology-engineering
   - type/moc
-  - status/stub
+  - status/done
 aliases:
   - Ontology Engineering
   - Ontology Engineering MOC
-updated: 2026-08-03
+updated: 2026-08-04
 ---
 
 # Ontology Engineering — Mapa del libro
@@ -60,13 +60,42 @@ El hilo conductor es uno solo: **el formalismo está al servicio del caso de uso
 
 La confirmación llega al final, y cierra el círculo: las causas por las que fracasan los proyectos de ontología ([[08 - Tools and Practical Considerations]]) **no son técnicas** — modelar sin caso de uso, sin experto comprometido, sin consumidor real, sin governance. Son exactamente los riesgos que la tesis del capítulo 1 anticipaba. Por eso el libro dedica la mayor parte de sus páginas a metodología y proceso, y solo el final a herramientas.
 
-## 🌱 Conceptos para enlazar / escribir
+## 🗺️ Rutas de lectura
 
-- [[ontología]] · [[espectro semántico]] · [[competency questions]] — el núcleo conceptual del libro.
-- [[RDF]] · [[RDFS]] · [[OWL]] · [[SKOS]] · [[SHACL]] — el stack de estándares del W3C.
-- [[Knowledge graph]] — el pariente industrialmente dominante; vale una nota que contraste ambos términos.
-- [[Graph RAG]] — donde este conocimiento se cruza con el trabajo de recuperación del vault.
-- [[Model Context Protocol (MCP)]] — vocabulario compartido para interoperabilidad, en clave agéntica.
+El orden 1→8 es el del libro. Según para qué vengas:
+
+- **Voy a modelar la semana que viene** → [[02 - Ontology Development Methodology]] → [[03 - Terminology and Domain Analysis]] → [[04 - Modeling Decisions]] → [[06 - Evaluation and Testing]]
+- **Tengo que decidir si hacer una ontología** → [[01 - Introduction]] → [[08 - Tools and Practical Considerations]] (las causas de fracaso)
+- **Ya tengo una y hay que sostenerla** → [[06 - Evaluation and Testing]] → [[07 - Lifecycle, Versioning and Governance]] → [[Herramental de ontologías]]
+- **Me interesa el cruce con AI** → [[08 - Tools and Practical Considerations]] → [[Knowledge graph]] → [[Ontología y LLMs]] → [[Graph RAG]]
+
+## ⚠️ Qué NO cubre este libro
+
+Es un volumen de *Synthesis Lectures* (~90 páginas, 2019), y se lee mejor sabiendo dónde termina su alcance:
+
+- **Lógica descriptiva formal** — usa OWL sin explicar el andamiaje. Cubierto en [[Description Logic]].
+- **Perfiles OWL 2 en detalle** — los nombra cuatro veces sin decir qué sacrifica cada uno. Ver [[Razonadores OWL]].
+- **Metodologías con nombre** — METHONTOLOGY, NeOn, SAMOD, LOT, y hasta *Ontology 101* de la propia McGuinness. Resumidas en [[02 - Ontology Development Methodology]].
+- **Herramental posterior a 2019** — ROBOT y ODK son hoy estándar de facto y no pueden aparecer. Ver [[Herramental de ontologías]].
+- **Poblado de datos** — R2RML, virtual knowledge graphs, entity resolution: el 70% del esfuerzo real de un proyecto.
+- **Property graphs** — Neo4j, Cypher, GQL: la mitad de la industria del grafo. Ver [[Knowledge graph]].
+- **Ontology matching y ontology learning automáticos**.
+- **Evaluación cuantitativa** — OntoQA, OQuaRE y métricas de calidad medibles.
+- **Todo lo relacionado con LLMs** — inexistente en 2019, central hoy. Ver [[Ontología y LLMs]].
+
+> [!note] Ninguna de estas ausencias es un defecto del libro: es un manual condensado de **proceso**, y en eso es excelente. La consecuencia práctica es que sirve como esqueleto, no como cuerpo completo — el resto vive en las notas de [[_Semantic Web|Semantic Web]].
+
+## 🌱 Notas atómicas del dominio
+
+El conocimiento del libro, extraído a conceptos propios en [[_Semantic Web|Semantic Web]]:
+
+- [[ontología]] · [[espectro semántico]] · [[competency questions]] — el núcleo conceptual.
+- [[Description Logic]] — el fundamento formal que el libro asume.
+- [[RDF]] · [[RDFS]] · [[OWL]] · [[SKOS]] · [[SHACL]] · [[SPARQL]] — el stack del W3C.
+- [[Ontology Design Patterns (ODP)]] — los patrones con implementación, antipatrones y catálogos de reuso.
+- [[clases insatisfacibles]] · [[Razonadores OWL]] — diagnóstico y razonamiento.
+- [[Herramental de ontologías]] · [[IRIs y versionado]] — la práctica actualizada a 2026.
+- [[Knowledge graph]] · [[Ontología y LLMs]] · [[Graph RAG]] — el cruce con el bloque de AI del vault.
 
 ## 🔍 Todos los capítulos (auto)
 

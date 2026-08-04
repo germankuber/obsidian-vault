@@ -6,12 +6,12 @@ capitulo: 1
 created: 2026-08-03
 tags:
   - libros/ontology-engineering
-  - type/case-study
-  - status/stub
+  - type/reading-note
+  - status/done
 aliases:
   - Introduction (Ontology Engineering)
   - Cap 1 - Ontology Engineering
-updated: 2026-08-03
+updated: 2026-08-04
 ---
 
 # 01 - Introduction
@@ -74,6 +74,50 @@ De menor a mayor expresividad:
 
 > [!note] La tabla deja clara la relación que el capítulo quiere instalar: **expresividad e inferencia crecen juntas, y el costo con ellas**. No hay un escalón "mejor" en abstracto — hay un escalón adecuado para cada pregunta que el sistema tenga que responder.
 
+### El mismo concepto en cada escalón
+
+La tabla compara casos de uso distintos, lo que oculta el salto real. Tomemos **un solo concepto** —*Producto*— y subamos:
+
+```
+1. VOCABULARIO CONTROLADO
+   Producto ∈ { "notebook", "monitor", "teclado" }
+   → resuelve que nadie escriba "laptop" y "Notebook" para lo mismo.
+
+2. GLOSARIO
+   notebook: computadora portátil con pantalla y batería integradas.
+   → un humano distingue los casos; la máquina sigue sin poder hacer nada.
+```
+
+```turtle
+# 3. TAXONOMÍA — aparece la primera inferencia
+:Notebook  rdfs:subClassOf  :Computadora .
+:Monitor   rdfs:subClassOf  :Periferico .
+# Una consulta por :Periferico devuelve monitores sin que nadie los enumere.
+
+# 4. THESAURUS — sinónimos y multilingüe
+:Notebook  a  skos:Concept ;
+    skos:prefLabel  "notebook"@es ;
+    skos:altLabel   "laptop"@es , "portátil"@es ;
+    skos:broader    :Computadora .
+# Buscar "laptop" ahora recupera notebooks.
+
+# 5. MODELO CONCEPTUAL — propiedades tipadas
+:tienePrecio  a  owl:DatatypeProperty ;
+              rdfs:domain :Producto ; rdfs:range xsd:decimal .
+
+# 6. ONTOLOGÍA LÓGICA — el razonador clasifica solo
+:ProductoPremium  owl:equivalentClass
+    [ owl:intersectionOf ( :Producto
+        [ a owl:Restriction ; owl:onProperty :tienePrecio ;
+          owl:someValuesFrom [ owl:withRestrictions ( [ xsd:minInclusive 2000 ] ) ] ] ) ] .
+# Nadie declara qué producto es premium: se deduce del precio,
+# y se reclasifica solo cuando el precio cambia.
+```
+
+> [!tip] Leé la progresión al revés y vas a ver el costo: cada escalón exige más acuerdo humano, más tiempo de modelado y más mantenimiento. El escalón 6 no es "mejor" que el 4 — es **más caro**, y se paga solo si necesitás lo que hace. Desarrollo completo en [[espectro semántico]].
+
+> [!note] **Sobre [[SKOS]] específicamente**: las autoras lo proponen como la respuesta correcta para la mayoría de los casos, y conviene saber qué hace y qué no. Modela conceptos con etiquetas preferidas y alternativas, jerarquía `broader`/`narrower`, relaciones asociativas y mapeos entre vocabularios. **No** hace inferencia lógica: `skos:broader` no es `rdfs:subClassOf` y un razonador no deduce nada útil de él. Es exactamente el punto — resuelve vocabulario, sinonimia y multilingüismo a una fracción del costo de OWL.
+
 ## Por qué construir una ontología
 
 El capítulo insiste en anclar la decisión en casos de uso concretos, porque una ontología sin caso de uso es un modelo que nadie sabe cuándo está terminado. Los motivadores recurrentes:
@@ -83,6 +127,22 @@ El capítulo insiste en anclar la decisión en casos de uso concretos, porque un
 - **Interoperabilidad entre sistemas y organizaciones** — un vocabulario compartido con semántica explícita permite que dos organizaciones intercambien datos sin negociar el significado en cada integración. Es el motivador dominante en dominios regulados (salud, finanzas, defensa).
 - **Inferencia de conocimiento nuevo** — derivar hechos no declarados explícitamente a partir de los axiomas. Es la capacidad que justifica subir hasta el escalón de [[OWL]], y la que no se puede obtener de ningún escalón inferior.
 - **Documentación del significado compartido** — el beneficio más subestimado. El proceso mismo de construir la ontología obliga a la organización a explicitar y acordar qué significan sus términos, y ese acuerdo tiene valor **antes de que ningún razonador se ejecute**. Muchos proyectos cosechan aquí su retorno principal.
+
+### La contracara: cuándo NO construir una ontología
+
+El capítulo enumera los motivadores y no su reverso, lo que empuja siempre hacia el sí. Pero el propio capítulo 8 identifica la **sobre-formalización** como causa de fracaso, así que el criterio negativo importa tanto como el positivo.
+
+**No necesitás una ontología si se cumplen todas estas:**
+
+- Un solo sistema consume los datos, sin perspectiva de que sean varios.
+- Un solo equipo define el vocabulario, y hay acuerdo.
+- El vocabulario es chico y estable.
+- Ninguna pregunta del negocio requiere inferencia — todo se resuelve con un `JOIN`.
+- No hay requisito de interoperabilidad externa ni regulatorio.
+
+> [!tip] En ese escenario, un `enum` en la base de datos más un glosario en la wiki resuelven el problema real, y cualquier cosa más es sobre-ingeniería. **La pregunta "¿necesito una ontología?" se responde con las mismas competency questions que la construirían**: si ninguna requiere inferencia ni vocabulario compartido entre partes que no se coordinan, la respuesta es no.
+
+> [!note] El error simétrico también existe: postergar la ontología en un contexto donde tres áreas ya están discutiendo qué significa *cliente activo*. Ahí el costo de no tenerla ya se está pagando — en datos inconsistentes y en reuniones que se repiten cada trimestre.
 
 ### Competency questions — el instrumento que ancla todo lo demás
 

@@ -4,3 +4,12 @@
 .obsidian/cache
 .trash/
 .DS_Store
+
+# Scratch files created by Obsidian's "new base/canvas" action
+Untitled.base
+Untitled?*.base
+Untitled.canvas
+Untitled?*.canvas
+
+# Ephemeral report artifacts (lavish-axi review sessions)
+.lavish/

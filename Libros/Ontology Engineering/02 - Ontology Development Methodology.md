@@ -6,12 +6,12 @@ capitulo: 2
 created: 2026-08-03
 tags:
   - libros/ontology-engineering
-  - type/case-study
-  - status/stub
+  - type/reading-note
+  - status/done
 aliases:
   - Ontology Development Methodology
   - Cap 2 - Metodología de desarrollo
-updated: 2026-08-03
+updated: 2026-08-04
 ---
 
 # 02 - Ontology Development Methodology
@@ -46,6 +46,23 @@ El argumento no es estilístico. Es que la información necesaria para diseñar 
 
 > [!warning] El modo de falla característico es el **modelado sin fin**: sin criterio explícito de terminación, siempre hay un concepto más que agregar, una distinción más fina que hacer, un caso borde más que cubrir. El proyecto deriva hacia el modelado por el modelado y muere por agotamiento presupuestario, no por haber fallado técnicamente.
 
+### Las metodologías con nombre del campo
+
+El capítulo presenta "la metodología" en abstracto. El campo tiene metodologías nombradas, y conocerlas ubica lo que el libro propone:
+
+| Metodología | Aporte característico |
+|---|---|
+| **Ontology Development 101** (Noy & McGuinness, 2001) | La guía introductoria más citada del campo — **la coescribió la misma autora de este libro**. Siete pasos, orientada a Protégé |
+| **METHONTOLOGY** (1997) | La primera en tratar el desarrollo como proceso de ingeniería con ciclo de vida completo |
+| **On-To-Knowledge** (2001) | Introduce el foco en el caso de uso y en la aplicación que va a consumir la ontología |
+| **NeOn** (2012) | La más completa: nueve escenarios distintos, con foco en **reuso y ontologías en red**. La referencia cuando el proyecto integra vocabularios existentes |
+| **SAMOD** (2016) | *Simplified Agile Methodology* — iteraciones muy cortas guiadas por competency questions, con tests desde el primer día |
+| **LOT** (2022) | *Linked Open Terms* — orientada a publicación de vocabularios, con CI y documentación integradas |
+
+> [!note] Lo que este libro propone es más cercano a **SAMOD y LOT** —iterativo, guiado por competency questions, con testing continuo— que a METHONTOLOGY. La diferencia de fondo con las metodologías de los 90 es la misma que separa cascada de ágil en desarrollo de software, y por las mismas razones.
+
+> [!tip] Si tu proyecto reusa varias ontologías existentes, **NeOn** es la que más aporta: sus nueve escenarios cubren explícitamente los casos de reuso, alineamiento y reingeniería que este capítulo trata en una sola sección.
+
 ## Competency questions — requisitos, alcance y tests a la vez
 
 Es el instrumento central del capítulo y probablemente la técnica más práctica del libro entero. Una **competency question** es una pregunta concreta, en lenguaje natural, que la ontología tiene que poder responder una vez construida.
@@ -68,6 +85,32 @@ Lo que las hace poderosas es que cumplen **tres roles a la vez**:
 > [!tip] Escribilas **antes** de modelar nada, y en cantidad suficiente para cubrir el alcance de la iteración —típicamente entre cinco y quince por iteración—. Priorizalas: no todas valen lo mismo, y las que corresponden al caso de uso principal son las que gobiernan las decisiones de diseño cuando hay tensión.
 
 > [!warning] Una competency question demasiado vaga (*"¿qué sabemos sobre nuestros clientes?"*) no sirve para nada: no acota, no testea, no se traduce a consulta. Si no podés imaginar la respuesta como una lista concreta de resultados, la pregunta todavía no está lista.
+
+### Los tipos de competency question
+
+El capítulo dice cuántas escribir pero no de qué forma. La taxonomía importa porque **cada tipo se traduce a un patrón SPARQL distinto**, y una pregunta que no encaja en ninguno suele estar mal formulada:
+
+| Tipo | Forma | Ejemplo | SPARQL |
+|---|---|---|---|
+| **Booleana** | ¿Se cumple X? | *¿Este medicamento está contraindicado para insuficiencia renal?* | `ASK` |
+| **De recuperación** | ¿Cuáles X cumplen Y? | *¿Qué medicamentos están contraindicados para...?* | `SELECT` + filtro |
+| **De conteo** | ¿Cuántos X? | *¿Cuántas pólizas cubren este siniestro?* | `SELECT (COUNT(...))` |
+| **De agregación** | Máximo, mínimo, promedio | *¿Cuál es la dosis máxima registrada?* | `MAX`, `AVG`, `GROUP BY` |
+| **De ruta / transitiva** | ¿Cómo se conecta X con Y? | *¿Qué condiciones derivan de esta patología base?* | Property paths: `rdfs:subClassOf*` |
+| **Comparativa** | ¿En qué difieren X e Y? | *¿Qué coberturas tiene A que no tiene B?* | `MINUS`, `FILTER NOT EXISTS` |
+
+> [!tip] **Para tests, `ASK` suele ser mejor que `SELECT`**: devuelve un booleano, que es exactamente lo que un test necesita afirmar. Y una CQ de recuperación siempre se puede convertir en una batería de `ASK` sobre casos conocidos.
+
+Plantilla que fuerza preguntas traducibles:
+
+```
+¿Qué [CLASE] tienen [PROPIEDAD] [VALOR o CLASE], en [CONTEXTO]?
+   ↑ qué devuelve   ↑ por dónde filtra           ↑ el alcance
+```
+
+> [!note] Si al escribir la pregunta no podés completar los tres campos, falta modelado o falta precisión. *"¿Qué sabemos sobre nuestros clientes?"* no tiene ni propiedad ni contexto — por eso no se traduce. *"¿Qué clientes tienen contratos vencidos en esta jurisdicción?"* sí. Ver [[competency questions]] para el desarrollo completo.
+
+> [!warning] Una asimetría con [[Test-Driven Development]] que conviene tener presente: en TDD el test **falla** primero, y ese fallo es informativo. Una competency question ejecutada contra una ontología **sin datos poblados devuelve vacío** — que es indistinguible del resultado de un modelo correcto sin instancias. Por eso el paso de poblar con datos de prueba no es opcional: sin él, tus tests pasan por la razón equivocada.
 
 ### Tabla 2.1 — Las tres funciones de una competency question
 

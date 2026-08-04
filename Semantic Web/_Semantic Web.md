@@ -4,12 +4,12 @@ created: 2026-08-03
 tags:
   - semantic-web
   - type/moc
-  - status/stub
+  - status/done
 aliases:
   - Semantic Web
   - Web Semántica
   - Semantic Web MOC
-updated: 2026-08-03
+updated: 2026-08-04
 ---
 
 # 🕸️ Semantic Web — MOC
@@ -36,29 +36,55 @@ De ahí sale un stack de capas acumulativas, donde cada una se apoya en la anter
 
 ## 📝 Notas
 
-- [[SPARQL]] — el lenguaje de consulta: pattern matching sobre grafos, property paths, tests ejecutables.
+### Fundamentos conceptuales
+
+- [[ontología]] — qué es, qué no es, y cuándo **no** construir una. La definición de Gruber desarmada.
+- [[espectro semántico]] — el continuo de expresividad que ordena todo el campo, con el mismo concepto modelado en los seis escalones.
+- [[Description Logic]] — el fundamento formal detrás de OWL: TBox/ABox, los constructores, por qué OWL 2 DL es `SROIQ(D)`, y las dos suposiciones (mundo abierto, no-UNA) que rompen la intuición SQL.
+
+### El stack de estándares
+
 - [[RDF]] — el modelo de datos base: tripletas, IRIs, literales, blank nodes, named graphs y serializaciones.
 - [[RDFS]] — la capa de esquema mínima: clases, jerarquía, `domain`/`range`. El primer escalón con inferencia.
 - [[OWL]] — el lenguaje de ontologías: axiomas lógicos, clases definidas, razonamiento automático, perfiles EL/QL/RL/DL.
+- [[SKOS]] — el escalón barato: taxonomías, thesauri, multilingüe. **Lo que la mayoría de los proyectos necesita y casi ninguno elige.**
+- [[SPARQL]] — el lenguaje de consulta: pattern matching sobre grafos, property paths, tests ejecutables.
 - [[SHACL]] — validación estructural de grafos: shapes, restricciones, informe de validación. La contraparte de mundo cerrado de OWL.
-- [[competency questions]] — el instrumento que ancla todo proyecto de ontología: requisitos, alcance y tests de aceptación en un solo artefacto.
 
-> [!note] Dominio en construcción. Los conceptos que faltan —[[SKOS]], [[Knowledge graph]], [[Description Logic]], [[Protégé]]— están sembrados como enlaces sin resolver desde las notas de [[_Ontology Engineering|Ontology Engineering]] y son los próximos candidatos a nota propia.
+### Práctica y herramientas
+
+- [[competency questions]] — el instrumento que ancla todo proyecto: requisitos, alcance y tests de aceptación en un solo artefacto.
+- [[Ontology Design Patterns (ODP)]] — n-ario, parte-todo, rol, tiempo, value partition, procedencia y listas, con código. Más antipatrones, fundacionales y catálogos de reuso.
+- [[clases insatisfacibles]] — el síntoma diagnóstico central, con tabla síntoma → causa y procedimiento de debugging.
+- [[Razonadores OWL]] — ELK, HermiT, Openllet: cuál usar, perfiles y qué determina la performance real.
+- [[Herramental de ontologías]] — **el mapa actualizado a 2026**: ROBOT, ODK, CI, SHACL en la práctica, triple stores, poblado de datos, y qué quedó obsoleto.
+- [[IRIs y versionado]] — la decisión más cara de revertir: hash vs slash, opacos vs descriptivos, SemVer adaptado a inferencias, deprecación y migración.
+
+### El cruce con AI
+
+- [[Knowledge graph]] — el pariente industrial dominante; **RDF vs property graphs**, la división real de la industria.
+- [[Ontología y LLMs]] — grounding, extracción asistida, y por qué "el LLM ya sabe el dominio" es un error de categoría.
+- [[Graph RAG]] — recuperación sobre grafos: cuándo rinde, cuándo es sobre-ingeniería.
 
 ## 🔗 Conexiones con otros dominios
 
 - **[[_Ontology Engineering|Ontology Engineering]]** (Libros) — la metodología de ingeniería que usa este stack: cómo se construye, evalúa y mantiene una ontología como artefacto de software.
-- **[[_AI|AI]]** — el cruce vivo: [[Graph RAG]] y los [[Knowledge graph|knowledge graphs]] como fuente de grounding estructurado para sistemas LLM.
+- **[[_AI|AI]]** — el cruce vivo: [[Graph RAG]] y los [[Knowledge graph|knowledge graphs]] como fuente de grounding estructurado para sistemas LLM. Ver también [[Grounding]] y [[Hallucinations]].
+- **[[_RAG|RAG]]** — [[Graph RAG]] vive ahí; se combina con [[Hybrid Search]] y [[Reranking]].
+
+## 🗺️ Rutas de lectura
+
+- **Entender el campo** → [[ontología]] → [[espectro semántico]] → [[Knowledge graph]]
+- **Voy a modelar** → [[competency questions]] → [[OWL]] → [[Ontology Design Patterns (ODP)]] → [[clases insatisfacibles]]
+- **Voy a operar** → [[Herramental de ontologías]] → [[Razonadores OWL]] → [[IRIs y versionado]] → [[SHACL]]
+- **Me interesa el cruce con LLMs** → [[Knowledge graph]] → [[Ontología y LLMs]] → [[Graph RAG]]
+- **¿Me alcanza con algo más barato?** → [[espectro semántico]] → [[SKOS]]
 
 ## 🌱 Conceptos para escribir
 
-- [[RDF]] · [[RDFS]] — el modelo de grafo y su esquema básico
-- [[OWL]] — lógicas descriptivas, perfiles EL/QL/RL, clases primitivas vs definidas
-- [[SKOS]] — el escalón barato para taxonomías y thesauri
-- [[SHACL]] — validación estructural, la contraparte de OWL
-- [[Knowledge graph]] — el pariente industrial dominante; vale una nota que contraste ambos términos
-- [[espectro semántico]] — el continuo de expresividad que ordena todo el campo
-- [[Description Logic]] — el fundamento formal detrás de OWL
+- [[Protégé]] — el editor estándar; cubierto parcialmente en [[Herramental de ontologías]]
+- [[Ontologías fundacionales]] — BFO, DOLCE, SUMO; cubierto parcialmente en [[Ontology Design Patterns (ODP)]]
+- Metodologías con nombre — METHONTOLOGY, NeOn, SAMOD, LOT; resumidas en [[02 - Ontology Development Methodology]]
 
 ## 🔍 Todas las notas (auto)
 

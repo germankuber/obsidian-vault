@@ -6,12 +6,12 @@ capitulo: 5
 created: 2026-08-03
 tags:
   - libros/ontology-engineering
-  - type/case-study
-  - status/stub
+  - type/reading-note
+  - status/done
 aliases:
   - Ontology Design Patterns and Reuse
   - Cap 5 - Patrones de diseño y reuso
-updated: 2026-08-03
+updated: 2026-08-04
 ---
 
 # 05 - Ontology Design Patterns and Reuse
@@ -47,6 +47,20 @@ Los tipos principales:
 - **Patrones de nomenclatura** — convenciones de naming e IRIs. Menos glamorosos, enormemente valiosos para la mantenibilidad.
 
 > [!tip] Antes de resolver un problema de modelado que se siente difícil, buscá si ya existe un patrón. La probabilidad de que tu problema sea nuevo es baja, y la solución de la comunidad ya sobrevivió casos borde que vos todavía no viste.
+
+### Dónde buscarlos
+
+El capítulo recomienda buscar patrones sin decir dónde. El catálogo real:
+
+| Recurso | Qué tiene |
+|---|---|
+| [ontologydesignpatterns.org](http://ontologydesignpatterns.org) | El portal de la comunidad; catálogo estructurado por tipo |
+| [W3C — n-ary relations](https://www.w3.org/TR/swbp-n-aryRelations/) | Nota oficial sobre el patrón n-ario |
+| [W3C — specified values](https://www.w3.org/TR/swbp-specified-values/) | Value partition vs value set |
+| [PROV-O](https://www.w3.org/TR/prov-o/) | El vocabulario estándar de procedencia |
+| [OBO Foundry](https://obofoundry.org) | Patrones de facto en biomedicina; plantillas DOSDP |
+
+> [!note] Además de los cuatro patrones que el capítulo desarrolla, hay tres de alta frecuencia que conviene conocer: **value partition** (valores cualitativos como severidad alta/media/baja, sin caer en literales string), **listas y secuencias** (RDF no tiene listas ordenadas usables — `rdf:List` es una lista enlazada horrible de consultar), y **procedencia** (quién afirmó qué y cuándo, crítico si el grafo se puebla automáticamente). Todos con ejemplo en [[Ontology Design Patterns (ODP)]].
 
 ## Patrón: relación n-aria
 
@@ -97,6 +111,38 @@ La tentación es modelar *Empleado* como subclase de *Persona*. El patrón dice 
 > [!note] **La solución del patrón**: separar la entidad de su rol. *Persona* es la entidad; *Empleado* es un rol que la persona **desempeña** en un contexto y durante un período. El rol se modela como entidad propia (parientes del patrón n-ario), no como subclase.
 
 > [!tip] El criterio de decisión: **¿la clasificación es esencial o contingente?** Si algo puede dejar de serlo sin dejar de ser lo que es, es un rol, no una subclase. Un Golden Retriever no puede dejar de ser perro; un empleado sí puede dejar de ser empleado.
+
+#### El patrón implementado
+
+```turtle
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix :     <https://ejemplo.org/onto#> .
+
+:Persona      a  owl:Class .
+:Rol          a  owl:Class .
+:RolEmpleado   rdfs:subClassOf  :Rol .
+:RolEstudiante rdfs:subClassOf  :Rol .
+
+:desempeña    a  owl:ObjectProperty ;
+              rdfs:domain  :Persona ;
+              rdfs:range   :Rol .
+
+# Juan es una Persona — eso es esencial y no cambia.
+# Sus roles son entidades con contexto y período propios.
+:juan  a  :Persona ;
+       :desempeña  [ a       :RolEmpleado ;
+                     :en     :Acme ;
+                     :cargo  :Desarrollador ;
+                     :desde  "2019-03-01"^^xsd:date ] ,
+                   [ a       :RolEstudiante ;
+                     :en     :Universidad ;
+                     :desde  "2021-08-01"^^xsd:date ] .
+```
+
+Dos roles simultáneos, cada uno con su contexto y sus fechas. Si Juan deja de trabajar en Acme se cierra ese rol — **no se cambia la clase de Juan**, que es lo que habría que hacer con `:Empleado rdfs:subClassOf :Persona`.
+
+> [!note] Compará con la alternativa ingenua: `:juan a :Empleado, :Estudiante` obliga a herencia múltiple, no admite fechas ni contexto, y exige reclasificar al individuo cada vez que su situación cambia. El patrón de rol es una indirección más a cambio de resolver los tres problemas.
 
 ## Patrón: tiempo y cambio
 
@@ -151,6 +197,25 @@ Qué cuestan:
 > [!tip] **Por defecto, alineamiento antes que importación** cuando la ontología externa es grande y solo necesitás una fracción. La importación completa es cómoda al principio y se vuelve una deuda cuando la dependencia evoluciona en una dirección que no te sirve.
 
 > [!warning] Una importación crea una **dependencia versionada**, exactamente como una librería de software. Si el vocabulario externo cambia, tu modelo hereda el cambio y sus consecuencias inferenciales. Fijá la versión importada y actualizá deliberadamente, nunca por arrastre.
+
+### Dónde buscar qué reusar
+
+El otro catálogo que el libro omite y sin el cual "buscá ontologías existentes" es inaplicable:
+
+| Recurso | Qué tiene |
+|---|---|
+| [LOV](https://lov.linkeddata.es/dataset/lov) | Linked Open Vocabularies: buscador de vocabularios RDF **por término**. El primer lugar donde mirar |
+| [schema.org](https://schema.org) | El vocabulario más usado de la web: productos, eventos, personas, organizaciones |
+| [Dublin Core](https://www.dublincore.org) | Metadatos documentales — casi siempre parte de la respuesta |
+| [PROV-O](https://www.w3.org/TR/prov-o/) | Procedencia |
+| [FOAF](http://xmlns.com/foaf/spec/) | Personas y relaciones |
+| [QUDT](https://qudt.org) | Cantidades, unidades y dimensiones |
+| [BioPortal](https://bioportal.bioontology.org) | ~1.000 ontologías biomédicas |
+| [OBO Foundry](https://obofoundry.org) | Ontologías biomédicas coordinadas con principios comunes |
+| [AGROVOC](https://agrovoc.fao.org/) | FAO: agricultura, alimentación, pesca. Multilingüe |
+| [Wikidata](https://www.wikidata.org) | Entidades del mundo real como IRIs ya reusables |
+
+> [!tip] Para extraer un módulo mínimo de una ontología grande sin arrastrar todo, `robot extract` lo hace preservando las inferencias relevantes. Ver [[Herramental de ontologías]].
 
 ## Antipatrones
 

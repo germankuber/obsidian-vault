@@ -6,18 +6,18 @@ capitulo: 4
 created: 2026-08-03
 tags:
   - libros/ontology-engineering
-  - type/case-study
-  - status/stub
+  - type/reading-note
+  - status/done
 aliases:
   - Modeling Decisions
   - Cap 4 - Decisiones de modelado
-updated: 2026-08-03
+updated: 2026-08-04
 ---
 
 # 04 - Modeling Decisions
 
 > [!info] Capítulo 4 · *Ontology Engineering* — Elisa F. Kendall & Deborah L. McGuinness · Morgan & Claypool, *Synthesis Lectures on Data, Semantics, and Knowledge* (2019)
-> El corazón técnico: **convertir el vocabulario analizado en axiomas formales**, y las decisiones recurrentes que eso implica. Cubre clase vs instancia, la construcción de jerarquías sanas, propiedades y sus características lógicas, restricciones y cardinalidades, clases **primitivas vs definidas**, disjunción, y las consecuencias del **mundo abierto** de [[OWL]] sobre todo lo anterior. Navegá: [[_Ontology Engineering|Ontology Engineering]] · anterior [[03 - Terminology and Domain Analysis]] · siguiente [[05 - Ontology Design Patterns]].
+> El corazón técnico: **convertir el vocabulario analizado en axiomas formales**, y las decisiones recurrentes que eso implica. Cubre clase vs instancia, la construcción de jerarquías sanas, propiedades y sus características lógicas, restricciones y cardinalidades, clases **primitivas vs definidas**, disjunción, y las consecuencias del **mundo abierto** de [[OWL]] sobre todo lo anterior. Navegá: [[_Ontology Engineering|Ontology Engineering]] · anterior [[03 - Terminology and Domain Analysis]] · siguiente [[05 - Ontology Design Patterns and Reuse]].
 
 ## Resumen
 
@@ -97,6 +97,32 @@ Las restricciones acotan qué valores puede tomar una propiedad para los miembro
 
 > [!warning] **La restricción universal no implica existencia.** Declarar que *todos los ingredientes de una PizzaVegetariana son vegetales* es satisfecho trivialmente por una pizza **sin ningún ingrediente**. Es el error clásico del tutorial de la pizza, y sigue siendo el más cometido: si querés exigir que haya al menos un vegetal, necesitás también una restricción existencial.
 
+#### El error de la pizza, en código
+
+```turtle
+# ❌ MAL — solo universal.
+# "Todos sus ingredientes son vegetales" — una pizza SIN ingredientes
+# lo cumple perfectamente. Vacuamente verdadero.
+:PizzaVegetariana  rdfs:subClassOf
+    [ a owl:Restriction ;
+      owl:onProperty      :tieneIngrediente ;
+      owl:allValuesFrom   :Vegetal ] .
+
+# ✅ BIEN — universal + existencial.
+# "Tiene AL MENOS UN vegetal" Y "TODOS sus ingredientes son vegetales".
+:PizzaVegetariana  rdfs:subClassOf
+    [ a owl:Restriction ;
+      owl:onProperty      :tieneIngrediente ;
+      owl:someValuesFrom  :Vegetal ] ,                 # ← existe al menos uno
+    [ a owl:Restriction ;
+      owl:onProperty      :tieneIngrediente ;
+      owl:allValuesFrom   :Vegetal ] .                 # ← y todos son de ese tipo
+```
+
+La regla mnemotécnica: **`someValuesFrom` afirma que existe; `allValuesFrom` acota lo que hay, sin exigir que haya.** Casi siempre necesitás las dos juntas.
+
+> [!note] En notación [[Description Logic]] la diferencia es literalmente la del cuantificador: `∃tieneIngrediente.Vegetal` versus `∀tieneIngrediente.Vegetal`. Quien vio lógica de primer orden reconoce el problema al instante; quien viene de bases de datos lo sufre durante meses.
+
 > [!note] Bajo **mundo abierto**, una cardinalidad mínima de 1 no significa "este dato es obligatorio y falta". Significa que el razonador **puede inferir** que ese valor existe aunque no esté declarado. OWL nunca se queja de un dato ausente: asume que todavía no lo sabemos.
 
 ## Clases primitivas vs definidas
@@ -109,6 +135,51 @@ Es la distinción de mayor rendimiento del capítulo y la que separa una ontolog
 > [!note] **Las clases definidas son las que hacen que el razonador trabaje para vos.** Declarás las condiciones una vez y el razonador clasifica automáticamente cada individuo y cada subclase que las cumpla. Sin clases definidas, toda la jerarquía es manual y el razonador solo verifica consistencia — desaprovechás la razón principal para haber subido al escalón [[OWL]] del [[espectro semántico]].
 
 > [!tip] Patrón habitual: modelá la jerarquía **primitiva** con las distinciones esenciales del dominio (las que no dependen de propiedades variables), y agregá clases **definidas** para las categorías que se derivan de propiedades — *ClienteMoroso*, *PacienteDeAltoRiesgo*, *PedidoUrgente*. Esas categorías cambian solas cuando cambian los datos, sin reclasificar nada a mano.
+
+#### Cómo se ve la diferencia en código
+
+```turtle
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix :     <https://ejemplo.org/onto/vinos#> .
+
+# PRIMITIVA — condiciones NECESARIAS.
+# Todo Vino tiene un color, pero tener color no te hace Vino.
+# La pertenencia se AFIRMA a mano.
+:Vino  a  owl:Class ;
+    rdfs:subClassOf  :Bebida ;
+    rdfs:subClassOf  [ a owl:Restriction ;
+                       owl:onProperty     :tieneColor ;
+                       owl:someValuesFrom :ColorDeVino ] .
+
+# DEFINIDA — condiciones NECESARIAS Y SUFICIENTES.
+# Cualquier vino de color tinto ES un VinoTinto, lo declare alguien o no.
+# La pertenencia la INFIERE el razonador.
+:VinoTinto  a  owl:Class ;
+    owl:equivalentClass [
+        a  owl:Class ;
+        owl:intersectionOf (
+            :Vino
+            [ a owl:Restriction ;
+              owl:onProperty   :tieneColor ;
+              owl:hasValue     :Tinto ]
+        )
+    ] .
+```
+
+La diferencia operativa: `rdfs:subClassOf` (primitiva) versus `owl:equivalentClass` (definida). Es un cambio de una línea con consecuencias enormes.
+
+```turtle
+# Ahora afirmo SOLO esto:
+:malbec2021  a  :Vino ;
+             :tieneColor  :Tinto .
+
+# El razonador infiere: :malbec2021 a :VinoTinto .
+# Nadie lo declaró. Y si mañana cambia el color, se reclasifica solo.
+```
+
+> [!note] Este es el momento exacto en que el razonador empieza a trabajar para vos, y la razón por la que subiste al escalón [[OWL]] del [[espectro semántico]]. Sin clases definidas, toda la jerarquía es manual y el razonador solo verifica consistencia. Ver [[Description Logic]] para el fundamento formal.
 
 > [!warning] Marcar como definida una clase cuyas condiciones no son realmente suficientes produce **clasificaciones erróneas silenciosas**: el razonador va a meter individuos donde no corresponde y nadie lo va a notar hasta que una consulta devuelva basura.
 
@@ -134,6 +205,36 @@ Es la distinción de mayor rendimiento del capítulo y la que separa una ontolog
 
 > [!note] La combinación de mundo abierto y ausencia de nombres únicos es lo que hace que OWL se comporte de forma contraintuitiva para quien viene de SQL. **OWL infiere, [[SHACL]] valida.** Si tu necesidad es "reportar que este campo está vacío", OWL no es la herramienta — y no por limitación, sino por diseño.
 
+## Elegir el perfil de OWL 2
+
+Una decisión que el capítulo asume tomada y que conviene explicitar, porque condiciona todo lo anterior: **cuánta expresividad te vas a permitir**. Los perfiles de [[OWL]] 2 son sub-lenguajes que acotan las construcciones disponibles a cambio de garantías de complejidad computacional.
+
+| Perfil | Qué sacrifica | Complejidad | Pensado para |
+|---|---|---|---|
+| **EL** | Universales, inversos, disyunción, negación | PTime | Ontologías **enormes** con jerarquías profundas — SNOMED CT, Gene Ontology |
+| **QL** | Cardinalidades, clases definidas complejas | AC⁰ en datos | **Query answering**: la consulta se reescribe a SQL sobre la base existente |
+| **RL** | Existenciales en el consecuente | PTime | Razonamiento por **reglas** sobre triple stores y volúmenes grandes |
+| **DL** | Nada (es el máximo decidible) | N2ExpTime peor caso | Máxima expresividad |
+
+> [!tip] **Decidí el perfil temprano y modelá dentro de él.** La elección de perfil y la de razonador son la misma decisión tomada desde dos lados: si usás una construcción fuera de EL, el razonador ELK deja de ser opción y quedás con HermiT, que es órdenes de magnitud más lento. Descubrirlo a los seis meses es caro. Ver [[Razonadores OWL]].
+
+> [!warning] El peor caso N2ExpTime asusta y rara vez se manifiesta: **el rendimiento depende de qué construcciones usás, no de cuántas clases tenés**. Una ontología de 1.000 clases con cardinalidades cualificadas puede ser mucho más lenta que una de 300.000 en perfil EL.
+
+## Diagnóstico: síntoma → causa
+
+La tabla que se busca cuando el razonador reporta algo inesperado. Versión completa en [[clases insatisfacibles]].
+
+| Síntoma | Causas típicas | Cómo confirmarlo |
+|---|---|---|
+| Una clase queda bajo `owl:Nothing` | Disjunción + herencia múltiple de clases disjuntas | Buscá `owl:disjointWith` entre sus ancestros. Es la causa #1 |
+| Varias clases hermanas insatisfacibles | Disjunción en el padre común, o `range` que choca con una restricción heredada | Revisá el ancestro común, no cada clase |
+| Toda una rama colapsa | Una insatisfacible alta propagada por herencia | Arreglá la **más alta**; las demás suelen resolverse solas |
+| Cardinalidades que se pisan | `min 2` con `max 1`, o funcional con `min 2` | Revisá todas las restricciones sobre la misma propiedad, **incluidas las heredadas** |
+| Todo se infiere como equivalente a todo | `domain`/`range` demasiado laxos, o un `equivalentClass` de más | Compará jerarquía declarada vs inferida |
+| El razonador tarda de golpe muchísimo | Cardinalidades cualificadas, disyunciones, o salida del perfil previsto | No es insatisfacibilidad: revisá el perfil |
+
+> [!tip] Ante cualquiera de estos, pedile al razonador la **explicación** (*justification*): devuelve el conjunto mínimo de axiomas responsables. Es la funcionalidad de debugging que más rinde, y sin ella encontrar una combinación de axiomas culpable en un modelo mediano es genuinamente difícil.
+
 ## Para aplicar
 
 - **Resolvé clase vs instancia con las competency questions**, no con la intuición; usá punning solo si el caso realmente lo exige.
@@ -147,9 +248,11 @@ Es la distinción de mayor rendimiento del capítulo y la que separa una ontolog
 ## Conexiones
 
 - [[_Ontology Engineering|Ontology Engineering]] — el MOC del libro.
-- [[03 - Terminology and Domain Analysis]] — capítulo anterior: el vocabulario analizado que acá se formaliza · [[05 - Ontology Design Patterns]] — capítulo siguiente: soluciones reusables a estas mismas decisiones.
-- [[OWL]] — el lenguaje donde estas decisiones se expresan; **candidato a nota propia con los perfiles EL/QL/RL**.
+- [[03 - Terminology and Domain Analysis]] — capítulo anterior: el vocabulario analizado que acá se formaliza · [[05 - Ontology Design Patterns and Reuse]] — capítulo siguiente: soluciones reusables a estas mismas decisiones.
+- [[OWL]] — el lenguaje donde estas decisiones se expresan, con sus perfiles EL/QL/RL.
 - [[SHACL]] — la contraparte de validación; la respuesta a lo que OWL deliberadamente no hace.
 - [[competency questions]] — el criterio que resuelve cada decisión de este capítulo.
 - [[espectro semántico]] — las clases definidas son la capacidad que justifica haber subido al escalón OWL.
-- [[Description Logic]] — el fundamento formal detrás de estas construcciones; **candidato a nota propia**.
+- [[Description Logic]] — el fundamento formal: TBox/ABox, los constructores y por qué OWL 2 DL es `SROIQ(D)`.
+- [[clases insatisfacibles]] — la tabla de diagnóstico completa y el procedimiento de debugging.
+- [[Razonadores OWL]] — la contracara de la elección de perfil: qué razonador soporta qué.

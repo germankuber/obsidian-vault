@@ -6,12 +6,12 @@ capitulo: 6
 created: 2026-08-03
 tags:
   - libros/ontology-engineering
-  - type/case-study
-  - status/stub
+  - type/reading-note
+  - status/done
 aliases:
   - Evaluation and Testing
   - Cap 6 - Evaluación y testing
-updated: 2026-08-03
+updated: 2026-08-04
 ---
 
 # 06 - Evaluation and Testing
@@ -81,6 +81,34 @@ SELECT ?medicamento WHERE {
 
 > [!warning] Una competency question que no se puede traducir a consulta ejecutable **no está lista** — es demasiado vaga. Si no podés escribir el SPARQL, tampoco vas a poder decidir si la ontología la responde, y perdiste el criterio de terminación que era su razón de ser.
 
+### El tercer mecanismo: validar los datos con SHACL
+
+Todo el libro repite *"OWL infiere, [[SHACL]] valida"* sin mostrar nunca una shape. Es el complemento operativo de la mitad de las advertencias sobre mundo abierto del capítulo 4:
+
+```turtle
+@prefix sh:  <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:MedicamentoShape  a  sh:NodeShape ;
+    sh:targetClass  :Medicamento ;
+
+    sh:property [
+        sh:path      :principioActivo ;
+        sh:minCount  1 ;                    # ← OBLIGATORIO. OWL no puede exigir esto.
+        sh:message   "Todo medicamento debe declarar al menos un principio activo"@es ;
+    ] ;
+    sh:property [
+        sh:path          :dosisMaxima ;
+        sh:datatype      xsd:decimal ;
+        sh:minExclusive  0 ;
+        sh:message       "La dosis máxima debe ser un decimal positivo"@es ;
+    ] .
+```
+
+> [!note] **La diferencia con OWL, en una línea**: `sh:minCount 1` **falla** si el dato no está; `owl:minCardinality 1` **infiere** que existe aunque nadie lo haya declarado. No compiten — cubren necesidades distintas, y la mayoría de los sistemas productivos usan ambos: OWL para el modelo conceptual y la inferencia, SHACL para validar los datos que entran.
+
+> [!tip] En un pipeline real, SHACL corre sobre los **datos** en el punto de ingesta, mientras el razonador corre sobre el **modelo** en CI. Son dos controles distintos en dos momentos distintos. Implementaciones: pySHACL (Python), TopBraid SHACL API (Java), y soporte nativo en GraphDB, Stardog y Jena.
+
 ### Tabla 6.1 — Los dos ejes de evaluación
 
 | | Verificación | Validación |
@@ -136,6 +164,30 @@ El capítulo cierra llevando la tesis del libro a su conclusión operativa: si e
 > [!tip] El **diff semántico** es lo que distingue una revisión de ontología de una revisión de código. Dos cambios de una línea pueden tener consecuencias inferenciales radicalmente distintas: agregar una disjunción puede invalidar cientos de individuos. Revisá el cambio en las inferencias, no solo en el texto.
 
 > [!warning] Sin este pipeline, los errores se descubren cuando alguien nota que una consulta devuelve basura — típicamente meses después del commit que lo causó, y con el contexto de esa decisión ya perdido.
+
+### Con qué se implementa
+
+El capítulo define los cinco pasos conceptualmente y no dice con qué herramienta. La respuesta —posterior al libro y hoy estándar de facto— es **ROBOT**, una herramienta de línea de comandos sobre la OWL API:
+
+```bash
+robot convert --input onto.owl --format ttl --output onto.ttl   # 1. normalizar serialización
+robot reason  --input onto.ttl --reasoner ELK                   # 2. falla si hay insatisfacibles
+robot report  --input onto.ttl --fail-on ERROR                  # 4. convenciones: labels, IRIs
+robot verify  --input onto.ttl --queries tests/*.rq             # 3. competency questions
+robot diff    --left main.ttl --right onto.ttl                  # 5. diff semántico
+```
+
+| Paso del capítulo | Comando |
+|---|---|
+| Control de versiones con formato diffeable | `robot convert` a Turtle, con orden fijo |
+| Correr el razonador, fallar si hay insatisfacibles | `robot reason` |
+| Ejecutar las competency questions | `robot verify` con las CQ como archivos `.rq` |
+| Chequeos de convención | `robot report` |
+| **Diff semántico** | `robot diff` — qué axiomas cambiaron, no qué líneas |
+
+> [!tip] **`robot verify` es lo que convierte las competency questions en tests reales.** Escribís la CQ como SPARQL, definís qué no debe devolver, y el build falla cuando el modelo deja de responderla. Es la pieza que la teoría siempre pidió y que nadie sabía cómo implementar.
+
+> [!note] Para proyectos con más de un autor y más de un release, el **Ontology Development Kit (ODK)** inicializa el repositorio entero —estructura, `Makefile` de release, CI configurado— con ROBOT adentro. Ver [[Herramental de ontologías]].
 
 ## Para aplicar
 

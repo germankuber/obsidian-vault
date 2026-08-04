@@ -6,12 +6,12 @@ capitulo: 3
 created: 2026-08-03
 tags:
   - libros/ontology-engineering
-  - type/case-study
-  - status/stub
+  - type/reading-note
+  - status/done
 aliases:
   - Terminology and Domain Analysis
   - Cap 3 - Terminología y análisis del dominio
-updated: 2026-08-03
+updated: 2026-08-04
 ---
 
 # 03 - Terminology and Domain Analysis
@@ -90,6 +90,55 @@ Lo que hace bueno a un glosario:
 > [!tip] Escribí las definiciones de modo que un recién llegado al dominio pueda **clasificar casos concretos** con ellas. Ese es el test de calidad: si dos personas leen la definición y clasifican distinto el mismo caso, la definición todavía no sirve.
 
 > [!warning] El glosario es donde aparecen los **desacuerdos reales entre áreas**, y eso es una virtud, no un problema. Si dos áreas no logran acordar la definición de *cliente*, ese conflicto ya existía — solo que estaba oculto y produciendo inconsistencias en los datos. Descubrirlo acá es barato; descubrirlo después de modelar es caro; descubrirlo en producción es carísimo.
+
+### Cómo se ve una entrada real
+
+El artefacto tangible del capítulo, instanciado:
+
+| Campo | Contenido |
+|---|---|
+| **Concepto** | `C-014` |
+| **Término preferido** | Cliente activo |
+| **Términos alternativos** | Cuenta vigente, titular activo, *active customer* (EN) |
+| **Definición** | Persona física o jurídica con al menos un contrato vigente y sin mora superior a 90 días al momento de la consulta. |
+| **Ejemplos** | Empresa con contrato firmado en 2024 y pagos al día. Persona con contrato vigente y 30 días de atraso. |
+| **Contraejemplos** | Quien compró una vez en 2019 y no tiene contrato. Quien tiene contrato vigente pero 120 días de mora. Un prospecto con propuesta enviada. |
+| **Fuente** | Manual de procedimientos comerciales v3.2, sección 4.1 |
+| **Validado por** | Gerencia Comercial + Riesgo — 2026-07-15 |
+| **Notas** | Riesgo usaba el umbral de 60 días. Se acordó 90 alineando con la definición regulatoria. |
+
+> [!tip] Fijate qué hace el trabajo pesado: **los contraejemplos y la nota de desacuerdo**. La definición sola no resuelve el caso de los 120 días de mora; el contraejemplo sí. Y la nota registra que hubo un conflicto real entre áreas y cómo se resolvió — información que se pierde siempre y que la próxima persona va a necesitar.
+
+> [!warning] El test de calidad es operativo, no estético: **si dos personas leen la definición y clasifican distinto el mismo caso, la definición todavía no sirve.** Probala con casos borde reales antes de darla por cerrada.
+
+### El caso multilingüe
+
+Un problema que el capítulo no toca y que aparece apenas trabajás en español sobre estándares en inglés. La separación término/concepto lo resuelve de forma nativa: **el concepto es uno, las etiquetas son varias**.
+
+```turtle
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+:c_014  a  skos:Concept ;
+    skos:prefLabel   "cliente activo"@es ,
+                     "active customer"@en ;      # UNA preferida POR IDIOMA
+    skos:altLabel    "cuenta vigente"@es ,
+                     "titular activo"@es ,
+                     "active account holder"@en ;
+    skos:definition  "Persona física o jurídica con al menos un contrato vigente..."@es .
+```
+
+> [!warning] **No asumas que la partición conceptual es la misma entre idiomas.** El inglés *policy* cubre lo que en español se reparte entre *póliza* y *política*: no es un problema de traducción, son **conceptos distintos** que un idioma agrupa y el otro separa. Forzar una etiqueta en esos casos produce exactamente la homonimia que este capítulo enseña a evitar — solo que ahora cruzando idiomas. Cuando no hay correspondencia uno a uno, son conceptos separados con `skos:closeMatch` entre ellos.
+
+> [!tip] Regla práctica: **IRIs en inglés, etiquetas en todos los idiomas que necesites.** Separa identidad de presentación, y te deja la puerta abierta a interoperar con vocabularios externos. Ver [[SKOS]] y [[IRIs y versionado]].
+
+### Extracción asistida de terminología
+
+El capítulo presenta la recolección de vocabulario como trabajo enteramente manual, que es como se hacía cuando se escribió. Hoy hay dos capas de asistencia:
+
+- **Term extraction estadístico** — TF-IDF, C-value y similares para detectar candidatos a término en un corpus. Técnica vieja y todavía útil.
+- **LLMs** — primera pasada sobre documentación de dominio: proponer conceptos candidatos, agrupar sinónimos, detectar el mismo término usado en sentidos distintos, sugerir jerarquía.
+
+> [!warning] La asistencia acelera la **recolección**, no el **acuerdo**. Una ontología es una especificación *compartida*: su valor está en el consenso de la organización sobre qué significan sus términos. Un modelo propone candidatos plausibles; no produce consenso organizacional, y no detecta que Riesgo y Comercial usan *cliente activo* con umbrales distintos — eso aparece solo cuando las dos áreas se sientan a discutirlo. Ver [[Ontología y LLMs]].
 
 ## Análisis del dominio — de vocabulario a estructura
 

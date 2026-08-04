@@ -6,12 +6,12 @@ capitulo: 7
 created: 2026-08-03
 tags:
   - libros/ontology-engineering
-  - type/case-study
-  - status/stub
+  - type/reading-note
+  - status/done
 aliases:
   - Lifecycle, Versioning and Governance
   - Cap 7 - Ciclo de vida, versionado y governance
-updated: 2026-08-03
+updated: 2026-08-04
 ---
 
 # 07 - Lifecycle, Versioning and Governance
@@ -41,6 +41,34 @@ Las decisiones que hay que tomar antes del primer release:
 > [!warning] **Cambiar un IRI publicado rompe a todos los consumidores silenciosamente.** No hay error de compilación: los datos que referencian el IRI viejo simplemente dejan de conectar con el modelo, y las consultas empiezan a devolver menos resultados sin que nada falle visiblemente. Es el modo de falla más difícil de diagnosticar.
 
 > [!tip] Diseñá la política de IRIs **antes del primer release**. Es de las pocas decisiones de un proyecto de ontología que después es genuinamente cara de revertir — al nivel de cambiar el esquema de una base de datos en producción.
+
+### Cómo se ve en concreto
+
+```
+https://ejemplo.org/onto/productos/1.2.0/Medicamento
+└──┬──┘ └────┬────┘ └──┬─┘ └───┬────┘ └─┬──┘ └────┬────┘
+ esquema   dominio    base   ontología versión  entidad
+```
+
+```turtle
+<https://ejemplo.org/onto/productos>  a  owl:Ontology ;
+    owl:versionIRI   <https://ejemplo.org/onto/productos/1.2.0> ;
+    owl:versionInfo  "1.2.0" .
+```
+
+**Hash vs slash** — una decisión que el capítulo no menciona y tiene consecuencias de resolución HTTP:
+
+| | Hash: `.../productos#Medicamento` | Slash: `.../productos/Medicamento` |
+|---|---|---|
+| **Resolución** | El fragmento no llega al servidor: se baja la ontología entera | Cada entidad resuelve por separado |
+| **Requiere** | Nada: sirve un archivo estático | Content negotiation en el servidor |
+| **Escala** | Mala en vocabularios grandes | Buena |
+
+> [!tip] Para proyectos internos, **hash** es lo pragmático. Slash vale la pena en vocabularios grandes y públicos.
+
+**Persistencia** — el capítulo dice que los IRIs deben resolver en el tiempo sin decir cómo lograrlo si tu dominio corporativo puede desaparecer. La respuesta es un servicio de identificadores persistentes: **[w3id.org](https://w3id.org)** (gratuito, se configura con un pull request) permite `https://w3id.org/miorg/onto/productos` y mover el hosting real cuantas veces quieras sin romper un solo dato publicado.
+
+> [!note] Sobre **opacos vs descriptivos**: la comunidad biomédica (OBO Foundry, SNOMED) adoptó opacos casi universalmente porque en dominios científicos los conceptos se renombran; los vocabularios de la web general (schema.org, FOAF) usan descriptivos porque el valor está en que un humano lea el dato. Si elegís opacos, `rdfs:label` deja de ser opcional. Detalle completo en [[IRIs y versionado]].
 
 ## Tipos de cambio y su impacto inferencial
 
@@ -82,6 +110,42 @@ El mecanismo estándar:
 > [!warning] Una ontología pública tiene consumidores que **no sabés que existen**. Cualquiera puede haber importado tu vocabulario sin avisarte. Esa asimetría —a diferencia de una API interna, donde podés enumerar los clientes— es lo que hace que la deprecación no sea una cortesía sino la única política responsable.
 
 > [!tip] Registrá en cada release las entidades deprecadas, su reemplazo y su fecha estimada de eliminación. Es un artefacto barato que ahorra muchísimo soporte.
+
+```turtle
+:MedicamentoGenerico  a  owl:Class ;
+    owl:deprecated      true ;
+    rdfs:comment        "Deprecada en 1.2.0. Usar :Medicamento con :esGenerico true."@es ;
+    dct:isReplacedBy    :Medicamento .
+```
+
+### SemVer adaptado a ontologías
+
+El capítulo enlaza [[Semantic Versioning]] señalando que "adaptarlo requiere pensar la compatibilidad en términos inferenciales" — y ahí queda. La adaptación concreta:
+
+| Cambio | SemVer | Por qué |
+|---|---|---|
+| Agregar clase o propiedad nueva | **MINOR** | Nada de lo anterior cambia |
+| Agregar `rdfs:label` o documentación | **PATCH** | Sin efecto lógico |
+| Agregar una **clase definida** | **MINOR** — pero avisá | Individuos existentes pueden reclasificarse: infiere más, sin romper |
+| Agregar disjunción o cardinalidad | **MAJOR** | Datos válidos pueden volverse inconsistentes |
+| Agregar `domain`/`range` a propiedad existente | **MAJOR** | Infiere tipos nuevos; puede colisionar con disjunciones |
+| Relajar una restricción | **MINOR** | Lo que era consistente lo sigue siendo |
+| Corregir jerarquía mal modelada | **MAJOR** | Cambia inferencias por diseño |
+| Deprecar una entidad | **MINOR** | Sigue resolviendo |
+| Eliminar una entidad | **MAJOR** | Rompe consumidores |
+
+> [!tip] **La regla operativa: si el cambio puede volver inconsistente un dataset que antes era válido, es MAJOR** — aunque el diff textual sea de una línea. Es exactamente el criterio que el diff semántico (`robot diff`) permite aplicar de verdad.
+
+### Migrar los datos, no solo el modelo
+
+El capítulo cubre deprecar la entidad y no qué hacer con las tripletas que la usan. El paralelo con las migraciones de esquema es directo:
+
+1. **Puente semántico** — durante el período de gracia, `:EntidadVieja owl:equivalentClass :EntidadNueva`: los datos viejos siguen conectando.
+2. **Script de reescritura** — un `SPARQL UPDATE` que reemplaza el IRI viejo en el grafo.
+3. **Doble escritura** — si hay ingesta activa, escribir ambos durante la ventana.
+4. **Retirar el puente** en el release MAJOR.
+
+> [!warning] El puente con `owl:equivalentClass` tiene costo inferencial: mientras esté, el razonador trata ambas clases como la misma y hereda todo cruzado. Está bien como transición; dejarlo permanente es un error.
 
 ## Governance — quién decide
 
